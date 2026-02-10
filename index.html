@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
-    <title>Bhavya Kapatel // SquidDrill</title>
+    <title>null 💀</title>
     <link rel="canonical" href="https://squiddrill.fun" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -272,7 +272,7 @@
 
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-4 md:px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <span class="mono text-xs md:text-sm font-black tracking-widest bg-white text-black px-2 md:px-3 py-1">All-time Visitors: <span id="v-count">...</span> ⚡</span>
+            <span class="mono text-xs md:text-sm font-black tracking-widest bg-white text-black px-2 md:px-3 py-1 uppercase">All-time Visitors: <span id="v-count">...</span> ⚡</span>
         </div>
         <div class="flex gap-2 md:gap-4">
             <button onclick="switchView('home')" id="nav-home" class="nav-link nav-active"><i class="fa-solid fa-house"></i> <span>Home</span></button>
@@ -360,7 +360,7 @@
             <footer class="reveal pt-20 border-t-8 border-white">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
                     <div class="space-y-6">
-                        <h4 class="text-4xl md:text-5xl font-black uppercase italic tracking-tighter skew-x-[-10deg]">SquidDrill.fun</h4>
+                        <h4 class="text-4xl font-black uppercase border-b-4 border-white inline-block pb-1 tracking-tight">SQUIDDRILL.FUN</h4>
                         <p class="text-xs font-bold opacity-60 leading-relaxed uppercase tracking-wide">
                             A high-logic digital archive showcasing architectural software progress and academic experimentation.
                         </p>
@@ -425,7 +425,6 @@
         <div class="max-w-5xl mx-auto px-4 space-y-12 md:space-y-16">
             <div class="text-center space-y-4">
                 <h2 class="text-5xl md:text-8xl font-black uppercase italic tracking-tighter border-b-8 border-lime inline-block pb-4">Channels 🔌</h2>
-                <p class="mono text-xs md:text-sm opacity-50 uppercase tracking-[0.5em] md:tracking-[1em] mt-8 text-white">Select Protocol // Establish Link</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -744,13 +743,21 @@
         };
 
         window.addEventListener('keydown', e => {
-            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
-            if(e.code === 'Space' || e.code === 'ArrowUp') { if(currentGame === 'dino' && dino.y === 390) dino.v = -22; }
-            if(currentGame === 'snake') {
-                if(e.code === 'ArrowUp' && dir.y !== 1) dir = {x:0, y:-1};
-                if(e.code === 'ArrowDown' && dir.y !== -1) dir = {x:0, y:1};
-                if(e.code === 'ArrowLeft' && dir.x !== 1) dir = {x:-1, y:0};
-                if(e.code === 'ArrowRight' && dir.x !== -1) dir = {x:1, y:0};
+            // Check if user is typing in an input field
+            const isTyping = document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA';
+            
+            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code) && !isTyping) {
+                e.preventDefault();
+            }
+            
+            if(!isTyping) {
+                if(e.code === 'Space' || e.code === 'ArrowUp') { if(currentGame === 'dino' && dino.y === 390) dino.v = -22; }
+                if(currentGame === 'snake') {
+                    if(e.code === 'ArrowUp' && dir.y !== 1) dir = {x:0, y:-1};
+                    if(e.code === 'ArrowDown' && dir.y !== -1) dir = {x:0, y:1};
+                    if(e.code === 'ArrowLeft' && dir.x !== 1) dir = {x:-1, y:0};
+                    if(e.code === 'ArrowRight' && dir.x !== -1) dir = {x:1, y:0};
+                }
             }
         });
     </script>
