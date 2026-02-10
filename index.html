@@ -21,7 +21,6 @@
             --orange: #FF5C00;
         }
 
-        /* Improved Text Selection */
         ::selection {
             background-color: var(--cyan);
             color: var(--bg);
@@ -33,10 +32,9 @@
             color: var(--white);
             overflow-x: hidden;
             cursor: none; 
-            position: relative;
-            /* Restored high-quality radial background */
             background-image: radial-gradient(rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
             background-size: 35px 35px;
+            position: relative;
         }
 
         /* High-quality Texture Overlay */
@@ -77,19 +75,28 @@
             padding: 0 1px;
         }
         .char:hover {
-            transform: scale(1.3) translateY(-10px);
+            transform: scale(1.3) translateY(-10px) rotate(5deg);
             text-shadow: 8px 8px 0px black;
         }
         .c-1 { color: var(--cyan); }
         .c-2 { color: var(--lime); }
         .c-3 { color: var(--pink); }
 
-        /* Categorized Animations: Status Tags */
+        .brutal-heading {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        .brutal-heading:hover {
+            transform: skewX(-10deg) scale(1.05);
+            color: var(--lime);
+            text-shadow: 10px 10px 0px var(--pink);
+        }
+
         .status-tag {
             background: black;
             color: white;
-            border: 4px solid black;
-            box-shadow: 6px 6px 0px 0px white;
+            border: 4px solid white;
+            box-shadow: 6px 6px 0px 0px var(--lime);
             padding: 6px 20px;
             display: inline-block;
             font-family: 'JetBrains Mono', monospace;
@@ -99,31 +106,7 @@
         }
         .status-tag:hover {
             transform: scale(1.1) rotate(-2deg);
-            box-shadow: 10px 10px 0px var(--lime);
-            background: var(--bg);
-        }
-
-        /* Animated Emojis */
-        .anim-emoji {
-            display: inline-block;
-            animation: emoji-bob 2.5s infinite ease-in-out;
-        }
-        @keyframes emoji-bob {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-8px) rotate(15deg); }
-        }
-
-        /* Interactive Subtitles */
-        .sub-title {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: default;
-        }
-        .sub-title:hover {
-            transform: translateX(10px);
-            color: var(--lime);
+            box-shadow: 10px 10px 0px var(--pink);
         }
 
         .neo-box {
@@ -133,22 +116,9 @@
             transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         .neo-box:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 20px 20px 0px 0px var(--white);
-        }
-
-        .established-block {
-            background: white;
-            color: black;
-            padding: 1.5rem;
-            border: 4px solid black;
-            box-shadow: 10px 10px 0px 0px black;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            line-height: 1.8;
-            position: relative;
+            transform: translate(-6px, -6px);
+            box-shadow: 24px 24px 0px 0px var(--lime);
+            border-color: var(--lime);
         }
 
         .page-view {
@@ -171,27 +141,16 @@
             padding-bottom: 100px;
         }
 
-        #game-canvas {
-            image-rendering: pixelated;
-            background: #000;
-            width: 100%;
-            height: 450px;
-            touch-action: none;
-            border: 8px solid white;
-        }
-
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(60px) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .reveal.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        
         .nav-link {
             padding: 0.75rem 1.25rem;
             font-weight: 800;
@@ -209,128 +168,69 @@
         .nav-link:hover {
             background: var(--lime);
             transform: scale(1.1) rotate(-1deg);
-            box-shadow: 6px 6px 0px black;
-            color: black !important;
+            box-shadow: 8px 8px 0px black;
         }
         .nav-active {
             background: var(--orange) !important;
             color: white !important;
-            box-shadow: 6px 6px 0px white !important;
+            box-shadow: 8px 8px 0px white !important;
         }
 
         .live-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px; height: 12px;
             background: #ef4444;
             border-radius: 50%;
             display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 12px #ef4444;
-            animation: pulse-red 2s infinite;
+            margin-right: 10px;
+            box-shadow: 0 0 15px #ef4444;
+            animation: pulse-red 1.5s infinite;
         }
 
         @keyframes pulse-red {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
         }
 
         .connect-card {
-            border: 8px solid black;
-            padding: 1.5rem;
-            background: white;
-            color: black;
+            border: 8px solid white;
+            padding: 2rem;
+            background: black;
+            color: white;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 12px 12px 0px 0px black;
+            box-shadow: 15px 15px 0px 0px white;
         }
         .connect-card:hover {
-            transform: translate(-6px, -6px);
-            box-shadow: 20px 20px 0px 0px var(--cyan);
+            transform: translate(-10px, -10px);
+            box-shadow: 30px 30px 0px 0px var(--cyan);
+            border-color: var(--cyan);
         }
 
-        .tech-line {
-            height: 4px;
-            flex-grow: 1;
-            background: linear-gradient(to right, white, transparent);
-        }
-
-        .stack-id {
-            position: absolute;
-            right: 15px;
-            bottom: -15px;
-            font-size: 7rem;
-            font-weight: 900;
-            opacity: 0.15;
-            color: white;
-            transition: all 0.4s ease;
-            user-select: none;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Mobile Controls */
-        .arcade-btn {
-            width: 65px;
-            height: 65px;
-            background: white;
-            color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            border: 4px solid black;
-            box-shadow: 6px 6px 0px black;
-            touch-action: manipulation;
-            active: transform: translate(3px, 3px);
-            active: box-shadow: 0px 0px 0px black;
-        }
-
-        /* RESTORED COMMENTS THEME: Original Cut Quality */
-        .comment-item {
-            border: 4px solid var(--white);
-            background: var(--bg);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 8px 8px 0px 0px var(--white);
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .comment-item:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 12px 12px 0px 0px var(--white);
-            border-color: var(--lime);
-        }
-        .comment-pinned {
-            border-color: var(--cyan) !important;
-            box-shadow: 8px 8px 0px 0px var(--cyan) !important;
-            background: rgba(0, 240, 255, 0.05);
+        #game-canvas {
+            image-rendering: pixelated;
+            background: #000;
+            width: 100%;
+            height: 450px;
+            border: 8px solid white;
         }
 
         @media (max-width: 640px) {
             .nav-link span { display: none; }
-            .nav-link { padding: 0.75rem; }
-            .status-tag { font-size: 0.75rem; padding: 4px 12px; }
-            #interactive-name { font-size: 3rem; line-height: 1.1; }
+            #interactive-name { font-size: 3.5rem; }
         }
     </style>
 </head>
-<body class="antialiased selection:bg-cyan selection:text-black">
+<body class="antialiased">
 
     <div id="cursor"></div>
 
-    <!-- Mobile Warning Popup -->
-    <div id="laptopPopup" class="fixed inset-0 z-[9999] flex items-center justify-center p-6 bg-black/90 opacity-0 pointer-events-none transition-opacity duration-500">
-        <div class="relative bg-white text-black p-10 border-8 border-black shadow-[25px_25px_0px_var(--lime)] max-w-sm text-center">
-            <h3 class="text-3xl font-black uppercase mb-4 italic">Device Alert</h3>
-            <p class="mono text-sm font-bold uppercase leading-relaxed mb-8">For the ultimate experience and arcade control, please switch to a laptop or desktop.</p>
-            <button onclick="document.getElementById('laptopPopup').style.opacity = '0'; document.getElementById('laptopPopup').style.pointerEvents = 'none';" class="bg-black text-white px-8 py-3 font-black uppercase hover:bg-lime hover:text-black transition-colors border-4 border-black">Understood</button>
-        </div>
-    </div>
-
-    <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-4 md:px-6 py-4 flex justify-between items-center">
+    <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <span class="mono text-xs md:text-sm font-black tracking-widest bg-white text-black px-2 md:px-3 py-1 uppercase">All time Visitors <span id="v-count">...</span> ⚡</span>
+            <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase tracking-tight">
+                All time Visitors <span id="v-count" class="text-pink-600">...</span> ⚡
+            </span>
         </div>
-        <div class="flex gap-2 md:gap-4">
+        <div class="flex gap-3">
             <button onclick="switchView('home')" id="nav-home" class="nav-link nav-active"><i class="fa-solid fa-house"></i> <span>Home</span></button>
             <button onclick="switchView('arcade')" id="nav-arcade" class="nav-link"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></button>
             <button onclick="switchView('connect')" id="nav-connect" class="nav-link"><i class="fa-solid fa-network-wired"></i> <span>Socials</span></button>
@@ -340,98 +240,92 @@
     <!-- HOME VIEW -->
     <div id="home-view" class="page-view pt-32 pb-48">
         <main class="max-w-5xl mx-auto px-6 space-y-48">
-            <section id="hero" class="reveal">
-                <div class="status-tag mb-8 md:mb-10">
+            <section class="reveal">
+                <div class="status-tag mb-10 rotate-[-1deg]">
                     Status Live ⚡
                 </div>
                 
-                <div class="block overflow-visible mb-16">
-                    <h1 id="interactive-name" class="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] uppercase select-none">
+                <div class="block mb-20">
+                    <h1 id="interactive-name" class="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none">
                         <!-- JS Inject -->
                     </h1>
                 </div>
 
-                <div class="neo-box p-8 md:p-12 max-w-3xl bg-white text-black relative">
-                    <div class="flex gap-3 mb-6 md:mb-8">
-                        <div class="w-3 h-3 md:w-4 md:h-4 bg-black"></div>
-                        <div class="w-3 h-3 md:w-4 md:h-4 bg-black"></div>
-                        <div class="w-3 h-3 md:w-4 md:h-4 bg-black"></div>
+                <div class="neo-box p-10 md:p-16 max-w-4xl bg-white text-black relative">
+                    <div class="flex gap-4 mb-8">
+                        <div class="w-4 h-4 bg-black"></div>
+                        <div class="w-4 h-4 bg-black"></div>
+                        <div class="w-4 h-4 bg-black"></div>
                     </div>
                     <div id="quote-container" class="min-h-[140px]">
-                        <p id="quote-text" class="text-2xl md:text-3xl font-black uppercase italic leading-none transition-all duration-500">
+                        <p id="quote-text" class="text-3xl md:text-5xl font-black uppercase italic leading-none transition-all duration-500">
                             "Imagination is more important than knowledge."
                         </p>
-                        <p id="quote-author" class="mono text-[10px] md:text-xs mt-6 font-bold opacity-50 uppercase tracking-[0.3em]">
+                        <p id="quote-author" class="mono text-xs mt-8 font-black uppercase tracking-[0.3em] text-pink-600">
                             Albert Einstein
                         </p>
                     </div>
                 </div>
             </section>
 
-            <section class="reveal space-y-12">
-                <div class="flex items-center gap-6">
-                    <h2 class="text-3xl md:text-4xl font-black uppercase italic tracking-tighter sub-title">
-                        Tech Stack <span class="anim-emoji">💻</span>
+            <section class="reveal space-y-16">
+                <div class="flex items-center gap-8">
+                    <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">
+                        Tech Stack <span class="inline-block animate-bounce">💻</span>
                     </h2>
-                    <div class="tech-line"></div>
+                    <div class="h-2 flex-grow bg-white"></div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="neo-box p-8 border-cyan-400 bg-black group overflow-hidden relative">
-                        <div class="stack-id">01</div>
-                        <span class="mono text-xs text-cyan-400 font-black tracking-widest relative z-10">Stack 01</span>
-                        <h3 class="text-4xl font-black uppercase mt-4 relative z-10">PYTHON</h3>
-                        <p class="text-sm font-bold opacity-60 mt-6 leading-relaxed relative z-10">System automation, logical foundations, and computational scripts.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="neo-box p-10 border-cyan-400">
+                        <span class="mono text-sm text-cyan-400 font-black mb-4 block">01</span>
+                        <h3 class="text-4xl font-black uppercase mb-6">PYTHON</h3>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed">System automation, logical foundations, and computational scripts.</p>
                     </div>
-                    <div class="neo-box p-8 border-pink-500 bg-black group overflow-hidden relative">
-                        <div class="stack-id">02</div>
-                        <span class="mono text-xs text-pink-500 font-black tracking-widest relative z-10">Stack 02</span>
-                        <h3 class="text-4xl font-black uppercase mt-4 relative z-10">SQL</h3>
-                        <p class="text-sm font-bold opacity-60 mt-6 leading-relaxed relative z-10">Structural data management and high efficiency relational query optimization.</p>
+                    <div class="neo-box p-10 border-pink-500">
+                        <span class="mono text-sm text-pink-500 font-black mb-4 block">02</span>
+                        <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed">Structural data management and high efficiency relational query optimization.</p>
                     </div>
-                    <div class="neo-box p-8 border-lime bg-black group overflow-hidden relative">
-                        <div class="stack-id">03</div>
-                        <span class="mono text-xs text-lime font-black tracking-widest relative z-10">Stack 03</span>
-                        <h3 class="text-4xl font-black uppercase mt-4 relative z-10">NETS</h3>
-                        <p class="text-sm font-bold opacity-60 mt-6 leading-relaxed relative z-10">Network protocol analysis, secure communication logic, and infrastructure.</p>
+                    <div class="neo-box p-10 border-lime">
+                        <span class="mono text-sm text-lime font-black mb-4 block">03</span>
+                        <h3 class="text-4xl font-black uppercase mb-6">NETS</h3>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed">Network protocol analysis, secure communication logic, and infrastructure.</p>
                     </div>
                 </div>
             </section>
 
-            <section class="reveal space-y-12">
-                <div class="flex items-center gap-6">
-                    <h2 class="text-3xl md:text-4xl font-black uppercase italic tracking-tighter sub-title">
-                        Comments <span class="anim-emoji">💬</span>
+            <section class="reveal space-y-16">
+                <div class="flex items-center gap-8">
+                    <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">
+                        Comments <span class="inline-block animate-pulse">💬</span>
                     </h2>
-                    <div class="tech-line"></div>
+                    <div class="h-2 flex-grow bg-white"></div>
                 </div>
-                <div class="neo-box p-8 bg-black">
-                    <div id="comments-list" class="max-h-[500px] overflow-y-auto mb-8 space-y-4 pr-2">
+                <div class="neo-box p-10">
+                    <div id="comments-list" class="max-h-[500px] overflow-y-auto mb-10 space-y-6 pr-4">
                         <p class="mono text-xs opacity-50 uppercase">Syncing with global node...</p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <input id="comment-name" type="text" placeholder="NAME (OPTIONAL)" class="comment-name-input md:col-span-1 border-4">
-                        <input id="comment-input" type="text" placeholder="WRITE YOUR MESSAGE..." class="comment-input md:col-span-2 border-4">
-                        <button onclick="window.postComment()" class="bg-white text-black px-8 font-black uppercase hover:bg-lime transition-all py-4 md:py-0 border-4 border-black">POST</button>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <input id="comment-name" type="text" placeholder="NAME" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
+                        <input id="comment-input" type="text" placeholder="MESSAGE" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2">
+                        <button onclick="window.postComment()" class="bg-white text-black px-10 font-black uppercase hover:bg-lime transition-all border-4 border-black text-xl shadow-[8px_8px_0px_var(--lime)]">POST</button>
                     </div>
                 </div>
             </section>
 
             <footer class="reveal pt-32 border-t-8 border-white mt-40">
-                <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-16">
-                    <div class="max-w-md space-y-8">
-                        <div>
-                            <h4 class="text-4xl md:text-5xl font-black uppercase border-b-8 border-white inline-block pb-2 tracking-tight">SQUIDDRILL.FUN</h4>
-                            <p class="text-xs font-bold opacity-60 leading-relaxed uppercase tracking-wide mt-6">
-                                A HIGH LOGIC DIGITAL ARCHIVE SHOWCASING ARCHITECTURAL SOFTWARE PROGRESS AND ACADEMIC EXPERIMENTATION.
-                            </p>
-                        </div>
+                <div class="flex flex-col md:flex-row justify-between items-start gap-16 pb-20">
+                    <div class="max-w-md space-y-10">
+                        <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL.FUN</h4>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed uppercase">
+                            A HIGH LOGIC DIGITAL ARCHIVE SHOWCASING ARCHITECTURAL SOFTWARE PROGRESS AND ACADEMIC EXPERIMENTATION.
+                        </p>
                     </div>
-                    <div class="space-y-8">
-                        <div class="established-block">
+                    <div class="space-y-10">
+                        <div class="neo-box bg-white text-black p-10 font-black uppercase">
                             Established 2026<br>
                             LOC Anand, Guj, IN<br>
-                            <span class="text-red-600 font-black flex items-center mt-2"><span class="live-dot"></span>LIVE NODE ACTIVE</span>
-                            <div class="absolute bottom-2 right-2 w-6 h-6 md:w-8 md:h-8 bg-black"></div>
+                            <span class="text-red-600 flex items-center mt-4"><span class="live-dot"></span>LIVE NODE ACTIVE</span>
                         </div>
                         <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose">
                             © ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE IDENTITY PROTOCOL
@@ -444,63 +338,55 @@
 
     <!-- ARCADE VIEW -->
     <div id="arcade-view" class="page-view view-hidden full-view-container">
-        <div class="max-w-6xl mx-auto px-4 space-y-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-black uppercase italic bg-orange-600 text-white px-4 md:px-6 py-2 inline-block shadow-[8px_8px_0px_white] sub-title">
-                        Arcade <span class="anim-emoji">🎮🎟️</span>
-                    </h2>
-                    <div class="mt-4 flex gap-4">
-                        <input id="arcade-name" type="text" placeholder="NICKNAME (GUEST)" class="bg-black border-4 border-white p-3 mono text-xs text-white uppercase focus:border-lime outline-none w-full">
+        <div class="max-w-6xl mx-auto px-6 space-y-10">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-10">
+                <h2 class="text-5xl md:text-8xl font-black uppercase italic bg-orange-600 text-white px-8 py-4 shadow-[12px_12px_0px_white] brutal-heading">
+                    Arcade
+                </h2>
+                <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+                    <input id="arcade-name" type="text" placeholder="NICKNAME" class="bg-black border-4 border-white p-4 mono text-white uppercase outline-none focus:border-lime">
+                    <div class="flex gap-4">
+                        <button onclick="switchGame('dino')" id="btn-dino" class="whitespace-nowrap flex-shrink-0 min-w-[120px] px-8 py-4 bg-lime text-black font-black uppercase border-4 border-white shadow-[8px_8px_0px_white] transition-all">DINO</button>
+                        <button onclick="switchGame('snake')" id="btn-snake" class="whitespace-nowrap flex-shrink-0 min-w-[120px] px-8 py-4 bg-transparent text-white font-black uppercase border-4 border-white hover:bg-cyan hover:text-black transition-all">SNAKE</button>
                     </div>
-                </div>
-                <div class="flex gap-2 md:gap-4 w-full md:w-auto">
-                    <!-- Fixed blackout issue: specific text colors and border logic -->
-                    <button onclick="switchGame('dino')" id="btn-dino" class="min-w-[120px] flex-shrink-0 px-4 md:px-8 py-3 bg-lime text-black font-black uppercase shadow-[4px_4px_0px_white] border-4 border-white transition-all">DINO</button>
-                    <button onclick="switchGame('snake')" id="btn-snake" class="min-w-[120px] flex-shrink-0 px-4 md:px-8 py-3 bg-transparent text-white font-black uppercase border-4 border-white hover:bg-cyan hover:text-black transition-all">SNAKE</button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
                 <div class="lg:col-span-3">
-                    <div class="relative bg-black border-8 border-white shadow-[15px_15px_0px_var(--orange)]">
+                    <div class="relative brutal-card">
                         <canvas id="game-canvas"></canvas>
-                        <div id="game-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/95">
-                            <div class="text-center p-8 md:p-16 border-4 md:border-8 border-white bg-black neo-box shadow-[10px_10px_0px_var(--lime)]">
-                                <h3 class="text-3xl md:text-5xl font-black uppercase mb-8 italic">READY?</h3>
-                                <button onclick="startGame()" class="bg-white text-black px-8 md:px-12 py-4 md:py-5 text-xl md:text-2xl font-black uppercase hover:bg-lime border-4 border-black">BOOT GAME</button>
-                                <p class="mt-4 mono text-[10px] opacity-60 uppercase tracking-widest">[SPACE] OR JUMP BUTTON TO START</p>
+                        <div id="game-overlay" class="absolute inset-0 flex items-center justify-center bg-black/95">
+                            <div class="text-center p-16 border-8 border-white bg-black shadow-[15px_15px_0px_var(--lime)]">
+                                <h3 class="text-5xl font-black uppercase mb-10 italic">READY?</h3>
+                                <button onclick="startGame()" class="bg-white text-black px-12 py-6 text-2xl font-black uppercase hover:bg-lime border-4 border-black">BOOT GAME</button>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Mobile Control Pad -->
-                    <div class="mt-8 flex justify-between items-center md:hidden">
-                        <div class="grid grid-cols-3 gap-2">
-                            <div></div>
-                            <button onmousedown="handleControl('up')" ontouchstart="handleControl('up')" class="arcade-btn"><i class="fa-solid fa-arrow-up"></i></button>
-                            <div></div>
-                            <button onmousedown="handleControl('left')" ontouchstart="handleControl('left')" class="arcade-btn"><i class="fa-solid fa-arrow-left"></i></button>
-                            <button onmousedown="handleControl('down')" ontouchstart="handleControl('down')" class="arcade-btn"><i class="fa-solid fa-arrow-down"></i></button>
-                            <button onmousedown="handleControl('right')" ontouchstart="handleControl('right')" class="arcade-btn"><i class="fa-solid fa-arrow-right"></i></button>
+                    <!-- Mobile Controls -->
+                    <div class="mt-10 flex justify-between items-center md:hidden">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div></div><button onmousedown="handleControl('up')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-up"></i></button><div></div>
+                            <button onmousedown="handleControl('left')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-left"></i></button>
+                            <button onmousedown="handleControl('down')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-down"></i></button>
+                            <button onmousedown="handleControl('right')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-right"></i></button>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <button onmousedown="handleControl('action')" ontouchstart="handleControl('action')" class="arcade-btn w-32 h-32 bg-lime rounded-full border-8 border-black font-black uppercase italic">JUMP</button>
-                        </div>
+                        <button onmousedown="handleControl('action')" class="w-32 h-32 bg-lime rounded-full border-8 border-black font-black uppercase shadow-[8px_8px_0px_white]">JUMP</button>
                     </div>
                 </div>
 
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="neo-box bg-white p-6 text-black border-8 border-black">
-                        <h3 class="text-2xl font-black uppercase mb-4 border-b-8 border-black pb-1">Global Top 5</h3>
-                        <div id="leaderboard-list" class="space-y-3 mono text-xs font-black uppercase">
-                            <p class="opacity-50">Fetching global records...</p>
+                <div class="lg:col-span-1 space-y-8">
+                    <div class="neo-box bg-white p-8 text-black">
+                        <h3 class="text-2xl font-black uppercase mb-6 border-b-4 border-black pb-2">Top 5</h3>
+                        <div id="leaderboard-list" class="space-y-4 mono font-black uppercase text-sm">
+                            <p class="opacity-50">SYNCING...</p>
                         </div>
                     </div>
-                    <div class="bg-white text-black p-6 border-8 border-black shadow-[8px_8px_0px_black]">
-                        <div class="mono text-2xl font-black text-center uppercase tracking-tighter">Score <span id="current-score" class="text-pink-600 block text-4xl mt-2">000</span></div>
+                    <div class="neo-box bg-cyan-400 p-8 text-black text-center">
+                        <span class="mono text-xs font-black uppercase block mb-2">Score</span>
+                        <span id="current-score" class="text-6xl font-black italic">000</span>
                     </div>
-                    <button onclick="switchView('home')" class="w-full bg-black text-white px-6 py-4 border-4 border-white font-black uppercase hover:bg-pink shadow-[4px_4px_0px_var(--pink)] transition-all">EXIT ARCADE</button>
+                    <button onclick="switchView('home')" class="w-full bg-black text-white p-5 border-4 border-white font-black uppercase hover:bg-pink-600 transition-all">EXIT ARCADE</button>
                 </div>
             </div>
         </div>
@@ -508,38 +394,36 @@
 
     <!-- SOCIALS VIEW -->
     <div id="connect-view" class="page-view view-hidden full-view-container">
-        <div class="max-w-5xl mx-auto px-4 space-y-12 md:space-y-16">
-            <div class="text-center space-y-4">
-                <h2 class="text-5xl md:text-8xl font-black uppercase italic tracking-tighter border-b-8 border-lime inline-block pb-4 sub-title">
-                    Socials <span class="anim-emoji">📞</span>
-                </h2>
+        <div class="max-w-6xl mx-auto px-6 space-y-20">
+            <h2 class="text-7xl md:text-9xl font-black uppercase italic text-center tracking-tighter brutal-heading">
+                Socials
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-5xl mb-6"></i><h3 class="text-2xl font-black">GITHUB</h3><p class="mono text-[10px] opacity-50 mt-4">SOURCE NODE ↗</p></a>
+                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card border-blue-600"><i class="fa-brands fa-linkedin text-5xl mb-6 text-blue-600"></i><h3 class="text-2xl font-black">LINKEDIN</h3><p class="mono text-[10px] opacity-50 mt-4">PROFESSIONAL GRID ↗</p></a>
+                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-5xl mb-6"></i><h3 class="text-2xl font-black">X TWITTER</h3><p class="mono text-[10px] opacity-50 mt-4">STATUS BROADCAST ↗</p></a>
+                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card border-pink-600"><i class="fa-brands fa-instagram text-5xl mb-6 text-pink-600"></i><h3 class="text-2xl font-black">INSTAGRAM</h3><p class="mono text-[10px] opacity-50 mt-4">VISUAL FEED ↗</p></a>
+                <button onclick="copyText('squiddrill', this)" class="connect-card text-left border-indigo-500"><i class="fa-brands fa-discord text-5xl mb-6 text-indigo-500"></i><h3 class="text-2xl font-black">DISCORD</h3><p class="mono text-[10px] opacity-50 mt-4">COPY USER ID 📋</p></button>
+                <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card bg-lime text-black border-black"><i class="fa-solid fa-envelope text-5xl mb-6"></i><h3 class="text-2xl font-black">DIRECT MAIL</h3><p class="mono text-[10px] opacity-50 mt-4">SEND MESSAGE ✉️</p></a>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-3xl md:text-4xl mb-4"></i><h3 class="text-xl md:text-2xl font-black uppercase">GITHUB</h3><p class="mono text-[10px] opacity-50 mt-2">Open Source Node ↗</p></a>
-                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-3xl md:text-4xl mb-4 text-blue-600"></i><h3 class="text-xl md:text-2xl font-black uppercase">LINKEDIN</h3><p class="mono text-[10px] opacity-50 mt-2">Professional Grid ↗</p></a>
-                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-3xl md:text-4xl mb-4"></i><h3 class="text-xl md:text-2xl font-black uppercase">X TWITTER</h3><p class="mono text-[10px] opacity-50 mt-2">Status Broadcast ↗</p></a>
-                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-3xl md:text-4xl mb-4 text-pink-600"></i><h3 class="text-xl md:text-2xl font-black uppercase">INSTAGRAM</h3><p class="mono text-[10px] opacity-50 mt-2">Visual Feed ↗</p></a>
-                <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-3xl md:text-4xl mb-4 text-indigo-500"></i><h3 class="text-xl md:text-2xl font-black uppercase">DISCORD</h3><p class="mono text-[10px] opacity-50 mt-2">Copy User ID 📋</p></button>
-                <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card bg-lime"><i class="fa-solid fa-envelope text-3xl md:text-4xl mb-4"></i><h3 class="text-xl md:text-2xl font-black uppercase">DIRECT MAIL</h3><p class="mono text-[10px] opacity-50 mt-2">Send Message ✉️</p></a>
-            </div>
-
-            <div class="flex justify-center mt-12">
-                <button onclick="switchView('home')" class="bg-white text-black px-8 md:px-12 py-4 font-black text-xl md:text-2xl uppercase border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:bg-cyan transition-all">BACK TO HOME</button>
+            <div class="text-center">
+                <button onclick="switchView('home')" class="bg-white text-black px-16 py-8 font-black text-3xl uppercase border-4 border-black shadow-[15px_15px_0px_var(--lime)] hover:bg-cyan transition-all">BACK TO HOME</button>
             </div>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 hidden z-[5000]">
-        <div class="bg-black text-white border-8 border-white px-8 md:px-12 py-3 md:py-5 font-black uppercase text-lg md:text-xl shadow-[10px_10px_0px_var(--lime)]">
+    <div id="toast" class="fixed bottom-12 left-1/2 -translate-x-1/2 hidden z-[5000]">
+        <div class="bg-white text-black border-8 border-black px-12 py-6 font-black uppercase text-2xl shadow-[12px_12px_0px_var(--lime)]">
             Copied ✅
         </div>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-ljBHE316s_9ssHeBjyQ2zF6lpNo93VY",
@@ -547,8 +431,7 @@
             projectId: "website-ddb0c",
             storageBucket: "website-ddb0c.firebasestorage.app",
             messagingSenderId: "143641913342",
-            appId: "1:143641913342:web:ef0f6494e3676d6396c2af",
-            measurementId: "G-Q78HWFPEKP"
+            appId: "1:143641913342:web:ef0f6494e3676d6396c2af"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -556,6 +439,7 @@
         const db = getFirestore(app);
         const appId = "web-page"; 
         let user = null;
+        let cachedLeaderboard = [];
 
         const init = async () => {
             if (!auth || !db) return;
@@ -574,11 +458,8 @@
                 const statsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'counters');
                 try {
                     const snap = await getDoc(statsDoc);
-                    if (!snap.exists()) {
-                        await setDoc(statsDoc, { total: 1 });
-                    } else {
-                        await updateDoc(statsDoc, { total: increment(1) });
-                    }
+                    if (!snap.exists()) await setDoc(statsDoc, { total: 1 });
+                    else await updateDoc(statsDoc, { total: increment(1) });
                 } catch (e) { }
                 
                 onSnapshot(statsDoc, (doc) => {
@@ -593,36 +474,29 @@
                     if (!list) return;
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => d.data());
-                    docs.sort((a,b) => {
-                        const pinA = a.pinned === true ? 1 : 0;
-                        const pinB = b.pinned === true ? 1 : 0;
-                        if (pinA !== pinB) return pinB - pinA;
-                        return (b.timestamp || 0) - (a.timestamp || 0);
-                    });
+                    docs.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
                     if (docs.length === 0) {
-                        list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">No messages yet. Be the first.</p>`;
-                        return;
+                        list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">No messages yet.</p>`;
+                    } else {
+                        docs.forEach(c => {
+                            const div = document.createElement('div');
+                            div.className = "neo-box p-8 bg-black border-white";
+                            div.innerHTML = `
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="mono text-xs text-lime font-black uppercase">${c.name || 'ANON NODE'}</span>
+                                    <span class="mono text-[10px] opacity-30">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...'}</span>
+                                </div>
+                                <p class="text-lg font-black uppercase tracking-tight">${c.text || ''}</p>
+                            `;
+                            list.appendChild(div);
+                        });
                     }
-                    docs.forEach(c => {
-                        const div = document.createElement('div');
-                        div.className = "comment-item" + (c.pinned ? " comment-pinned" : "");
-                        const displayName = c.name ? c.name : `USER ${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`;
-                        const timeStr = c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...';
-                        const pinBadge = c.pinned ? `<span class="ml-2 bg-cyan-400 text-black px-1 text-[8px] font-black uppercase tracking-widest italic">📌 Pinned</span>` : '';
-                        div.innerHTML = `
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span>
-                                <span class="mono text-[8px] opacity-40">${timeStr}</span>
-                            </div>
-                            <p class="text-sm font-bold uppercase tracking-tight">${c.text || ''}</p>
-                        `;
-                        list.appendChild(div);
-                    });
                 });
 
                 const leaderboardCol = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
                 onSnapshot(leaderboardCol, (snapshot) => {
-                    updateLeaderboardUI(snapshot.docs.map(d => d.data()));
+                    cachedLeaderboard = snapshot.docs.map(d => d.data());
+                    updateLeaderboardUI(cachedLeaderboard);
                 });
             });
         };
@@ -634,33 +508,23 @@
             const name = nameInput?.value.trim();
             if (!text || !user || !db) return;
             try {
-                const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
-                await addDoc(commentsCol, {
-                    uid: user.uid,
-                    name: name,
-                    text: text,
-                    timestamp: Date.now(),
-                    pinned: false
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'comments'), {
+                    uid: user.uid, name: name, text: text, timestamp: Date.now()
                 });
-                if (input) input.value = "";
-                if (nameInput) nameInput.value = "";
+                input.value = ""; nameInput.value = "";
             } catch (e) {}
         };
 
         const updateLeaderboardUI = (data) => {
             const list = document.getElementById('leaderboard-list');
             if (!list) return;
-            const filtered = data.filter(d => d.game === currentGame);
-            filtered.sort((a,b) => b.score - a.score);
-            const top5 = filtered.slice(0, 5);
-            list.innerHTML = top5.length ? "" : "<p class='opacity-50'>No global records yet.</p>";
-            top5.forEach((entry, idx) => {
-                list.innerHTML += `
-                    <div class="flex justify-between border-b-2 border-black/10 pb-1">
-                        <span>${idx + 1}. ${entry.name || 'GUEST'}</span>
-                        <span class="text-pink-600 font-black">${entry.score}</span>
-                    </div>
-                `;
+            const filtered = data.filter(d => d.game === currentGame).sort((a,b) => b.score - a.score).slice(0, 5);
+            list.innerHTML = filtered.length ? "" : "<p class='opacity-50'>EMPTY SECTOR</p>";
+            filtered.forEach((entry, idx) => {
+                list.innerHTML += `<div class="flex justify-between border-b-2 border-white/10 pb-2">
+                    <span>${idx + 1}. ${entry.name || 'GUEST'}</span>
+                    <span class="text-pink-600 font-black">${entry.score}</span>
+                </div>`;
             });
         };
 
@@ -668,12 +532,8 @@
             if (!user || !db || score < 5) return;
             const name = document.getElementById('arcade-name')?.value.trim() || 'GUEST';
             try {
-                const leaderboardCol = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
-                await addDoc(leaderboardCol, {
-                    name: name,
-                    score: score,
-                    game: currentGame,
-                    timestamp: Date.now()
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard'), {
+                    name: name, score: score, game: currentGame, timestamp: Date.now()
                 });
             } catch (e) {}
         };
@@ -681,65 +541,18 @@
         window.addEventListener('load', init);
 
         const quotes = [
-            { t: "Imagination is more important than knowledge.", a: "Albert Einstein" },
-            { t: "Stay hungry, stay foolish.", a: "Steve Jobs" },
-            { t: "Logic will get you from A to B. Imagination everywhere.", a: "Albert Einstein" },
-            { t: "Success is not final, failure is not fatal.", a: "Winston Churchill" },
-            { t: "The unexamined life is not worth living.", a: "Socrates" },
-            { t: "I think, therefore I am.", a: "René Descartes" },
-            { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche" },
-            { t: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", a: "Aristotle" },
-            { t: "The only constant is change.", a: "Heraclitus" },
-            { t: "Knowing yourself is the beginning of all wisdom.", a: "Aristotle" },
-            { t: "What we think, we become.", a: "Buddha" },
-            { t: "Man is condemned to be free.", a: "Jean-Paul Sartre" },
-            { t: "The happiness of your life depends upon the quality of your thoughts.", a: "Marcus Aurelius" },
-            { t: "We suffer more often in imagination than in reality.", a: "Seneca" },
-            { t: "Waste no more time arguing about what a good man should be. Be one.", a: "Marcus Aurelius" },
-            { t: "The mind is its own place, and in itself can make a heaven of hell, a hell of heaven.", a: "John Milton" },
-            { t: "Life can only be understood backwards; but it must be lived forwards.", a: "Søren Kierkegaard" },
-            { t: "Everything has beauty, but not everyone sees it.", a: "Confucius" },
-            { t: "Doubt is the origin of wisdom.", a: "René Descartes" },
-            { t: "Whereof one cannot speak, thereof one must be silent.", a: "Ludwig Wittgenstein" },
-            { t: "To be is to be perceived.", a: "George Berkeley" },
-            { t: "Character is destiny.", a: "Heraclitus" },
-            { t: "Out of the crooked timber of humanity, no straight thing was ever made.", a: "Immanuel Kant" },
-            { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" },
-            { t: "The present is theirs; the future, for which I really worked, is mine.", a: "Nikola Tesla" },
-            { t: "The Analytical Engine weaves algebraic patterns just as the Jacquard loom weaves flowers.", a: "Ada Lovelace" },
-            { t: "If I have seen further it is by standing on the shoulders of Giants.", a: "Isaac Newton" },
-            { t: "Science is a way of thinking much more than it is a body of knowledge.", a: "Carl Sagan" },
-            { t: "Nature uses only the longest threads to weave her patterns.", a: "Richard Feynman" },
-            { t: "Any sufficiently advanced technology is indistinguishable from magic.", a: "Arthur C. Clarke" },
-            { t: "Information is the resolution of uncertainty.", a: "Claude Shannon" },
-            { t: "Everything is a file.", a: "Unix Philosophy" },
-            { t: "Simplicity is prerequisite for reliability.", a: "Edsger W. Dijkstra" },
-            { t: "The details are not the details. They make the design.", a: "Charles Eames" },
-            { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" },
-            { t: "Less is more.", a: "Mies van der Rohe" },
-            { t: "Form follows function.", a: "Louis Sullivan" },
-            { t: "A house is a machine for living in.", a: "Le Corbusier" },
-            { t: "Creativity is intelligence having fun.", a: "Albert Einstein" },
-            { t: "Every child is an artist. The problem is how to remain an artist once he grows up.", a: "Pablo Picasso" },
-            { t: "Learn the rules like a pro, so you can break them like an artist.", a: "Pablo Picasso" },
-            { t: "The best way to predict the future is to invent it.", a: "Alan Kay" },
-            { t: "The city is a machine for living in.", a: "Le Corbusier" },
-            { t: "Architecture is the reaching out for liberty.", a: "Louis Kahn" },
-            { t: "Truth is found in simplicity, and not in the multiplicity and confusion of things.", a: "Isaac Newton" },
-            { t: "It always seems impossible until it's done.", a: "Nelson Mandela" },
-            { t: "In the middle of difficulty lies opportunity.", a: "Albert Einstein" },
-            { t: "Whether you think you can or you think you can't, you're right.", a: "Henry Ford" },
-            { t: "The secret of getting ahead is getting started.", a: "Mark Twain" },
-            { t: "Action is the foundational key to all success.", a: "Pablo Picasso" },
-            { t: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt" },
-            { t: "Success is walking from failure to failure with no loss of enthusiasm.", a: "Winston Churchill" },
-            { t: "Vision is the art of seeing what is invisible to others.", a: "Jonathan Swift" },
-            { t: "Great things are done by a series of small things brought together.", a: "Vincent van Gogh" },
-            { t: "Do what you can, with what you have, where you are.", a: "Theodore Roosevelt" },
-            { t: "Don't find fault, find a remedy.", a: "Henry Ford" },
-            { t: "The only limit to our realization of tomorrow will be our doubts of today.", a: "Franklin D. Roosevelt" },
-            { t: "One cannot step twice into the same river.", a: "Heraclitus" },
-            { t: "System Offline. Rebuilding Reality.", a: "SquidDrill" }
+            { t: `Imagination is more important than knowledge.`, a: `Albert Einstein` },
+            { t: `Stay hungry, stay foolish.`, a: `Steve Jobs` },
+            { t: `Logic will get you from A to B. Imagination everywhere.`, a: `Albert Einstein` },
+            { t: `Success is not final, failure is not fatal.`, a: `Winston Churchill` },
+            { t: `Code is poetry.`, a: `Automattic` },
+            { t: `The unexamined life is not worth living.`, a: `Socrates` },
+            { t: `I think, therefore I am.`, a: `René Descartes` },
+            { t: `He who has a why to live for can bear almost any how.`, a: `Friedrich Nietzsche` },
+            { t: `Intelligence is the ability to adapt to change.`, a: `Stephen Hawking` },
+            { t: `The best way to predict the future is to invent it.`, a: `Alan Kay` },
+            { t: `Simplicity is the ultimate sophistication.`, a: `Leonardo da Vinci` },
+            { t: `Truth is found in simplicity, not in confusion.`, a: `Isaac Newton` }
         ];
 
         const nameEl = document.getElementById('interactive-name');
@@ -767,24 +580,14 @@
 
         document.addEventListener('mouseover', e => {
             if (!cursor) return;
-            const target = e.target;
-            if (target instanceof HTMLElement && target.closest('a, button, .char, input')) {
-                cursor.style.transform = 'scale(2.5)';
+            if (e.target.closest('a, button, .char, input')) {
+                cursor.style.transform = 'scale(3) rotate(45deg)';
+                cursor.style.background = 'var(--lime)';
             } else {
                 cursor.style.transform = 'scale(1)';
+                cursor.style.background = '#fff';
             }
         });
-
-        // Trigger Mobile Experience Popup
-        if (('ontouchstart' in window || navigator.maxTouchPoints > 0) && !window.location.search.includes('bypass')) {
-            setTimeout(() => {
-                const popup = document.getElementById('laptopPopup');
-                if(popup) {
-                    popup.style.opacity = '1';
-                    popup.style.pointerEvents = 'auto';
-                }
-            }, 1500);
-        }
 
         let quoteIdx = 0;
         setInterval(() => {
@@ -821,13 +624,10 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        window.copyText = (text, btn) => {
+        window.copyText = (text) => {
             const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
+            el.value = text; document.body.appendChild(el);
+            el.select(); document.execCommand('copy'); document.body.removeChild(el);
             const toast = document.getElementById('toast');
             if (toast) {
                 toast.classList.remove('hidden');
@@ -836,41 +636,32 @@
         };
 
         const canvas = document.getElementById('game-canvas');
-        const ctx = canvas instanceof HTMLCanvasElement ? canvas.getContext('2d') : null;
+        const ctx = canvas.getContext('2d');
         let currentGame = 'dino';
         let gameActive = false;
         let score = 0, loop, frame = 0;
         let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 10, y: 10}], food = {x: 5, y: 5}, dir = {x: 1, y: 0};
 
-        window.startGame = () => {
-            const overlay = document.getElementById('game-overlay');
-            if (overlay) overlay.style.display = 'none';
-            gameActive = true; score = 0; resetGameState(); runLoop();
-        };
-
         window.switchGame = (type) => {
             currentGame = type;
             const bd = document.getElementById('btn-dino');
             const bs = document.getElementById('btn-snake');
-            const base = "min-w-[120px] flex-shrink-0 px-4 md:px-8 py-3 font-black uppercase border-4 border-white transition-all ";
+            const base = "whitespace-nowrap flex-shrink-0 min-w-[120px] px-8 py-4 font-black uppercase border-4 border-white transition-all ";
             
-            if (bd) {
-                bd.className = base + (type === 'dino' ? "bg-lime text-black shadow-[4px_4px_0px_white]" : "bg-transparent text-white hover:bg-lime hover:text-black");
-            }
-            if (bs) {
-                bs.className = base + (type === 'snake' ? "bg-cyan text-black shadow-[4px_4px_0px_white]" : "bg-transparent text-white hover:bg-cyan hover:text-black");
-            }
-            gameActive = false; 
-            const overlay = document.getElementById('game-overlay');
-            if (overlay) overlay.style.display = 'flex';
+            if (bd) bd.className = base + (type === 'dino' ? "bg-lime text-black shadow-[8px_8px_0px_white]" : "bg-transparent text-white hover:bg-lime hover:text-black");
+            if (bs) bs.className = base + (type === 'snake' ? "bg-cyan text-black shadow-[8px_8px_0px_white]" : "bg-transparent text-white hover:bg-cyan hover:text-black");
+            
+            updateLeaderboardUI(cachedLeaderboard);
+            gameActive = false; document.getElementById('game-overlay').style.display = 'flex';
         };
 
-            
+        window.startGame = () => {
+            document.getElementById('game-overlay').style.display = 'none';
+            gameActive = true; score = 0; resetGameState(); runLoop();
+        };
 
         const initGame = () => {
-            if (canvas && canvas.parentElement) {
-                canvas.width = canvas.parentElement.clientWidth; canvas.height = 450;
-            }
+            canvas.width = canvas.parentElement.clientWidth; canvas.height = 450;
         };
 
         const stopGame = () => { gameActive = false; cancelAnimationFrame(loop); };
@@ -880,49 +671,43 @@
         };
 
         const runLoop = () => {
-            if(!gameActive || !ctx || !canvas) return;
+            if(!gameActive) return;
             ctx.fillStyle = '#000'; ctx.fillRect(0,0,canvas.width, canvas.height);
             if(currentGame === 'dino') {
-                dino.v += 1.2; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
-                if(frame % 70 === 0) obstacles.push({x: canvas.width, w: 30, h: 50 + Math.random()*50});
-                ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 40, 40); 
-                ctx.fillStyle = '#ffffff';
-                obstacles.forEach((ob) => {
-                    ob.x -= 8 + (score/500); ctx.fillRect(ob.x, 450 - ob.h, ob.w, ob.h);
-                    if(ob.x < 100 && ob.x > 60 && dino.y + 40 > 450 - ob.h) gameOver();
+                dino.v += 1.3; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
+                if(frame % 70 === 0) obstacles.push({x: canvas.width, w: 40, h: 50 + Math.random()*50});
+                ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 45, 45); 
+                ctx.fillStyle = '#fff';
+                obstacles.forEach(o => {
+                    o.x -= 10 + (score/300); ctx.fillRect(o.x, 450 - o.h, o.w, o.h);
+                    if(o.x < 105 && o.x > 60 && dino.y + 45 > 450 - o.h) gameOver();
                 });
-                obstacles = obstacles.filter(o => o.x > -50); score++;
+                obstacles = obstacles.filter(o => o.x > -50); score += 0.5;
             } else {
                 if(frame % 6 === 0) {
                     const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-                    const gridW = Math.floor(canvas.width / 25), gridH = 18;
-                    if(head.x < 0 || head.x >= gridW || head.y < 0 || head.y >= gridH) return gameOver();
-                    if(snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
+                    const gridW = Math.floor(canvas.width / 30), gridH = 15;
+                    if(head.x < 0 || head.x >= gridW || head.y < 0 || head.y >= gridH || snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
                     snake.unshift(head);
                     if(head.x === food.x && head.y === food.y) {
                         score += 100; food = {x: Math.floor(Math.random()*gridW), y: Math.floor(Math.random()*gridH)};
                     } else { snake.pop(); }
                 }
-                ctx.fillStyle = '#00F0FF'; snake.forEach(s => ctx.fillRect(s.x*25, s.y*25, 23, 23));
-                ctx.fillStyle = '#FF0055'; ctx.fillRect(food.x*25, food.y*25, 23, 23);
+                ctx.fillStyle = '#00F0FF'; snake.forEach(s => ctx.fillRect(s.x*30, s.y*30, 28, 28));
+                ctx.fillStyle = '#FF0055'; ctx.fillRect(food.x*30, food.y*30, 28, 28);
             }
-            const cs = document.getElementById('current-score');
-            if (cs) cs.innerText = Math.floor(score).toString().padStart(3, '0');
+            document.getElementById('current-score').innerText = Math.floor(score).toString().padStart(3, '0');
             frame++; loop = requestAnimationFrame(runLoop);
         };
 
         const gameOver = () => {
             gameActive = false; cancelAnimationFrame(loop);
-            const finalScore = Math.floor(score);
-            window.saveArcadeScore(finalScore);
-            const overlay = document.getElementById('game-overlay');
-            if (overlay) overlay.style.display = 'flex';
+            window.saveArcadeScore(Math.floor(score));
+            document.getElementById('game-overlay').style.display = 'flex';
         };
 
         window.handleControl = (type) => {
-            if (currentGame === 'dino' && (type === 'action' || type === 'up')) {
-                if (dino.y === 390) dino.v = -22;
-            }
+            if (currentGame === 'dino' && (type === 'action' || type === 'up') && dino.y === 390) dino.v = -25;
             if (currentGame === 'snake') {
                 if(type === 'up' && dir.y !== 1) dir = {x:0, y:-1};
                 if(type === 'down' && dir.y !== -1) dir = {x:0, y:1};
@@ -932,20 +717,13 @@
         };
 
         window.addEventListener('keydown', e => {
-            const isTyping = document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA';
-            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code) && !isTyping) {
-                e.preventDefault();
-            }
-            if(!isTyping) {
-                if(e.code === 'Space' || e.code === 'ArrowUp') handleControl('action');
-                if(currentGame === 'snake') {
-                    if(e.code === 'ArrowUp') handleControl('up');
-                    if(e.code === 'ArrowDown') handleControl('down');
-                    if(e.code === 'ArrowLeft') handleControl('left');
-                    if(e.code === 'ArrowRight') handleControl('right');
-                }
-            }
+            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+            if(e.code === 'Space' || e.code === 'ArrowUp') handleControl('up');
+            if(e.code === 'ArrowDown') handleControl('down');
+            if(e.code === 'ArrowLeft') handleControl('left');
+            if(e.code === 'ArrowRight') handleControl('right');
         });
     </script>
 </body>
 </html>
+ 
