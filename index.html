@@ -7,7 +7,7 @@
     <meta name="color-scheme" content="dark">
     
     <!-- Primary Meta Tags -->
-    <title>suggest title💀</title>
+    <title>SQUIDDRILL | BHAVYA KAPATEL 💀</title>
     <meta name="title" content="SQUIDDRILL | BHAVYA KAPATEL 💀">
     <meta name="description" content="Digital monolith and logic repository of Bhavya Kapatel. Exploring software architecture, automation, and interactive design.">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
@@ -30,6 +30,16 @@
             --orange: #FF5C00;
         }
 
+        /* PERMANENT SCANLINE / FLICKER EFFECT */
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            5% { opacity: 0.95; }
+            10% { opacity: 0.97; }
+            15% { opacity: 0.94; }
+            20% { opacity: 0.98; }
+            100% { opacity: 1; }
+        }
+
         ::selection { background-color: var(--cyan); color: var(--bg); }
 
         body {
@@ -41,6 +51,7 @@
             background-size: 35px 35px;
             position: relative;
             touch-action: manipulation;
+            animation: flicker 0.15s infinite;
         }
 
         @media (pointer: fine) { body { cursor: none; } }
@@ -50,7 +61,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/feFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.05; pointer-events: none; z-index: 9999;
+            opacity: 0.08; pointer-events: none; z-index: 9999;
         }
 
         #cursor {
@@ -61,6 +72,7 @@
         }
         @media (pointer: fine) { #cursor { display: flex; } }
 
+        /* INTERACTIVE NAME */
         #interactive-name { transform: skewX(-10deg); display: inline-block; }
         .char { display: inline-block; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; padding: 0 1px; }
         .char:hover { transform: scale(1.3) translateY(-10px) rotate(5deg); text-shadow: 8px 8px 0px black; }
@@ -68,15 +80,48 @@
         .c-2 { color: var(--lime); }
         .c-3 { color: var(--pink); }
 
-        .brutal-heading { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-block; }
-        .brutal-heading:hover { transform: skewX(-10deg) scale(1.05); color: var(--lime); text-shadow: 10px 10px 0px var(--pink); }
-
-        .neo-box {
-            background: var(--bg); border: 4px solid var(--white);
-            box-shadow: 10px 10px 0px 0px var(--white);
-            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+        /* PERMANENT BRUTALIST HEADINGS */
+        @keyframes brutal-pulse {
+            0%, 100% { text-shadow: 4px 4px 0px var(--pink); transform: skewX(-10deg) scale(1); }
+            50% { text-shadow: -4px -4px 0px var(--cyan); transform: skewX(-8deg) scale(1.02); }
         }
-        .neo-box:hover { transform: translate(-4px, -4px); box-shadow: 18px 18px 0px 0px var(--lime); border-color: var(--lime); }
+
+        .brutal-heading { 
+            display: inline-block; 
+            color: var(--lime); 
+            transform: skewX(-10deg); 
+            text-shadow: 6px 6px 0px var(--pink);
+            animation: brutal-pulse 4s infinite ease-in-out;
+        }
+
+        /* PERMANENT NEO-BOX STATE */
+        .neo-box {
+            background: var(--bg); border: 4px solid var(--lime);
+            box-shadow: 14px 14px 0px 0px var(--lime);
+            transform: translate(-6px, -6px);
+            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+        .neo-box::after {
+            content: '';
+            position: absolute; inset: 0;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.1);
+            pointer-events: none;
+        }
+
+        /* PERMANENT GLITCH FOR SQUIDDRILL TITLES */
+        @keyframes glitch-text {
+            0% { transform: translate(0); text-shadow: 3px 3px var(--pink), -3px -3px var(--cyan); }
+            2% { transform: translate(-2px, 2px); }
+            4% { transform: translate(2px, -2px); }
+            6% { transform: translate(0); }
+            100% { transform: translate(0); text-shadow: 3px 3px var(--pink), -3px -3px var(--cyan); }
+        }
+
+        .squiddrill-title {
+            animation: glitch-text 3s infinite;
+            letter-spacing: -0.05em;
+        }
 
         .page-view { transition: opacity 0.5s ease-in-out; min-height: 100vh; width: 100%; }
         .view-hidden { display: none !important; opacity: 0; }
@@ -85,6 +130,7 @@
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* BUTTONS KEEP INTERACTIVE BEHAVIOR */
         .nav-link {
             padding: 0.75rem 1.25rem; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;
             transition: all 0.2s; border: 4px solid white; display: flex; align-items: center; gap: 6px;
@@ -103,12 +149,19 @@
         .live-dot { width: 12px; height: 12px; background: #ef4444; border-radius: 50%; display: inline-block; margin-right: 10px; box-shadow: 0 0 15px #ef4444; animation: pulse-red 1.5s infinite; }
         @keyframes pulse-red { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
 
+        /* SOCIAL CARDS - INTERACTIVE RESTORED */
         .connect-card {
-            border: 6px solid white; padding: 2.5rem; background: black; color: white;
+            border: 6px solid var(--white); padding: 2.5rem; background: black; color: white;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 12px 12px 0px 0px white; min-height: 220px; display: flex; flex-direction: column; justify-content: center;
+            box-shadow: 10px 10px 0px 0px var(--lime);
+            min-height: 220px; display: flex; flex-direction: column; justify-content: center;
         }
-        .connect-card:hover { transform: translate(-8px, -8px); box-shadow: 24px 24px 0px 0px var(--lime); border-color: var(--lime); }
+        .connect-card:hover { 
+            transform: translate(-10px, -10px) rotate(-1deg); 
+            box-shadow: 20px 20px 0px 0px var(--pink); 
+            border-color: var(--pink); 
+            color: var(--pink);
+        }
 
         #game-canvas { image-rendering: pixelated; background: #000000; width: 100%; height: 450px; border: 8px solid white; touch-action: none; }
 
@@ -133,7 +186,6 @@
         }
         .back-btn:hover { transform: scale(1.02) skewX(-2deg); background: var(--cyan); box-shadow: 12px 12px 0px black; }
 
-        /* --- COMMENT PINNING ENGINE --- */
         .comment-pinned {
             border-color: var(--lime) !important;
             box-shadow: 10px 10px 0px 0px var(--lime) !important;
@@ -142,7 +194,7 @@
         }
 
         .comments-scroll-area {
-            max-height: 550px; /* Calibrated for ~7 comments */
+            max-height: 550px; 
             overflow-y: auto;
             position: relative;
             padding-right: 5px;
@@ -154,6 +206,15 @@
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
 
         body.view-open { overflow: hidden; }
+
+        /* FOOTER SYSTEM BOX - PERMANENT */
+        .footer-system-box {
+            background: var(--white) !important;
+            color: var(--bg) !important;
+            transform: translate(-10px, -10px) !important;
+            box-shadow: 20px 20px 0px 0px var(--pink) !important;
+            border: 6px solid var(--bg);
+        }
 
         @media (max-width: 640px) {
             .nav-link span { display: none; }
@@ -167,10 +228,10 @@
     <canvas id="bubble-canvas" class="bubble-effect"></canvas>
     <div id="cursor"></div>
 
-    <!-- Professionally Cool Initial Modal -->
+    <!-- Initial Modal -->
     <div id="initial-modal" class="modal-overlay" style="display: flex;">
         <div class="grey-dialog border-white">
-            <h2 class="text-5xl md:text-6xl font-black text-white uppercase italic mb-8 tracking-tighter">HELLO.</h2>
+            <h2 class="text-5xl md:text-6xl font-black text-white uppercase italic mb-8 tracking-tighter squiddrill-title">HELLO.</h2>
             <p class="mono text-white text-xl mb-12 leading-relaxed opacity-90 uppercase tracking-tight">
                 Welcome to my digital workspace. <br>
                 <span class="text-lime">I build things with logic and caffeine.</span>
@@ -179,7 +240,7 @@
         </div>
     </div>
 
-    <!-- Arcade Modal with Device Selector -->
+    <!-- Arcade Modal -->
     <div id="game-modal" class="modal-overlay">
         <div class="grey-dialog">
             <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">Sector Entry</h2>
@@ -278,12 +339,12 @@
             <footer class="reveal pt-32 border-t-8 border-white mt-40 pb-20">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                     <div class="space-y-10">
-                        <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL</h4>
+                        <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight squiddrill-title">SQUIDDRILL</h4>
                         <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">A digital repository recording progress through logic, software architecture, and system design.</p>
                         <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">© ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE PROTOCOL 2026</p>
                     </div>
                     <div class="flex flex-col gap-8 md:items-end">
-                        <div class="neo-box bg-white text-black p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
+                        <div class="neo-box footer-system-box p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
                             <div class="mb-2">ACTIVE SINCE 2024</div><div class="mb-6">LOC: ANAND / GUJ / IN</div>
                             <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>SYSTEM ONLINE</span>
                         </div>
@@ -297,7 +358,7 @@
     <div id="arcade-view" class="page-view view-hidden full-view-container">
         <div class="max-w-6xl mx-auto px-6 space-y-10 pb-40">
             <div class="flex flex-col md:flex-row justify-between items-center gap-10">
-                <h2 class="text-6xl md:text-8xl font-black uppercase italic bg-orange-600 text-white px-8 py-4 shadow-[12px_12px_0px_white] brutal-heading">Arcade</h2>
+                <h2 class="text-5xl md:text-7xl font-black uppercase italic bg-orange-600 text-white px-8 py-4 shadow-[12px_12px_0px_white] brutal-heading">Arcade</h2>
                 <button onclick="resetArcadeSteps()" class="px-12 py-5 bg-white text-black font-black uppercase border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:-translate-y-1 transition-all text-xl">CHOOSE MODULE</button>
             </div>
 
@@ -307,8 +368,8 @@
                         <canvas id="game-canvas"></canvas>
                         <div id="game-overlay" class="absolute inset-0 flex items-center justify-center bg-black/95">
                             <div class="text-center p-8 md:p-16 border-8 border-white bg-black shadow-[15px_15px_0px_var(--lime)] w-[85%]">
-                                <h3 id="overlay-title" class="text-3xl md:text-5xl font-black uppercase mb-10 italic">INITIATE GAME</h3>
-                                <button id="overlay-btn" onclick="startGame()" class="bg-white text-black px-12 py-6 text-2xl font-black uppercase hover:bg-lime border-4 border-black w-full sm:w-auto">BOOT</button>
+                                <h3 id="overlay-title" class="text-3xl md:text-5xl font-black uppercase mb-10 italic squiddrill-title">INITIATE MENU</h3>
+                                <button id="overlay-btn" onclick="openArcadeMenu()" class="bg-white text-black px-12 py-6 text-2xl font-black uppercase hover:bg-lime border-4 border-black w-full sm:w-auto">SETUP MODULE</button>
                             </div>
                         </div>
                     </div>
@@ -333,7 +394,7 @@
     <!-- SOCIALS VIEW -->
     <div id="connect-view" class="page-view view-hidden full-view-container">
         <div class="max-w-6xl mx-auto px-6 space-y-20">
-            <h2 class="text-6xl md:text-9xl font-black uppercase italic text-center tracking-tighter brutal-heading">Connect</h2>
+            <h2 class="text-5xl md:text-7xl font-black uppercase italic text-center tracking-tighter brutal-heading">Uplink</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">GITHUB</h3><p class="mono text-xs opacity-50 mt-4">REPOS ↗</p></a>
                 <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">LINKEDIN</h3><p class="mono text-xs opacity-50 mt-4">NETWORK ↗</p></a>
@@ -353,7 +414,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-ljBHE316s_9ssHeBjyQ2zF6lpNo93VY",
@@ -412,8 +473,6 @@
                     const list = document.getElementById('comments-list'); if (!list) return;
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => ({...d.data(), id: d.id}));
-                    
-                    // Pin Logic: Absolute sort for Creator's unique ID or flagged pinned=true
                     docs.sort((a, b) => {
                         const isPinnedA = a.pinned === true || a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || a.name === 'Creator';
                         const isPinnedB = b.pinned === true || b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || b.name === 'Creator';
@@ -421,7 +480,6 @@
                         if (!isPinnedA && isPinnedB) return 1;
                         return (b.timestamp || 0) - (a.timestamp || 0);
                     });
-
                     docs.forEach(c => {
                         const div = document.createElement('div');
                         const isOwner = c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name === 'Creator' || c.pinned === true;
@@ -433,7 +491,6 @@
                         list.appendChild(div);
                     });
                 });
-
                 const leaderboardCol = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
                 onSnapshot(leaderboardCol, (snapshot) => {
                     leaderboardData = snapshot.docs.map(d => d.data());
@@ -464,11 +521,27 @@
             document.getElementById('game-step-3').classList.remove('hidden');
         };
 
+        window.openArcadeMenu = () => {
+            if (currentActiveSessionName && selectedInputMode) {
+                // Skip directly to game selection if user & mode already set
+                document.getElementById('game-modal').style.display = 'flex';
+                document.getElementById('game-step-1').classList.add('hidden');
+                document.getElementById('game-step-2').classList.add('hidden');
+                document.getElementById('game-step-3').classList.remove('hidden');
+            } else {
+                window.resetArcadeSteps();
+            }
+        };
+
         window.resetArcadeSteps = () => {
             document.getElementById('game-modal').style.display = 'flex';
             document.getElementById('game-step-1').classList.remove('hidden');
             document.getElementById('game-step-2').classList.add('hidden');
             document.getElementById('game-step-3').classList.add('hidden');
+            // If we have a cached name, fill it in but let user change it
+            if (currentActiveSessionName) {
+                document.getElementById('arcade-nickname').value = currentActiveSessionName;
+            }
         };
 
         window.postComment = async () => {
@@ -511,68 +584,7 @@
 
         window.addEventListener('load', init);
 
-        const quotes = [
-            { t: "Imagination is more important than knowledge.", a: "Albert Einstein" },
-            { t: "The only way to do great work is to love what you do.", a: "Steve Jobs" },
-            { t: "Innovation distinguishes between a leader and a follower.", a: "Steve Jobs" },
-            { t: "Logic will get you from A to B. Imagination will take you everywhere.", a: "Albert Einstein" },
-            { t: "Whether you think you can or you think you can't, you're right.", a: "Henry Ford" },
-            { t: "Your most unhappy customers are your greatest source of learning.", a: "Bill Gates" },
-            { t: "When something is important enough, you do it even if the odds are not in your favor.", a: "Elon Musk" },
-            { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" },
-            { t: "That brain of mine is something more than merely mortal; as time will show.", a: "Ada Lovelace" },
-            { t: "We can only see a short distance ahead, but we can see plenty there that needs to be done.", a: "Alan Turing" },
-            { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" },
-            { t: "Energy and persistence conquer all things.", a: "Benjamin Franklin" },
-            { t: "The happiness of your life depends upon the quality of your thoughts.", a: "Marcus Aurelius" },
-            { t: "Luck is what happens when preparation meets opportunity.", a: "Seneca" },
-            { t: "It's not what happens to you, but how you react to it that matters.", a: "Epictetus" },
-            { t: "He who has a why to live can bear almost any how.", a: "Friedrich Nietzsche" },
-            { t: "The unexamined life is not worth living.", a: "Socrates" },
-            { t: "Quality is not an act, it is a habit.", a: "Aristotle" },
-            { t: "Wise men speak because they have something to say; Fools because they have to say something.", a: "Plato" },
-            { t: "In the middle of difficulty lies opportunity.", a: "Albert Einstein" },
-            { t: "Appear weak when you are strong, and strong when you are weak.", a: "Sun Tzu" },
-            { t: "Knowing others is intelligence; knowing yourself is true wisdom.", a: "Lao Tzu" },
-            { t: "Success is not final, failure is not fatal: it is the courage to continue that counts.", a: "Winston Churchill" },
-            { t: "Everything you've ever wanted is on the other side of fear.", a: "George Addair" },
-            { t: "The best way to predict the future is to invent it.", a: "Alan Kay" },
-            { t: "It does not matter how slowly you go as long as you do not stop.", a: "Confucius" },
-            { t: "Life is what happens when you're making other plans.", a: "John Lennon" },
-            { t: "The secret of getting ahead is getting started.", a: "Mark Twain" },
-            { t: "I have not failed. I've just found 10,000 ways that won't work.", a: "Thomas Edison" },
-            { t: "Code is like humor. When you have to explain it, it’s bad.", a: "Cory House" },
-            { t: "Stay hungry, stay foolish.", a: "Steve Jobs" },
-            { t: "First, solve the problem. Then, write the code.", a: "John Johnson" },
-            { t: "Experience is the name everyone gives to their mistakes.", a: "Oscar Wilde" },
-            { t: "The machine does not isolate man from the great problems of nature but plunges him more deeply into them.", a: "Antoine de Saint-Exupéry" },
-            { t: "Man is a tool-using animal. Without tools he is nothing, with tools he is all.", a: "Thomas Carlyle" },
-            { t: "The advance of technology is based on making it fit in so that you don't even notice it.", a: "Bill Gates" },
-            { t: "Technology is a useful servant but a dangerous master.", a: "Christian Lous Lange" },
-            { t: "Any sufficiently advanced technology is indistinguishable from magic.", a: "Arthur C. Clarke" },
-            { t: "The great myth of our times is that technology is communication.", a: "Libby Larsen" },
-            { t: "It has become appallingly obvious that our technology has exceeded our humanity.", a: "Albert Einstein" },
-            { t: "The science of today is the technology of tomorrow.", a: "Edward Teller" },
-            { t: "The real problem is not whether machines think but whether men do.", a: "B.F. Skinner" },
-            { t: "The human spirit must prevail over technology.", a: "Albert Einstein" },
-            { t: "Modern technology has made the world a small neighborhood.", a: "Unknown" },
-            { t: "Technology is best when it brings people together.", a: "Matt Mullenweg" },
-            { t: "The internet is the first thing that humanity has built that humanity doesn't understand.", a: "Eric Schmidt" },
-            { t: "Privacy is not an option, and it shouldn't be the price we pay for just getting on the Internet.", a: "Gary Kovacs" },
-            { t: "Data is the new oil.", a: "Clive Humby" },
-            { t: "In God we trust, all others must bring data.", a: "W. Edwards Deming" },
-            { t: "Computers are incredibly fast, accurate, and stupid.", a: "Leo Cherne" },
-            { t: "Hardware is where the people in your company who don't write software work.", a: "Unknown" },
-            { t: "If you think technology can solve your security problems, then you don't understand the problems.", a: "Bruce Schneier" },
-            { t: "The computer was born to solve problems that did not exist before.", a: "Bill Gates" },
-            { t: "One man's constant is another man's variable.", a: "Alan Perlis" },
-            { t: "Talk is cheap. Show me the code.", a: "Linus Torvalds" },
-            { t: "Programs must be written for people to read, and only incidentally for machines to execute.", a: "Harold Abelson" },
-            { t: "Deleted code is debugged code.", a: "Jeff Sickel" },
-            { t: "Good design adds value faster than it adds cost.", a: "Thomas C. Gale" },
-            { t: "Software is a great combination between artistry and engineering.", a: "Bill Gates" },
-            { t: "There are two ways to write error-free programs; only the third one works.", a: "Alan Perlis" }
-        ];
+        const quotes = [{ t: "Imagination is more important than knowledge.", a: "Albert Einstein" }, { t: "The only way to do great work is to love what you do.", a: "Steve Jobs" }, { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" }, { t: "Talk is cheap. Show me the code.", a: "Linus Torvalds" }];
 
         const nameEl = document.getElementById('interactive-name');
         const buildName = () => {
@@ -612,7 +624,7 @@
             if (view) view.classList.remove('view-hidden');
             document.getElementById(`nav-${viewId}`).classList.add('nav-active');
             window.scrollTo(0,0);
-            if(viewId === 'arcade') { initGame(); resetArcadeSteps(); } else stopGame();
+            if(viewId === 'arcade') initGame(); else stopGame();
             if(viewId === 'home') document.body.classList.remove('view-open'); else document.body.classList.add('view-open');
         };
 
@@ -649,7 +661,6 @@
         }
         handleBubbles();
         window.addEventListener('mousedown', e => { for (let i = 0; i < 8; i++) bubbles.push(new Bubble(e.clientX, e.clientY)); });
-        window.addEventListener('touchstart', e => { for (let i = 0; i < 4; i++) bubbles.push(new Bubble(e.touches[0].clientX, e.touches[0].clientY)); });
 
         // --- GAME ENGINE ---
         const canvas = document.getElementById('game-canvas');
@@ -658,7 +669,6 @@
         let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 5, y: 5}], food = {x: 10, y: 10}, dir = {x: 1, y: 0};
         let isMobileDevice = false;
 
-        // Swipe & Tap Controls Logic
         let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
         canvas.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
@@ -670,17 +680,9 @@
             const dx = e.changedTouches[0].clientX - touchStartX;
             const dy = e.changedTouches[0].clientY - touchStartY;
             const dt = Date.now() - touchStartTime;
-
-            if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 200) {
-                if (currentGame === 'dino') handleControl('up');
-                return;
-            }
-
-            if (Math.abs(dx) > Math.abs(dy)) {
-                if (Math.abs(dx) > 30) handleControl(dx > 0 ? 'right' : 'left');
-            } else {
-                if (Math.abs(dy) > 30) handleControl(dy > 0 ? 'down' : 'up');
-            }
+            if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 200) { if (currentGame === 'dino') handleControl('up'); return; }
+            if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 30) handleControl(dx > 0 ? 'right' : 'left'); } 
+            else { if (Math.abs(dy) > 30) handleControl(dy > 0 ? 'down' : 'up'); }
         });
 
         window.switchGame = (type) => {
@@ -689,24 +691,20 @@
             gameActive = false; updateLeaderboardUI();
             document.getElementById('overlay-title').innerText = type.toUpperCase() + " READY";
             document.getElementById('game-overlay').style.display = 'flex';
+            document.getElementById('overlay-btn').innerText = "BOOT ENGINE";
+            document.getElementById('overlay-btn').onclick = startGame;
         };
 
         window.startGame = () => { document.getElementById('game-overlay').style.display = 'none'; gameActive = true; score = 0; resetGameState(); runLoop(); };
-        const initGame = () => { 
-            canvas.width = canvas.parentElement.clientWidth; 
-            canvas.height = 450; 
-            isMobileDevice = window.innerWidth < 768;
-        };
+        const initGame = () => { canvas.width = canvas.parentElement.clientWidth; canvas.height = 450; isMobileDevice = window.innerWidth < 768; };
         const stopGame = () => { gameActive = false; cancelAnimationFrame(loop); };
         const resetGameState = () => { dino = { y: 390, v: 0 }; obstacles = []; snake = [{x:5, y:5}]; dir = {x: 1, y: 0}; frame = 0; food = {x: 10, y: 10}; };
 
         const runLoop = () => {
             if(!gameActive) return;
             ctx.fillStyle = '#000000'; ctx.fillRect(0,0,canvas.width, canvas.height);
-            
             const baseDinoSpeed = isMobileDevice ? 5 : 7;
             const snakeRate = isMobileDevice ? 10 : 7;
-
             if(currentGame === 'dino') {
                 dino.v += 1.2; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
                 if(frame % 80 === 0) obstacles.push({x: canvas.width, w: 40, h: 50 + Math.random()*60});
@@ -733,7 +731,7 @@
             frame++; loop = requestAnimationFrame(runLoop);
         };
 
-        const gameOver = () => { gameActive = false; cancelAnimationFrame(loop); window.saveArcadeScore(Math.floor(score)); document.getElementById('overlay-title').innerText = "FATAL ERROR"; document.getElementById('overlay-btn').innerText = "REBOOT"; document.getElementById('game-overlay').style.display = 'flex'; };
+        const gameOver = () => { gameActive = false; cancelAnimationFrame(loop); window.saveArcadeScore(Math.floor(score)); document.getElementById('overlay-title').innerText = "FATAL ERROR"; document.getElementById('overlay-btn').innerText = "REBOOT"; document.getElementById('overlay-btn').onclick = startGame; document.getElementById('game-overlay').style.display = 'flex'; };
 
         window.handleControl = (type) => {
             if (currentGame === 'dino' && (type === 'action' || type === 'up') && dino.y === 390) dino.v = -22;
