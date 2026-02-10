@@ -7,6 +7,7 @@
     <title>null 💀</title>
     <link rel="canonical" href="https://squiddrill.fun" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
@@ -26,42 +27,126 @@
             color: var(--white);
             overflow-x: hidden;
             cursor: none; 
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
-        /* Custom Cursor */
         #cursor {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background: #fff;
-            border-radius: 50%;
+            border-radius: 2px;
             position: fixed;
             pointer-events: none;
             z-index: 1000000; 
             mix-blend-mode: difference;
             transition: transform 0.1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Neobrutalist Hard Borders */
+        /* Slanted Interactive Name */
+        #interactive-name {
+            transform: skewX(-10deg);
+            display: inline-block;
+        }
+        .char {
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            padding: 0 2px;
+        }
+        .char:hover {
+            transform: scale(1.2) translateY(-10px) skewX(10deg);
+            text-shadow: 10px 10px 0px black;
+        }
+        .c-1 { color: var(--cyan); }
+        .c-2 { color: var(--lime); }
+        .c-3 { color: var(--pink); }
+
+        /* Status Tag Effect */
+        .status-tag {
+            background: black;
+            color: white;
+            border: 4px solid black;
+            box-shadow: 6px 6px 0px 0px white;
+            padding: 6px 20px;
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            animation: status-pulse 3s infinite ease-in-out;
+        }
+        .status-tag:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 10px 10px 0px 0px var(--lime);
+        }
+        @keyframes status-pulse {
+            0%, 100% { box-shadow: 6px 6px 0px 0px white; }
+            50% { box-shadow: 12px 12px 0px 0px white; }
+        }
+
+        .established-block {
+            background: white;
+            color: black;
+            padding: 2rem;
+            border: 4px solid black;
+            box-shadow: 10px 10px 0px 0px black;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            position: relative;
+        }
+
         .neo-box {
             background: var(--bg);
             border: 4px solid var(--white);
-            box-shadow: 10px 10px 0px 0px var(--white);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 12px 12px 0px 0px var(--white);
+            transition: all 0.2s ease-out;
         }
         .neo-box:hover {
             transform: translate(-4px, -4px);
-            box-shadow: 16px 16px 0px 0px var(--white);
+            box-shadow: 18px 18px 0px 0px var(--white);
         }
 
-        /* Skill Box Contrast Classes */
-        .skill-cyan { background: var(--cyan); color: #000; border: 4px solid #fff; box-shadow: 6px 6px 0px 0px #fff; }
-        .skill-pink { background: var(--pink); color: #fff; border: 4px solid #fff; box-shadow: 6px 6px 0px 0px #fff; }
-        .skill-lime { background: var(--lime); color: #000; border: 4px solid #fff; box-shadow: 6px 6px 0px 0px #fff; }
+        .page-view {
+            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1), opacity 0.5s;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .view-hidden {
+            display: none !important;
+            opacity: 0;
+        }
+
+        /* Scrollable Full-Page Views */
+        .full-view-container {
+            position: fixed;
+            inset: 0;
+            overflow-y: auto;
+            z-index: 1500;
+            background: black;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        #game-canvas {
+            image-rendering: pixelated;
+            background: #000;
+            width: 100%;
+            height: 450px;
+            touch-action: none;
+            border: 8px solid white;
+        }
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .reveal.visible {
             opacity: 1;
@@ -69,240 +154,573 @@
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Name Colors - 3 specific colors for BHAVYA */
-        .c-1 { color: var(--cyan); }
-        .c-2 { color: var(--lime); }
-        .c-3 { color: var(--pink); }
-        .c-surname { color: var(--white); }
-
-        /* Static Status Bar */
-        .status-bar {
-            background: var(--white);
-            color: var(--bg);
-            border-bottom: 4px solid var(--white);
+        
+        .nav-link {
+            padding: 0.75rem 1.25rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            border: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-link:hover {
+            border-color: white;
+            background: var(--lime);
+            color: black;
+            transform: rotate(-2deg);
+        }
+        .nav-active {
+            background: white !important;
+            color: black !important;
+            border-color: black !important;
         }
 
-        /* Persistent Button Styling */
-        .float-trigger {
-            background: var(--white);
-            color: var(--bg);
-            border: 3px solid var(--white);
-            box-shadow: 6px 6px 0px 0px #3b82f6;
-            transition: all 0.2s ease;
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 12px #ef4444;
+            animation: pulse-red 2s infinite;
         }
-        .float-trigger:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0px 0px #3b82f6;
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .connect-card {
+            border: 8px solid black;
+            padding: 1.5rem;
+            background: white;
+            color: black;
+            transition: all 0.3s;
+            box-shadow: 8px 8px 0px 0px black;
+        }
+        .connect-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 14px 14px 0px 0px var(--cyan);
+        }
+
+        .tech-line {
+            height: 4px;
+            flex-grow: 1;
+            background: linear-gradient(to right, white, transparent);
+        }
+
+        .stack-id {
+            position: absolute;
+            right: 15px;
+            bottom: -15px;
+            font-size: 7rem;
+            font-weight: 900;
+            opacity: 0.12;
+            color: white;
+            transition: all 0.4s ease;
+            user-select: none;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .neo-box:hover .stack-id {
+            opacity: 0.25;
+            transform: scale(1.1);
+        }
+
+        /* Comments Styling */
+        .comment-input, .comment-name-input {
+            background: transparent;
+            border: 4px solid white;
+            padding: 1rem;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .comment-input:focus, .comment-name-input:focus {
+            border-color: var(--lime);
+            box-shadow: 6px 6px 0px var(--lime);
+        }
+        .comment-item {
+            border-left: 8px solid var(--lime);
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .comment-item:hover {
+            transform: translateX(10px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 640px) {
+            .nav-link span { display: none; }
+            .nav-link { padding: 0.75rem; }
+            .status-tag { font-size: 0.75rem; padding: 4px 12px; }
+            #interactive-name { font-size: 3.5rem; line-height: 1.1; }
         }
     </style>
 </head>
-<body class="antialiased selection:bg-white selection:text-black">
+<body class="antialiased selection:bg-cyan selection:text-black">
 
     <div id="cursor"></div>
 
-    <!-- Persistent Shortcut Button -->
-    <button onclick="toggleModal(true)" class="fixed bottom-6 right-6 z-[500] float-trigger px-4 py-2 font-black text-xs uppercase mono reveal">
-        CONNECT_LINK
-    </button>
-
-    <!-- Static System Status Bar -->
-    <div class="status-bar sticky top-0 z-[100] px-6 py-2 flex justify-between items-center overflow-hidden">
-        <div class="flex gap-8 mono text-[10px] font-black uppercase tracking-widest">
-            <span>LOC: ANAND_GUJ</span>
-            <span class="hidden md:block">NODE: SQUIDDRILL.FUN</span>
-            <span>USER: BHAVYA_KAPATEL</span>
+    <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-4 md:px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <span class="mono text-xs md:text-sm font-black tracking-widest bg-white text-black px-2 md:px-3 py-1">All-time Visitors: <span id="v-count">...</span> ⚡</span>
         </div>
-        <div class="flex items-center gap-2 mono text-[10px] font-black uppercase">
-            <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-            LIVE_LINK
+        <div class="flex gap-2 md:gap-4">
+            <button onclick="switchView('home')" id="nav-home" class="nav-link nav-active"><i class="fa-solid fa-house"></i> <span>Home</span></button>
+            <button onclick="switchView('arcade')" id="nav-arcade" class="nav-link bg-orange-600 text-white"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></button>
+            <button onclick="switchView('connect')" id="nav-connect" class="nav-link bg-white text-black"><i class="fa-solid fa-plug"></i> <span>Connect</span></button>
         </div>
-    </div>
+    </nav>
 
-    <main class="max-w-4xl mx-auto px-6 pt-24 pb-48 space-y-40">
-        
-        <!-- Hero Section -->
-        <section class="reveal relative">
-            <div class="inline-block bg-white text-black px-4 py-1 -rotate-1 mb-8 text-sm font-black uppercase border-2 border-white">
-                MISSION_CRITICAL: CLASS_12
-            </div>
-            
-            <h1 class="text-7xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase mb-12">
-                <span class="c-1">B</span>H<span class="c-2">A</span>V<span class="c-3">Y</span>A<br>
-                <span class="c-surname">KAPATEL</span>
-            </h1>
-
-            <div class="max-w-md neo-box p-8 rotate-1">
-                <p class="text-xl font-bold uppercase italic leading-tight">
-                    Class 12 student focusing on physics, academics, and the logic of software.
-                </p>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section class="reveal space-y-12">
-            <div class="flex items-center gap-6">
-                <h2 class="text-3xl font-black uppercase italic bg-white text-black px-4 py-1">TECH_STACK</h2>
-                <div class="h-[2px] flex-grow bg-white/20"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="skill-cyan p-8 flex flex-col justify-between h-52 group">
-                    <div>
-                        <p class="mono text-[10px] font-black mb-4 bg-black text-white px-2 inline-block">ID_01</p>
-                        <h3 class="text-3xl font-black uppercase">PYTHON</h3>
-                    </div>
-                    <p class="text-[10px] font-black uppercase tracking-widest italic">Core Logic Foundations</p>
+    <!-- HOME VIEW -->
+    <div id="home-view" class="page-view pt-32 pb-48">
+        <main class="max-w-5xl mx-auto px-6 space-y-48">
+            <section id="hero" class="reveal">
+                <div class="status-tag mb-8 md:mb-10">
+                    Status: Live ⚡
                 </div>
-
-                <div class="skill-pink p-8 flex flex-col justify-between h-52 group">
-                    <div>
-                        <p class="mono text-[10px] font-black mb-4 bg-black text-white px-2 inline-block">ID_02</p>
-                        <h3 class="text-3xl font-black uppercase">SQL</h3>
-                    </div>
-                    <p class="text-[10px] font-black uppercase tracking-widest italic">Relational Queries</p>
-                </div>
-
-                <div class="skill-lime p-8 flex flex-col justify-between h-52 group">
-                    <div>
-                        <p class="mono text-[10px] font-black mb-4 bg-black text-white px-2 inline-block">ID_03</p>
-                        <h3 class="text-3xl font-black uppercase">NETS</h3>
-                    </div>
-                    <p class="text-[10px] font-black uppercase tracking-widest italic">Architecture Concepts</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Knowledge Archive -->
-        <section class="reveal space-y-10">
-            <div class="flex items-center gap-6">
-                <div class="h-[2px] flex-grow bg-white/20"></div>
-                <h2 class="text-3xl font-black uppercase italic">KNOWLEDGE_ARCHIVE</h2>
-            </div>
-            
-            <div class="border-4 border-dashed border-white/20 p-20 rounded-[2rem] text-center transition-all hover:border-white hover:bg-white/5">
-                <div class="bg-white text-black px-6 py-2 inline-block -rotate-1 mb-4">
-                    <p class="mono font-black text-sm uppercase italic">Encrypted_Waiting_Deployment</p>
-                </div>
-                <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.4em]">Post-Board Deployment Scheduled // 2026</p>
-            </div>
-        </section>
-
-        <!-- Final Connect Action -->
-        <section class="reveal">
-            <button onclick="toggleModal(true)" class="w-full bg-white text-black p-10 neo-box border-none hover:bg-lime transition-all active:scale-[0.98]">
-                <div class="flex items-center justify-between">
-                    <span class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter">ESTABLISH_LINK</span>
-                    <span class="text-5xl">→</span>
-                </div>
-            </button>
-        </section>
-
-        <!-- Professional Footer -->
-        <footer class="text-center pt-20 pb-16">
-            <div class="inline-block border-t-2 border-white/10 pt-10 w-full">
-                <p class="text-3xl md:text-5xl font-black tracking-tight uppercase italic mb-3">SQUIDDRILL.FUN</p>
-                <div class="mono text-[9px] text-neutral-600 uppercase tracking-[0.4em] space-y-1">
-                    <p>© 2026 GLOBAL IDENTITY PROTOCOL</p>
-                    <p>ALL RIGHTS RESERVED // BHAVYA KAPATEL</p>
-                </div>
-            </div>
-        </footer>
-
-    </main>
-
-    <!-- Connectivity Terminal Modal -->
-    <div id="contactModal" class="fixed inset-0 z-[1000] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <div onclick="toggleModal(false)" class="absolute inset-0 bg-black/95 backdrop-blur-xl"></div>
-        <div class="relative bg-black border-4 border-white p-8 md:p-12 w-full max-w-2xl neo-box shadow-[20px_20px_0px_0px_#fff] overflow-y-auto max-h-[90vh]">
-            
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="text-5xl font-black uppercase italic text-white border-b-8 border-lime pb-2">CHANNELS</h2>
-                <button onclick="toggleModal(false)" class="bg-pink text-white border-2 border-black px-4 py-2 font-black hover:bg-white hover:text-black transition-colors">EXIT</button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="skill-lime p-5 font-black uppercase flex justify-between items-center group">Instagram <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">OPEN_↗</span></a>
-                <a href="https://github.com/squiddrilll" target="_blank" class="skill-cyan p-5 font-black uppercase flex justify-between items-center group">GitHub <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">CODE_↗</span></a>
-                <a href="https://x.com/SquidDrill" target="_blank" class="bg-white text-black p-5 font-black uppercase flex justify-between items-center group border-4 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">X / Twitter <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">TWEET_↗</span></a>
-                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="bg-blue-600 text-white p-5 font-black uppercase flex justify-between items-center group border-4 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">LinkedIn <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">LINK_↗</span></a>
-                <a href="https://www.reddit.com/user/squiddrill/" target="_blank" class="bg-orange-600 text-white p-5 font-black uppercase flex justify-between items-center group border-4 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">Reddit <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">USER_↗</span></a>
                 
-                <button onclick="copyText('squiddrill', this)" class="skill-pink p-5 font-black uppercase flex justify-between items-center text-left group">
-                    <span>Discord</span>
-                    <span class="mono text-[10px] bg-black text-white px-1">COPY</span>
-                </button>
-
-                <!-- Mail Hub -->
-                <div class="md:col-span-2 mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t-2 border-white/20 pt-8">
-                    <a href="mailto:bhavyakapatel2008@gmail.com" class="bg-white text-black p-6 font-black uppercase text-center text-xl hover:bg-lime transition-all active:scale-95">Send_Mail ✉️</a>
-                    <button onclick="copyText('bhavyakapatel2008@gmail.com', this)" class="bg-black text-white border-2 border-white p-6 font-black uppercase text-center text-xl hover:bg-pink transition-all active:scale-95 italic">Copy_Email 📋</button>
+                <div class="block overflow-visible mb-16">
+                    <h1 id="interactive-name" class="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none">
+                        <!-- JS Inject -->
+                    </h1>
                 </div>
+
+                <div class="neo-box p-8 md:p-12 max-w-3xl bg-white text-black relative">
+                    <div class="flex gap-3 mb-6 md:mb-8">
+                        <div class="w-3 h-3 md:w-4 md:h-4 bg-black"></div>
+                        <div class="w-3 h-3 md:w-4 md:h-4 bg-black"></div>
+                        <div class="w-3 h-3 md:w-4 md:h-4 bg-black"></div>
+                    </div>
+                    <div id="quote-container" class="min-h-[140px]">
+                        <p id="quote-text" class="text-3xl md:text-4xl font-black uppercase italic leading-none tracking-tight transition-all duration-500">
+                            "Imagination is more important than knowledge."
+                        </p>
+                        <p id="quote-author" class="mono text-[10px] md:text-xs mt-6 font-bold opacity-50 uppercase tracking-[0.3em]">
+                            // Albert Einstein
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal space-y-12">
+                <div class="flex items-center gap-6">
+                    <h2 class="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">Tech Stack 💻</h2>
+                    <div class="tech-line"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="neo-box p-8 border-cyan-400 bg-black group overflow-hidden relative">
+                        <div class="stack-id">01</div>
+                        <span class="mono text-xs text-cyan-400 font-black tracking-widest relative z-10">// Stack 01</span>
+                        <h3 class="text-4xl font-black uppercase mt-4 relative z-10">PYTHON</h3>
+                        <p class="text-sm font-bold opacity-60 mt-6 leading-relaxed relative z-10">System automation, logical foundations, and computational scripts.</p>
+                    </div>
+                    <div class="neo-box p-8 border-pink-500 bg-black group overflow-hidden relative">
+                        <div class="stack-id">02</div>
+                        <span class="mono text-xs text-pink-500 font-black tracking-widest relative z-10">// Stack 02</span>
+                        <h3 class="text-4xl font-black uppercase mt-4 relative z-10">SQL</h3>
+                        <p class="text-sm font-bold opacity-60 mt-6 leading-relaxed relative z-10">Structural data management and high-efficiency relational query optimization.</p>
+                    </div>
+                    <div class="neo-box p-8 border-lime bg-black group overflow-hidden relative">
+                        <div class="stack-id">03</div>
+                        <span class="mono text-xs text-lime font-black tracking-widest relative z-10">// Stack 03</span>
+                        <h3 class="text-4xl font-black uppercase mt-4 relative z-10">NETS</h3>
+                        <p class="text-sm font-bold opacity-60 mt-6 leading-relaxed relative z-10">Network protocol analysis, secure communication logic, and infrastructure.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comments Section -->
+            <section class="reveal space-y-12">
+                <div class="flex items-center gap-6">
+                    <h2 class="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">Comments 💬</h2>
+                    <div class="tech-line"></div>
+                </div>
+                <div class="neo-box p-8 bg-black">
+                    <div id="comments-list" class="max-h-[500px] overflow-y-auto mb-8 space-y-4 pr-2">
+                        <p class="mono text-xs opacity-50 uppercase">Syncing with global node...</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <input id="comment-name" type="text" placeholder="NAME (OPTIONAL)" class="comment-name-input md:col-span-1">
+                        <input id="comment-input" type="text" placeholder="WRITE YOUR MESSAGE..." class="comment-input md:col-span-2">
+                        <button onclick="postComment()" class="bg-white text-black px-8 font-black uppercase hover:bg-lime transition-all py-4 md:py-0">POST</button>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="reveal pt-20 border-t-8 border-white">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+                    <div class="space-y-6">
+                        <h4 class="text-4xl md:text-5xl font-black uppercase italic tracking-tighter skew-x-[-10deg]">SquidDrill.fun</h4>
+                        <p class="text-xs font-bold opacity-60 leading-relaxed uppercase tracking-wide">
+                            A high-logic digital archive showcasing architectural software progress and academic experimentation.
+                        </p>
+                    </div>
+                    <div class="space-y-4">
+                        <h5 class="mono text-xs font-black text-lime uppercase tracking-[0.5em] mb-4 md:mb-6">Network & Links 🔌</h5>
+                        <div class="flex flex-col gap-2 md:gap-3">
+                            <a href="https://github.com/squiddrilll" class="text-lg font-black hover:bg-white hover:text-black p-2 transition-all"><i class="fa-brands fa-github mr-2"></i> GITHUB_REPO ↗</a>
+                            <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" class="text-lg font-black hover:bg-white hover:text-black p-2 transition-all"><i class="fa-brands fa-linkedin mr-2"></i> LINKEDIN_PROF ↗</a>
+                            <a href="https://instagram.com/bhavya.kapatel" class="text-lg font-black hover:bg-white hover:text-black p-2 transition-all"><i class="fa-brands fa-instagram mr-2"></i> INSTA_FEED ↗</a>
+                        </div>
+                    </div>
+                    <div class="space-y-8">
+                        <div class="established-block">
+                            Established: 2026<br>
+                            Loc: Anand, Guj, IN<br>
+                            <span class="text-red-600 font-black flex items-center mt-2"><span class="live-dot"></span>LIVE_NODE_ACTIVE</span>
+                            <div class="absolute bottom-2 right-2 w-6 h-6 md:w-8 md:h-8 bg-black"></div>
+                        </div>
+                        <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose">
+                            © All Rights Reserved // Bhavya Kapatel // Secure Identity Protocol
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ARCADE VIEW -->
+    <div id="arcade-view" class="page-view view-hidden full-view-container">
+        <div class="max-w-6xl mx-auto px-4 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                <div>
+                    <h2 class="text-4xl md:text-6xl font-black uppercase italic bg-orange-600 text-white px-4 md:px-6 py-2 inline-block shadow-[8px_8px_0px_white]">Arcade System 🕹️</h2>
+                </div>
+                <div class="flex gap-2 md:gap-4 w-full md:w-auto">
+                    <button onclick="switchGame('dino')" id="btn-dino" class="flex-1 md:flex-none px-4 md:px-8 py-3 bg-lime text-black font-black uppercase shadow-[4px_4px_0px_white]">DINO</button>
+                    <button onclick="switchGame('snake')" id="btn-snake" class="flex-1 md:flex-none px-4 md:px-8 py-3 bg-zinc-800 text-white font-black uppercase">SNAKE</button>
+                </div>
+            </div>
+
+            <div class="relative bg-black border-4 md:border-8 border-white shadow-[15px_15px_0px_var(--orange)]">
+                <canvas id="game-canvas"></canvas>
+                <div id="game-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/95">
+                    <div class="text-center p-8 md:p-16 border-4 md:border-8 border-white bg-black neo-box shadow-[10px_10px_0px_var(--lime)]">
+                        <h3 class="text-4xl md:text-6xl font-black uppercase mb-8 italic">READY?</h3>
+                        <button onclick="startGame()" class="bg-white text-black px-8 md:px-12 py-4 md:py-5 text-xl md:text-2xl font-black uppercase hover:bg-lime">BOOT_GAME</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center bg-white text-black p-4 md:p-6 border-4 border-black shadow-[8px_8px_0px_var(--pink)] gap-4">
+                <div class="mono text-xl md:text-2xl font-black">Score: <span id="current-score" class="text-pink-600">000</span></div>
+                <div class="mono text-xl md:text-2xl font-black">High: <span id="hi-score">000</span></div>
+                <button onclick="switchView('home')" class="w-full sm:w-auto bg-black text-white px-6 py-2 font-black uppercase">EXIT_ARCADE</button>
             </div>
         </div>
     </div>
 
-    <!-- High-Visibility Toast -->
-    <div id="toast" class="fixed bottom-32 left-1/2 -translate-x-1/2 hidden z-[1000000]">
-        <div class="bg-black text-white border-[6px] border-white px-12 py-5 font-black uppercase neo-brutal text-2xl shadow-[12px_12px_0px_0px_#C3FF00]">
-            ID_STASHED! ✅
+    <!-- CONNECT VIEW -->
+    <div id="connect-view" class="page-view view-hidden full-view-container">
+        <div class="max-w-5xl mx-auto px-4 space-y-12 md:space-y-16">
+            <div class="text-center space-y-4">
+                <h2 class="text-5xl md:text-8xl font-black uppercase italic tracking-tighter border-b-8 border-lime inline-block pb-4">Channels 🔌</h2>
+                <p class="mono text-xs md:text-sm opacity-50 uppercase tracking-[0.5em] md:tracking-[1em] mt-8 text-white">Select Protocol // Establish Link</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-3xl md:text-4xl mb-4"></i><h3 class="text-xl md:text-2xl font-black uppercase">GITHUB</h3><p class="mono text-[10px] opacity-50 mt-2">Code Repository ↗</p></a>
+                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-3xl md:text-4xl mb-4 text-blue-600"></i><h3 class="text-xl md:text-2xl font-black uppercase">LINKEDIN</h3><p class="mono text-[10px] opacity-50 mt-2">Professional Node ↗</p></a>
+                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-3xl md:text-4xl mb-4"></i><h3 class="text-xl md:text-2xl font-black uppercase">X / TWITTER</h3><p class="mono text-[10px] opacity-50 mt-2">System Broadcast ↗</p></a>
+                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-3xl md:text-4xl mb-4 text-pink-600"></i><h3 class="text-xl md:text-2xl font-black uppercase">INSTAGRAM</h3><p class="mono text-[10px] opacity-50 mt-2">Visual Feed ↗</p></a>
+                <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-3xl md:text-4xl mb-4 text-indigo-500"></i><h3 class="text-xl md:text-2xl font-black uppercase">DISCORD</h3><p class="mono text-[10px] opacity-50 mt-2">Click to Copy ID 📋</p></button>
+                <a href="mailto:bhavyakapatel2008@gmail.com" class="connect-card bg-lime"><i class="fa-solid fa-envelope text-3xl md:text-4xl mb-4"></i><h3 class="text-xl md:text-2xl font-black uppercase">DIRECT MAIL</h3><p class="mono text-[10px] opacity-50 mt-2">Send Message ✉️</p></a>
+            </div>
+
+            <div class="flex justify-center mt-12">
+                <button onclick="switchView('home')" class="bg-white text-black px-8 md:px-12 py-4 font-black text-xl md:text-2xl uppercase border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:bg-cyan transition-all">BACK_TO_HOME</button>
+            </div>
         </div>
     </div>
 
-    <script>
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 hidden z-[5000]">
+        <div class="bg-black text-white border-8 border-white px-8 md:px-12 py-3 md:py-5 font-black uppercase text-lg md:text-xl shadow-[10px_10px_0px_var(--lime)]">
+            ID Copied! ✅
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let user = null;
+
+        const init = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+
+            onAuthStateChanged(auth, async (u) => {
+                user = u;
+                if (!user) return;
+
+                const statsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'counters');
+                try {
+                    const snap = await getDoc(statsDoc);
+                    if (!snap.exists()) {
+                        await setDoc(statsDoc, { total: 1 });
+                    } else {
+                        await updateDoc(statsDoc, { total: increment(1) });
+                    }
+                } catch (e) { }
+                
+                onSnapshot(statsDoc, (doc) => {
+                    const count = doc.data()?.total || 0;
+                    const vCount = document.getElementById('v-count');
+                    if (vCount) vCount.innerText = count.toLocaleString();
+                }, (err) => console.error(err));
+
+                const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
+                onSnapshot(commentsCol, (snapshot) => {
+                    const list = document.getElementById('comments-list');
+                    if (!list) return;
+                    list.innerHTML = "";
+                    const docs = snapshot.docs.map(d => d.data());
+                    docs.sort((a,b) => b.timestamp - a.timestamp);
+                    
+                    if (docs.length === 0) {
+                        list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">No messages yet. Be the first.</p>`;
+                        return;
+                    }
+
+                    docs.forEach(c => {
+                        const div = document.createElement('div');
+                        div.className = "comment-item";
+                        const displayName = c.name ? c.name : `USER_${c.uid?.substring(0,5).toUpperCase()}`;
+                        div.innerHTML = `
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="mono text-[10px] text-lime font-bold">${displayName}</span>
+                                <span class="mono text-[8px] opacity-40">${new Date(c.timestamp).toLocaleTimeString()}</span>
+                            </div>
+                            <p class="text-sm font-bold uppercase tracking-tight">${c.text}</p>
+                        `;
+                        list.appendChild(div);
+                    });
+                }, (err) => console.error(err));
+            });
+        };
+
+        window.postComment = async () => {
+            const input = document.getElementById('comment-input');
+            const nameInput = document.getElementById('comment-name');
+            const text = input.value.trim();
+            const name = nameInput.value.trim();
+            if (!text || !user) return;
+            
+            try {
+                const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
+                await addDoc(commentsCol, {
+                    uid: user.uid,
+                    name: name,
+                    text: text,
+                    timestamp: Date.now()
+                });
+                input.value = "";
+                nameInput.value = "";
+            } catch (e) { }
+        };
+
+        window.addEventListener('load', init);
+
+        const quotes = [
+            { t: "Imagination is more important than knowledge.", a: "Albert Einstein" },
+            { t: "The important thing is not to stop questioning.", a: "Albert Einstein" },
+            { t: "Stay hungry, stay foolish.", a: "Steve Jobs" },
+            { t: "The only way to do great work is to love what you do.", a: "Steve Jobs" },
+            { t: "Logic will get you from A to B. Imagination will take you everywhere.", a: "Albert Einstein" },
+            { t: "Any sufficiently advanced technology is indistinguishable from magic.", a: "Arthur C. Clarke" },
+            { t: "Talk is cheap. Show me the code.", a: "Linus Torvalds" },
+            { t: "Success is not final, failure is not fatal.", a: "Winston Churchill" },
+            { t: "Code is poetry.", a: "Automattic" }
+        ];
+
+        const nameEl = document.getElementById('interactive-name');
+        const buildName = () => {
+            if (!nameEl) return;
+            let html = "";
+            [..."BHAVYA"].forEach((char, i) => {
+                const colorClass = (i % 3 === 0) ? 'c-1' : (i % 3 === 1) ? 'c-2' : 'c-3';
+                html += `<span class="char ${colorClass}">${char}</span>`;
+            });
+            html += "<br>";
+            [..."KAPATEL"].forEach(char => {
+                html += `<span class="char text-white">${char}</span>`;
+            });
+            nameEl.innerHTML = html;
+        };
+        buildName();
+
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', e => {
+            if (!cursor) return;
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3.5)');
-            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+        document.addEventListener('mouseover', e => {
+            if (!cursor) return;
+            const target = e.target;
+            if (target.closest('a, button, .char, input')) {
+                cursor.style.transform = 'scale(2.5)';
+            } else {
+                cursor.style.transform = 'scale(1)';
+            }
         });
+
+        let quoteIdx = 0;
+        const qText = document.getElementById('quote-text');
+        const qAuth = document.getElementById('quote-author');
+        setInterval(() => {
+            if (!qText || !qAuth) return;
+            quoteIdx = (quoteIdx + 1) % quotes.length;
+            qText.style.opacity = '0';
+            qAuth.style.opacity = '0';
+            setTimeout(() => {
+                qText.innerText = `"${quotes[quoteIdx].t}"`;
+                qAuth.innerText = `// ${quotes[quoteIdx].a}`;
+                qText.style.opacity = '1';
+                qAuth.style.opacity = '1';
+            }, 500);
+        }, 5000);
+
+        window.switchView = (viewId) => {
+            document.querySelectorAll('.page-view').forEach(v => v.classList.add('view-hidden'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('nav-active'));
+            
+            const view = document.getElementById(`${viewId}-view`);
+            const link = document.getElementById(`nav-${viewId}`);
+            if (view) view.classList.remove('view-hidden');
+            if (link) link.classList.add('nav-active');
+            
+            window.scrollTo(0,0);
+            if(viewId === 'arcade') initGame(); else stopGame();
+            document.body.style.overflow = (viewId === 'home') ? 'auto' : 'hidden';
+        };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.1 });
-
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        function toggleModal(show) {
-            const modal = document.getElementById('contactModal');
-            if (show) {
-                modal.classList.add('active');
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                document.body.style.overflow = 'hidden';
-            } else {
-                modal.classList.remove('active');
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        function copyText(text, btn) {
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-
+        window.copyText = (text, btn) => {
+            navigator.clipboard.writeText(text);
             const toast = document.getElementById('toast');
-            toast.classList.remove('hidden');
-            
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "<span class='italic'>COPIED! ✅</span>";
-            
-            setTimeout(() => {
-                toast.classList.add('hidden');
-                btn.innerHTML = originalText;
-            }, 2000);
-        }
+            if (toast) {
+                toast.classList.remove('hidden');
+                setTimeout(() => toast.classList.add('hidden'), 2000);
+            }
+        };
 
-        window.addEventListener('keydown', e => { if(e.key === 'Escape') toggleModal(false); });
+        // --- GAME ENGINE ---
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        let currentGame = 'dino';
+        let gameActive = false;
+        let score = 0, hiScore = 0, loop, frame = 0;
+        let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 10, y: 10}], food = {x: 5, y: 5}, dir = {x: 1, y: 0};
+
+        window.startGame = () => {
+            const overlay = document.getElementById('game-overlay');
+            if (overlay) overlay.style.display = 'none';
+            gameActive = true; score = 0; resetGameState(); runLoop();
+        };
+
+        window.switchGame = (type) => {
+            currentGame = type;
+            const bd = document.getElementById('btn-dino');
+            const bs = document.getElementById('btn-snake');
+            if (bd) bd.className = type === 'dino' ? 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-lime text-black font-black uppercase shadow-[4px_4px_0px_white]' : 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-zinc-800 text-white font-black uppercase';
+            if (bs) bs.className = type === 'snake' ? 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-cyan text-black font-black uppercase shadow-[4px_4px_0px_white]' : 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-zinc-800 text-white font-black uppercase';
+            gameActive = false; 
+            const overlay = document.getElementById('game-overlay');
+            if (overlay) overlay.style.display = 'flex';
+        };
+
+        const initGame = () => {
+            if (canvas) {
+                canvas.width = canvas.parentElement.clientWidth; canvas.height = 450;
+            }
+        };
+
+        const stopGame = () => { gameActive = false; cancelAnimationFrame(loop); };
+
+        const resetGameState = () => {
+            dino = { y: 390, v: 0 }; obstacles = []; snake = [{x: 10, y: 10}]; dir = {x: 1, y: 0}; frame = 0;
+        };
+
+        const runLoop = () => {
+            if(!gameActive || !ctx) return;
+            ctx.fillStyle = '#000'; ctx.fillRect(0,0,canvas.width, canvas.height);
+            if(currentGame === 'dino') {
+                dino.v += 1.2; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
+                if(frame % 70 === 0) obstacles.push({x: canvas.width, w: 30, h: 50 + Math.random()*50});
+                ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 40, 40); 
+                ctx.fillStyle = '#ffffff';
+                obstacles.forEach((ob, i) => {
+                    ob.x -= 8 + (score/500); ctx.fillRect(ob.x, 450 - ob.h, ob.w, ob.h);
+                    if(ob.x < 100 && ob.x > 60 && dino.y + 40 > 450 - ob.h) gameOver();
+                });
+                obstacles = obstacles.filter(o => o.x > -50); score++;
+            } else {
+                if(frame % 6 === 0) {
+                    const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+                    const gridW = Math.floor(canvas.width / 25), gridH = 18;
+                    if(head.x < 0 || head.x >= gridW || head.y < 0 || head.y >= gridH) return gameOver();
+                    if(snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
+                    snake.unshift(head);
+                    if(head.x === food.x && head.y === food.y) {
+                        score += 100; food = {x: Math.floor(Math.random()*gridW), y: Math.floor(Math.random()*gridH)};
+                    } else { snake.pop(); }
+                }
+                ctx.fillStyle = '#00F0FF'; snake.forEach(s => ctx.fillRect(s.x*25, s.y*25, 23, 23));
+                ctx.fillStyle = '#FF0055'; ctx.fillRect(food.x*25, food.y*25, 23, 23);
+            }
+            const cs = document.getElementById('current-score');
+            if (cs) cs.innerText = Math.floor(score).toString().padStart(3, '0');
+            frame++; loop = requestAnimationFrame(runLoop);
+        };
+
+        const gameOver = () => {
+            gameActive = false; cancelAnimationFrame(loop);
+            if(score > hiScore) hiScore = Math.floor(score);
+            const hs = document.getElementById('hi-score');
+            if (hs) hs.innerText = hiScore.toString().padStart(3, '0');
+            const overlay = document.getElementById('game-overlay');
+            if (overlay) overlay.style.display = 'flex';
+        };
+
+        window.addEventListener('keydown', e => {
+            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+            if(e.code === 'Space' || e.code === 'ArrowUp') { if(currentGame === 'dino' && dino.y === 390) dino.v = -22; }
+            if(currentGame === 'snake') {
+                if(e.code === 'ArrowUp' && dir.y !== 1) dir = {x:0, y:-1};
+                if(e.code === 'ArrowDown' && dir.y !== -1) dir = {x:0, y:1};
+                if(e.code === 'ArrowLeft' && dir.x !== 1) dir = {x:-1, y:0};
+                if(e.code === 'ArrowRight' && dir.x !== -1) dir = {x:1, y:0};
+            }
+        });
     </script>
 </body>
 </html>
