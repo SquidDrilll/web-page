@@ -576,7 +576,17 @@
 
         window.switchGame = (type) => {
             const nameInput = document.getElementById('arcade-nickname');
-            if (!nameInput.value.trim()) {
+            const name = nameInput.value.trim();
+            if (!name) {
+                nameInput.classList.add('input-error');
+                setTimeout(() => nameInput.classList.remove('input-error'), 500);
+                return;
+            }
+            // Check for taken name
+            const isUsed = leaderboardData.some(entry => entry.name?.toLowerCase() === name.toLowerCase());
+            if (isUsed) {
+                nameInput.value = "";
+                nameInput.placeholder = "NAME ALREADY TAKEN";
                 nameInput.classList.add('input-error');
                 setTimeout(() => nameInput.classList.remove('input-error'), 500);
                 return;
@@ -591,8 +601,18 @@
 
         window.startGame = () => {
             const nameInput = document.getElementById('arcade-nickname');
-            if (!nameInput.value.trim()) {
+            const name = nameInput.value.trim();
+            if (!name) {
                 document.getElementById('game-modal').style.display='flex';
+                nameInput.classList.add('input-error');
+                setTimeout(() => nameInput.classList.remove('input-error'), 500);
+                return;
+            }
+            const isUsed = leaderboardData.some(entry => entry.name?.toLowerCase() === name.toLowerCase());
+            if (isUsed) {
+                document.getElementById('game-modal').style.display='flex';
+                nameInput.value = "";
+                nameInput.placeholder = "NAME ALREADY TAKEN";
                 nameInput.classList.add('input-error');
                 setTimeout(() => nameInput.classList.remove('input-error'), 500);
                 return;
