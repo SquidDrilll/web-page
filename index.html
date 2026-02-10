@@ -2,15 +2,37 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="color-scheme" content="dark">
+    
+    <!-- Primary Meta Tags -->
+    <title>SQUIDDRILL | BHAVYA KAPATEL</title>
+    <meta name="title" content="SQUIDDRILL | BHAVYA KAPATEL">
+    <meta name="description" content="Digital monolith and logic repository of Bhavya Kapatel. Exploring software architecture, automation, and interactive design.">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
-    <title>null 💀</title>
     <link rel="canonical" href="https://squiddrill.fun" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://squiddrill.fun/">
+    <meta property="og:title" content="SQUIDDRILL | BHAVYA KAPATEL">
+    <meta property="og:description" content="Digital monolith and logic repository. Python, SQL, and Interactive Logic.">
+    <meta property="og:image" content="favicon.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://squiddrill.fun/">
+    <meta property="twitter:title" content="SQUIDDRILL | BHAVYA KAPATEL">
+    <meta property="twitter:description" content="Digital monolith and logic repository. Python, SQL, and Interactive Logic.">
+    <meta property="twitter:image" content="favicon.jpg">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg: #0a0a0a;
@@ -29,10 +51,15 @@
             background-color: var(--bg);
             color: var(--white);
             overflow-x: hidden;
-            cursor: none; 
             background-image: radial-gradient(rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
             background-size: 35px 35px;
             position: relative;
+            touch-action: manipulation;
+        }
+
+        /* Hide system cursor only on desktop/mouse devices */
+        @media (pointer: fine) {
+            body { cursor: none; }
         }
 
         body::before {
@@ -47,8 +74,9 @@
             width: 24px; height: 24px; background: #fff; border-radius: 2px;
             position: fixed; pointer-events: none; z-index: 1000000; 
             mix-blend-mode: difference; transition: transform 0.1s ease-out;
-            display: flex; align-items: center; justify-content: center;
+            display: none; align-items: center; justify-content: center;
         }
+        @media (pointer: fine) { #cursor { display: flex; } }
 
         #interactive-name { transform: skewX(-10deg); display: inline-block; }
         .char { display: inline-block; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; padding: 0 1px; }
@@ -67,7 +95,7 @@
         }
         .neo-box:hover { transform: translate(-4px, -4px); box-shadow: 18px 18px 0px 0px var(--lime); border-color: var(--lime); }
 
-        .page-view { transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1), opacity 0.5s; min-height: 100vh; width: 100%; }
+        .page-view { transition: opacity 0.5s; min-height: 100vh; width: 100%; }
         .view-hidden { display: none !important; opacity: 0; }
         .full-view-container { position: fixed; inset: 0; overflow-y: auto; z-index: 1500; background: black; padding-top: 100px; padding-bottom: 100px; }
 
@@ -99,9 +127,11 @@
         }
         .connect-card:hover { transform: translate(-8px, -8px); box-shadow: 24px 24px 0px 0px var(--lime); border-color: var(--lime); }
 
-        #game-canvas { image-rendering: pixelated; background: #000000; width: 100%; height: 450px; border: 8px solid white; }
+        #game-canvas { image-rendering: pixelated; background: #000000; width: 100%; height: 450px; border: 8px solid white; touch-action: none; }
 
-        .comments-scroll-area { max-height: 500px; overflow-y: auto; position: relative; padding-top: 10px; }
+        .comments-scroll-area { max-height: 500px; overflow-y: auto; position: relative; padding-top: 10px; -ms-overflow-style: none; scrollbar-width: none; }
+        .comments-scroll-area::-webkit-scrollbar { display: none; }
+
         .comment-pinned {
             position: sticky; top: 0; z-index: 20; border-color: var(--white) !important;
             box-shadow: 10px 10px 0px 0px var(--white) !important; background: rgba(255, 255, 255, 0.15) !important;
@@ -114,7 +144,7 @@
         }
         .grey-dialog {
             background: #333333; border: 8px solid white; box-shadow: 25px 25px 0px 0px var(--lime);
-            padding: 3rem; width: 90%; max-width: 550px; text-align: center;
+            padding: 3rem; width: 95%; max-width: 550px; text-align: center;
         }
 
         .bubble-effect { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999999; }
@@ -124,16 +154,24 @@
             box-shadow: 8px 8px 0px var(--lime); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             padding: 1.5rem 3rem; display: inline-block; cursor: pointer; width: 100%; text-align: center;
         }
-        .back-btn:hover { transform: scale(1.05) skewX(-5deg); background: var(--cyan); box-shadow: 12px 12px 0px black; }
+        .back-btn:hover { transform: scale(1.02) skewX(-2deg); background: var(--cyan); box-shadow: 12px 12px 0px black; }
 
         .input-error { animation: shake 0.4s ease-in-out; border-color: var(--pink) !important; box-shadow: 0 0 15px var(--pink) !important; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
 
         body.view-open { overflow: hidden; }
 
+        /* Mobile Arcade Controls */
+        #mobile-controls { display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 3000; width: 90%; max-width: 400px; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .control-btn { background: white; border: 4px solid black; color: black; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 6px 6px 0px var(--lime); }
+        .control-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px black; background: var(--lime); }
+
+        #mobile-controls.manual-active { display: grid; }
+
         @media (max-width: 640px) {
             .nav-link span { display: none; }
-            #interactive-name { font-size: 3.5rem; }
+            #interactive-name { font-size: 4rem; }
+            .neo-box { padding: 1.5rem; }
         }
     </style>
 </head>
@@ -142,35 +180,68 @@
     <canvas id="bubble-canvas" class="bubble-effect"></canvas>
     <div id="cursor"></div>
 
-    <!-- PC Alert Modal -->
+    <!-- Mobile Arcade Controls UI -->
+    <div id="mobile-controls">
+        <div></div>
+        <button class="control-btn" onmousedown="handleControl('up')" ontouchstart="handleControl('up')"><i class="fa-solid fa-chevron-up"></i></button>
+        <div></div>
+        <button class="control-btn" onmousedown="handleControl('left')" ontouchstart="handleControl('left')"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="control-btn bg-pink-500 text-white" onmousedown="handleControl('action')" ontouchstart="handleControl('action')"><i class="fa-solid fa-bolt"></i></button>
+        <button class="control-btn" onmousedown="handleControl('right')" ontouchstart="handleControl('right')"><i class="fa-solid fa-chevron-right"></i></button>
+        <div></div>
+        <button class="control-btn" onmousedown="handleControl('down')" ontouchstart="handleControl('down')"><i class="fa-solid fa-chevron-down"></i></button>
+        <div></div>
+    </div>
+
+    <!-- Initialization Modal -->
     <div id="pc-alert-modal" class="modal-overlay" style="display: flex;">
-        <div class="grey-dialog border-pink-500 shadow-[25px_25px_0px_var(--pink)]">
-            <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">ALERT ENTRY</h2>
-            <p class="mono text-white text-lg mb-10 leading-relaxed">FOR THE BEST EXPERIENCE AND ACCURATE CONTROL, ACCESS VIA PC IS RECOMMENDED.</p>
-            <button onclick="document.getElementById('pc-alert-modal').style.display='none'" class="w-full bg-white text-black py-5 font-black uppercase text-2xl border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:scale-105 transition-all">I UNDERSTAND</button>
+        <div class="grey-dialog border-cyan-400 shadow-[25px_25px_0px_var(--cyan)]">
+            <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">NODE SYNCED</h2>
+            <p class="mono text-white text-lg mb-10 leading-relaxed uppercase">Cross-Platform Protocols Active. Optimized for Touch and Desktop. <br><span class="text-lime">[ SQUIDDRILL.FUN v2.0 ]</span></p>
+            <button onclick="document.getElementById('pc-alert-modal').style.display='none'" class="w-full bg-white text-black py-5 font-black uppercase text-2xl border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:scale-105 transition-all">ENTER SYSTEM</button>
         </div>
     </div>
 
-    <!-- Game Selection Modal -->
+    <!-- Game Selection Modal (Updated with Step Logic) -->
     <div id="game-modal" class="modal-overlay">
         <div class="grey-dialog">
             <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">Sector Entry</h2>
-            <input id="arcade-nickname" type="text" placeholder="USERNAME (MANDATORY)" class="w-full bg-black border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime mb-8 text-center text-xl">
-            <div class="flex flex-col gap-4">
+            
+            <!-- Step 1: Nickname -->
+            <div id="game-step-1" class="space-y-6">
+                <input id="arcade-nickname" type="text" maxlength="12" placeholder="USERNAME (MANDATORY)" class="w-full bg-black border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime text-center text-xl">
+                <button onclick="validateNickname()" class="w-full bg-white text-black py-4 font-black uppercase text-xl border-4 border-black shadow-[6px_6px_0px_var(--lime)] hover:translate-y-[-2px]">CONTINUE</button>
+            </div>
+
+            <!-- Step 2: Device Choice -->
+            <div id="game-step-2" class="hidden flex flex-col gap-4">
+                <p class="mono text-white mb-4 text-sm opacity-60">SELECT INPUT PROTOCOL</p>
+                <button onclick="selectDevice('desktop')" class="bg-white text-black py-5 font-black uppercase text-xl border-4 border-black shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-keyboard"></i> MOUSE & KEYBOARD
+                </button>
+                <button onclick="selectDevice('touch')" class="bg-pink-500 text-white py-5 font-black uppercase text-xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-hand-pointer"></i> TOUCH CONTROLS
+                </button>
+            </div>
+
+            <!-- Step 3: Game Select -->
+            <div id="game-step-3" class="hidden flex flex-col gap-4">
+                <p class="mono text-white mb-4 text-sm opacity-60">CHOOSE MODULE</p>
                 <button onclick="switchGame('dino')" class="bg-lime text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Dino Survival</button>
                 <button onclick="switchGame('snake')" class="bg-cyan text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Classic Snake</button>
             </div>
-            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-8 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ CLOSE ACCESS ]</button>
+
+            <button onclick="closeArcadeModal()" class="mt-8 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ ABORT ACCESS ]</button>
         </div>
     </div>
 
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
-                All time Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
+                Node Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
             </span>
         </div>
-        <div class="flex gap-3">
+        <div class="flex gap-2 sm:gap-3">
             <button onclick="switchView('home')" id="nav-home" class="nav-link nav-active"><i class="fa-solid fa-house"></i> <span>Home</span></button>
             <button onclick="switchView('arcade')" id="nav-arcade" class="nav-link"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></button>
             <button onclick="switchView('connect')" id="nav-connect" class="nav-link"><i class="fa-solid fa-network-wired"></i> <span>Socials</span></button>
@@ -182,7 +253,7 @@
         <main class="max-w-5xl mx-auto px-6 space-y-48">
             <section class="reveal visible">
                 <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">Status Live ⚡</div>
-                <div class="block mb-20"><h1 id="interactive-name" class="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1></div>
+                <div class="block mb-20"><h1 id="interactive-name" class="text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1></div>
                 <div class="neo-box p-10 md:p-16 max-w-4xl bg-white text-black relative">
                     <div class="flex gap-4 mb-8"><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div></div>
                     <div id="quote-container" class="min-h-[140px]">
@@ -193,35 +264,35 @@
             </section>
 
             <section class="reveal">
-                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Tech Stack 💻</h2><div class="h-2 flex-grow bg-white"></div></div>
+                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Logic Stack 💻</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div class="neo-box p-10 border-cyan-400">
                         <span class="mono text-sm text-cyan-400 font-black mb-4 block">01</span>
                         <h3 class="text-4xl font-black uppercase mb-6">PYTHON</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"I enjoy using Python to solve complex logical puzzles and build automation brains."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Solving complex puzzles and architectural brains through clean, logical automation."</p>
                     </div>
                     <div class="neo-box p-10 border-pink-500">
                         <span class="mono text-sm text-pink-500 font-black mb-4 block">02</span>
                         <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Chaotic data needs order; I find peace in organizing it into relational structures."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Architecting chaotic data streams into ordered, relational structures for efficiency."</p>
                     </div>
                     <div class="neo-box p-10 border-lime">
                         <span class="mono text-sm text-lime font-black mb-4 block">03</span>
                         <h3 class="text-4xl font-black uppercase mb-6">NETS</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Understanding the linking of digital nodes helps me visualize the internet skeleton."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Understanding global digital nodes to visualize and optimize the internet's skeleton."</p>
                     </div>
                 </div>
             </section>
 
             <section class="reveal">
-                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Comments 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
-                <div class="neo-box p-10 relative">
-                    <div id="comments-list" class="comments-scroll-area space-y-6 pr-4 mb-10 scrollbar-hide">
-                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Syncing Node...</p>
+                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Feed 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
+                <div class="neo-box p-6 md:p-10 relative">
+                    <div id="comments-list" class="comments-scroll-area space-y-6 pr-4 mb-10">
+                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Node Data...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <input id="comment-name" type="text" placeholder="NAME (OPTIONAL)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
-                        <input id="comment-input" type="text" placeholder="WRITE MESSAGE (ENTER TO SEND)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2">
+                        <input id="comment-name" type="text" placeholder="GUEST NAME" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
+                        <input id="comment-input" type="text" placeholder="MESSAGE (ENTER)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2">
                         <button onclick="window.postComment()" class="bg-white text-black px-10 font-black uppercase hover:bg-lime transition-all border-4 border-black text-xl shadow-[8px_8px_0px_var(--lime)]">POST</button>
                     </div>
                 </div>
@@ -230,14 +301,14 @@
             <footer class="reveal pt-32 border-t-8 border-white mt-40 pb-20">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                     <div class="space-y-10">
-                        <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL.FUN</h4>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">A personal digital monolith recording my progress through architectural software and logic.</p>
-                        <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">© ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE IDENTITY PROTOCOL</p>
+                        <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL</h4>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">A digital repository recording progress through logic, software architecture, and system design.</p>
+                        <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">© ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE PROTOCOL 2026</p>
                     </div>
                     <div class="flex flex-col gap-8 md:items-end">
                         <div class="neo-box bg-white text-black p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
-                            <div class="mb-2">ESTABLISHED 2026</div><div class="mb-6">LOC ANAND GUJ IN</div>
-                            <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>LIVE NODE ACTIVE</span>
+                            <div class="mb-2">ACTIVE SINCE 2024</div><div class="mb-6">LOC: ANAND / GUJ / IN</div>
+                            <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>SYSTEM ONLINE</span>
                         </div>
                     </div>
                 </div>
@@ -247,36 +318,36 @@
 
     <!-- ARCADE VIEW -->
     <div id="arcade-view" class="page-view view-hidden full-view-container">
-        <div class="max-w-6xl mx-auto px-6 space-y-10 pb-20">
+        <div class="max-w-6xl mx-auto px-6 space-y-10 pb-40">
             <div class="flex flex-col md:flex-row justify-between items-center gap-10">
                 <h2 class="text-6xl md:text-8xl font-black uppercase italic bg-orange-600 text-white px-8 py-4 shadow-[12px_12px_0px_white] brutal-heading">Arcade</h2>
-                <button onclick="document.getElementById('game-modal').style.display='flex'" class="px-12 py-5 bg-white text-black font-black uppercase border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:-translate-y-1 transition-all text-xl">CHOOSE GAME</button>
+                <button onclick="resetArcadeSteps()" class="px-12 py-5 bg-white text-black font-black uppercase border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:-translate-y-1 transition-all text-xl">CHOOSE MODULE</button>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
                 <div class="lg:col-span-3">
-                    <div class="relative brutal-card">
+                    <div class="relative neo-box border-8 overflow-hidden">
                         <canvas id="game-canvas"></canvas>
                         <div id="game-overlay" class="absolute inset-0 flex items-center justify-center bg-black/95">
-                            <div class="text-center p-16 border-8 border-white bg-black shadow-[15px_15px_0px_var(--lime)]">
-                                <h3 id="overlay-title" class="text-5xl font-black uppercase mb-10 italic">READY?</h3>
-                                <button id="overlay-btn" onclick="startGame()" class="bg-white text-black px-12 py-6 text-2xl font-black uppercase hover:bg-lime border-4 border-black">BOOT GAME</button>
+                            <div class="text-center p-8 md:p-16 border-8 border-white bg-black shadow-[15px_15px_0px_var(--lime)] w-[85%]">
+                                <h3 id="overlay-title" class="text-3xl md:text-5xl font-black uppercase mb-10 italic">INITIATE GAME</h3>
+                                <button id="overlay-btn" onclick="startGame()" class="bg-white text-black px-12 py-6 text-2xl font-black uppercase hover:bg-lime border-4 border-black w-full sm:w-auto">BOOT</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="lg:col-span-1 space-y-8">
                     <div class="neo-box bg-white p-8 text-black">
-                        <h3 class="text-2xl font-black uppercase mb-6 border-b-4 border-black pb-2">Top Records</h3>
+                        <h3 class="text-2xl font-black uppercase mb-6 border-b-4 border-black pb-2">Records</h3>
                         <div id="leaderboard-list" class="space-y-4 mono font-black uppercase text-sm">
-                            <p class="opacity-50 italic uppercase tracking-widest">Syncing records...</p>
+                            <p class="opacity-50 italic uppercase tracking-widest">Querying Records...</p>
                         </div>
                     </div>
                     <div class="neo-box bg-cyan-400 p-8 text-black text-center">
-                        <span class="mono text-xs font-black uppercase block mb-2">SCORE</span>
+                        <span class="mono text-xs font-black uppercase block mb-2">OUTPUT</span>
                         <span id="current-score" class="text-6xl font-black italic">000</span>
                     </div>
-                    <button onclick="switchView('home')" class="back-btn text-xl">BACK TO HOME</button>
+                    <button onclick="switchView('home')" class="back-btn text-xl">ABORT</button>
                 </div>
             </div>
         </div>
@@ -285,16 +356,16 @@
     <!-- SOCIALS VIEW -->
     <div id="connect-view" class="page-view view-hidden full-view-container">
         <div class="max-w-6xl mx-auto px-6 space-y-20">
-            <h2 class="text-7xl md:text-9xl font-black uppercase italic text-center tracking-tighter brutal-heading">Socials</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase text-white">GITHUB</h3><p class="mono text-xs opacity-50 mt-4">SOURCE NODE ↗</p></a>
-                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase text-white">LINKEDIN</h3><p class="mono text-xs opacity-50 mt-4">CONNECT GRID ↗</p></a>
-                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase text-white">X TWITTER</h3><p class="mono text-xs opacity-50 mt-4">BROADCAST ↗</p></a>
-                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase text-white">INSTAGRAM</h3><p class="mono text-xs opacity-50 mt-4">VISUAL FEED ↗</p></a>
-                <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase text-white">DISCORD</h3><p class="mono text-xs opacity-50 mt-4">USER ID 📋</p></button>
-                <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card"><i class="fa-solid fa-envelope text-6xl mb-6 text-lime"></i><h3 class="text-3xl font-black uppercase text-white">DIRECT MAIL</h3><p class="mono text-xs opacity-50 mt-4">SEND MESSAGE ✉️</p></a>
+            <h2 class="text-6xl md:text-9xl font-black uppercase italic text-center tracking-tighter brutal-heading">Connect</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">GITHUB</h3><p class="mono text-xs opacity-50 mt-4">REPOS ↗</p></a>
+                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">LINKEDIN</h3><p class="mono text-xs opacity-50 mt-4">NETWORK ↗</p></a>
+                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">X / TWITTER</h3><p class="mono text-xs opacity-50 mt-4">BROADCAST ↗</p></a>
+                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">INSTAGRAM</h3><p class="mono text-xs opacity-50 mt-4">FEED ↗</p></a>
+                <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">DISCORD</h3><p class="mono text-xs opacity-50 mt-4">CLICK TO COPY 📋</p></button>
+                <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card"><i class="fa-solid fa-envelope text-6xl mb-6 text-lime"></i><h3 class="text-3xl font-black uppercase">EMAIL</h3><p class="mono text-xs opacity-50 mt-4">SEND MSG ✉️</p></a>
             </div>
-            <div class="text-center pb-20"><button onclick="switchView('home')" class="text-3xl back-btn max-w-sm">BACK TO HOME</button></div>
+            <div class="text-center pb-20"><button onclick="switchView('home')" class="text-3xl back-btn max-w-sm">RETURN HOME</button></div>
         </div>
     </div>
 
@@ -304,8 +375,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-ljBHE316s_9ssHeBjyQ2zF6lpNo93VY",
@@ -322,10 +393,13 @@
         const appId = "web-page"; 
         let user = null;
         let leaderboardData = [];
-        let sessionGuestId = Math.floor(1000 + Math.random() * 9000);
+        let currentActiveSessionName = "";
+        let selectedInputMode = 'desktop';
 
-        const badWords = ["fuck", "shit", "bitch", "asshole", "pussy", "dick"]; 
+        // --- PROFANITY FILTER ---
+        const badWords = ["fuck", "shit", "bitch", "asshole", "pussy", "dick", "cunt", "nigger"]; 
         const filterProfanity = (text) => {
+            if (!text) return "";
             let clean = text;
             badWords.forEach(word => {
                 const regex = new RegExp(word, 'gi');
@@ -334,13 +408,55 @@
             return clean;
         };
 
-        const init = async () => {
-            if (!auth || !db) return;
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
-                else await signInAnonymously(auth);
-            } catch (e) {}
+        // --- ARCADE MODAL STEPS ---
+        window.validateNickname = () => {
+            const nameInput = document.getElementById('arcade-nickname');
+            const newName = nameInput.value.trim().toUpperCase();
+            if (!newName) {
+                nameInput.classList.add('input-error');
+                setTimeout(() => nameInput.classList.remove('input-error'), 500);
+                return;
+            }
+            // Check uniqueness only if it's NOT the current session name
+            if (currentActiveSessionName !== "" && newName !== currentActiveSessionName) {
+                const isTaken = leaderboardData.some(entry => entry.name === newName);
+                if (isTaken) {
+                    nameInput.classList.add('input-error');
+                    nameInput.value = "";
+                    nameInput.placeholder = "NAME TAKEN";
+                    setTimeout(() => nameInput.classList.remove('input-error'), 500);
+                    return;
+                }
+            }
+            currentActiveSessionName = newName;
+            document.getElementById('game-step-1').classList.add('hidden');
+            document.getElementById('game-step-2').classList.remove('hidden');
+        };
 
+        window.selectDevice = (mode) => {
+            selectedInputMode = mode;
+            const mobileCtrls = document.getElementById('mobile-controls');
+            if (mode === 'touch') mobileCtrls.classList.add('manual-active');
+            else mobileCtrls.classList.remove('manual-active');
+            
+            document.getElementById('game-step-2').classList.add('hidden');
+            document.getElementById('game-step-3').classList.remove('hidden');
+        };
+
+        window.resetArcadeSteps = () => {
+            document.getElementById('game-modal').style.display = 'flex';
+            document.getElementById('game-step-1').classList.remove('hidden');
+            document.getElementById('game-step-2').classList.add('hidden');
+            document.getElementById('game-step-3').classList.add('hidden');
+        };
+
+        window.closeArcadeModal = () => {
+            document.getElementById('game-modal').style.display = 'none';
+        };
+
+        // --- FIREBASE CORE ---
+        const init = async () => {
+            await signInAnonymously(auth);
             onAuthStateChanged(auth, async (u) => {
                 user = u; if (!user) return;
                 const statsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'counters');
@@ -348,7 +464,7 @@
                     const snap = await getDoc(statsDoc);
                     if (!snap.exists()) await setDoc(statsDoc, { total: 1 });
                     else await updateDoc(statsDoc, { total: increment(1) });
-                } catch (e) { }
+                } catch (e) {}
                 onSnapshot(statsDoc, (doc) => {
                     const count = doc.data()?.total || 0;
                     document.getElementById('v-count').innerText = count.toLocaleString();
@@ -359,19 +475,19 @@
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => ({...d.data(), id: d.id}));
                     docs.sort((a,b) => {
-                        const isPinA = a.id === 'ITNzsIyGh9EU4hyUwWQm' || a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || a.name?.toUpperCase() === 'CREATOR';
-                        const isPinB = b.id === 'ITNzsIyGh9EU4hyUwWQm' || b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || b.name?.toUpperCase() === 'CREATOR';
+                        const isPinA = a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || a.pinned;
+                        const isPinB = b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || b.pinned;
                         if (isPinA && !isPinB) return -1; if (!isPinA && isPinB) return 1;
                         return (b.timestamp || 0) - (a.timestamp || 0);
                     });
                     docs.forEach(c => {
                         const div = document.createElement('div');
-                        const isCreator = c.id === 'ITNzsIyGh9EU4hyUwWQm' || c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name?.toUpperCase() === 'CREATOR';
-                        div.className = "neo-box p-8 bg-black border-white" + (isCreator ? " comment-pinned" : "");
-                        const displayName = filterProfanity(c.name ? c.name : `USER ${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`);
+                        const isCreator = c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name?.toUpperCase() === 'CREATOR';
+                        div.className = "neo-box p-6 bg-black border-white" + (isCreator ? " comment-pinned" : "");
+                        const displayName = filterProfanity(c.name || `USER_${c.uid?.substring(0,4)}`);
                         const cleanMsg = filterProfanity(c.text || '');
-                        const pinBadge = isCreator ? `<span class="ml-4 bg-white text-black px-2 text-[10px] font-black uppercase italic tracking-widest">CREATOR</span>` : '';
-                        div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span><span class="mono text-[8px] opacity-40">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...'}</span></div><p class="text-sm md:text-base font-bold uppercase tracking-tight">${cleanMsg}</p>`;
+                        const pinBadge = isCreator ? `<span class="ml-2 bg-white text-black px-2 text-[10px] font-black uppercase tracking-widest">OWNER</span>` : '';
+                        div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span><span class="mono text-[8px] opacity-40">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : ''}</span></div><p class="text-sm font-bold uppercase tracking-tight">${cleanMsg}</p>`;
                         list.appendChild(div);
                     });
                 });
@@ -386,11 +502,11 @@
         window.postComment = async () => {
             const input = document.getElementById('comment-input');
             const nameInput = document.getElementById('comment-name');
-            const text = input?.value.trim(); const name = nameInput?.value.trim();
-            if (!text || !user || !db) return;
+            const text = input?.value.trim(); const name = nameInput?.value.trim() || 'ANONYMOUS';
+            if (!text || !user) return;
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'comments'), {
-                    uid: user.uid, name: name, text: filterProfanity(text), timestamp: Date.now(), pinned: name?.toUpperCase() === 'CREATOR'
+                    uid: user.uid, name: name, text: text, timestamp: Date.now()
                 });
                 input.value = ""; nameInput.value = "";
             } catch (e) {}
@@ -415,78 +531,24 @@
         };
 
         window.saveArcadeScore = async (score) => {
-            if (!user || !db || score < 1) return;
-            const rawName = document.getElementById('arcade-nickname')?.value.trim() || 'ANON';
+            if (!user || score < 1) return;
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard'), {
-                    name: rawName, score: score, game: currentGame, timestamp: Date.now()
+                    name: currentActiveSessionName.toUpperCase(), score: score, game: currentGame, timestamp: Date.now()
                 });
             } catch (e) {}
         };
 
         window.addEventListener('load', init);
 
+        // --- UI LOGIC ---
         const quotes = [
             { t: `Imagination is more important than knowledge.`, a: `Albert Einstein` },
-            { t: `Stay hungry, stay foolish.`, a: `Steve Jobs` },
             { t: `Logic will get you from A to B. Imagination everywhere.`, a: `Albert Einstein` },
-            { t: `Success is not final, failure is not fatal.`, a: `Winston Churchill` },
             { t: `Code is poetry.`, a: `Automattic` },
-            { t: `The unexamined life is not worth living.`, a: `Socrates` },
-            { t: `I think, therefore I am.`, a: `René Descartes` },
-            { t: `He who has a why to live for can bear almost any how.`, a: `Friedrich Nietzsche` },
-            { t: `We are what we repeatedly do. Excellence, then, is not an act, but a habit.`, a: `Aristotle` },
-            { t: `The only constant is change.`, a: `Heraclitus` },
-            { t: `Knowing yourself is the beginning of all wisdom.`, a: `Aristotle` },
-            { t: `What we think, we become.`, a: `Buddha` },
-            { t: `Man is condemned to be free.`, a: `Jean-Paul Sartre` },
-            { t: `The happiness of your life depends upon the quality of your thoughts.`, a: `Marcus Aurelius` },
-            { t: `We suffer more often in imagination than in reality.`, a: `Seneca` },
-            { t: `Waste no more time arguing about what a good man should be. Be one.`, a: `Marcus Aurelius` },
-            { t: `The mind is its own place, and in itself can make a heaven of hell.`, a: `John Milton` },
-            { t: `Life can only be understood backwards; but it must be lived forwards.`, a: `Søren Kierkegaard` },
-            { t: `Everything has beauty, but not everyone sees it.`, a: `Confucius` },
-            { t: `Doubt is the origin of wisdom.`, a: `René Descartes` },
-            { t: `Whereof one cannot speak, thereof one must be silent.`, a: `Ludwig Wittgenstein` },
-            { t: `To be is to be perceived.`, a: `George Berkeley` },
-            { t: `Character is destiny.`, a: `Heraclitus` },
-            { t: `Out of the crooked timber of humanity, no straight thing was ever made.`, a: `Immanuel Kant` },
-            { t: `Intelligence is the ability to adapt to change.`, a: `Stephen Hawking` },
-            { t: `The present is theirs; the future, for which I really worked, is mine.`, a: `Nikola Tesla` },
-            { t: `The Analytical Engine weaves algebraic patterns like the Jacquard loom.`, a: `Ada Lovelace` },
-            { t: `If I have seen further it is by standing on the shoulders of Giants.`, a: `Isaac Newton` },
-            { t: `Science is a way of thinking much more than it is a body of knowledge.`, a: `Carl Sagan` },
-            { t: `Nature uses only the longest threads to weave her patterns.`, a: `Richard Feynman` },
-            { t: `Any sufficiently advanced technology is indistinguishable from magic.`, a: `Arthur C. Clarke` },
-            { t: `Information is the resolution of uncertainty.`, a: `Claude Shannon` },
-            { t: `Everything is a file.`, a: `Unix Philosophy` },
-            { t: `Simplicity is prerequisite for reliability.`, a: `Edsger W. Dijkstra` },
-            { t: `The details are not the details. They make the design.`, a: `Charles Eames` },
-            { t: `Simplicity is the ultimate sophistication.`, a: `Leonardo da Vinci` },
-            { t: `Less is more.`, a: `Mies van der Rohe` },
-            { t: `Form follows function.`, a: `Louis Sullivan` },
-            { t: `A house is a machine for living in.`, a: `Le Corbusier` },
-            { t: `Creativity is intelligence having fun.`, a: `Albert Einstein` },
-            { t: `Every child is an artist. The problem is how to remain an artist.`, a: `Pablo Picasso` },
-            { t: `Learn the rules like a pro, so you can break them like an artist.`, a: `Pablo Picasso` },
             { t: `The best way to predict the future is to invent it.`, a: `Alan Kay` },
-            { t: `The city is a machine for living in.`, a: `Le Corbusier` },
-            { t: `Architecture is the reaching out for liberty.`, a: `Louis Kahn` },
-            { t: `Truth is found in simplicity, not in multiplicity and confusion.`, a: `Isaac Newton` },
-            { t: `It always seems impossible until it's done.`, a: `Nelson Mandela` },
-            { t: `In the middle of difficulty lies opportunity.`, a: `Albert Einstein` },
-            { t: `Whether you think you can or you think you can't, you're right.`, a: `Henry Ford` },
-            { t: `The secret of getting ahead is getting started.`, a: `Mark Twain` },
-            { t: `Action is the foundational key to all success.`, a: `Pablo Picasso` },
-            { t: `The future belongs to those who believe in the beauty of their dreams.`, a: `Eleanor Roosevelt` },
-            { t: `Success is walking from failure to failure with no loss of enthusiasm.`, a: `Winston Churchill` },
-            { t: `Vision is the art of seeing what is invisible to others.`, a: `Jonathan Swift` },
-            { t: `Great things are done by a series of small things brought together.`, a: `Vincent van Gogh` },
-            { t: `Do what you can, with what you have, where you are.`, a: `Theodore Roosevelt` },
-            { t: `Don't find fault, find a remedy.`, a: `Henry Ford` },
-            { t: `The only limit to our realization of tomorrow will be our doubts of today.`, a: `F. D. Roosevelt` },
-            { t: `One cannot step twice into the same river.`, a: `Heraclitus` },
-            { t: `System Offline. Rebuilding Reality.`, a: `SquidDrill` }
+            { t: `System Offline. Rebuilding Reality.`, a: `SquidDrill` },
+            { t: `Stay hungry, stay foolish.`, a: `Steve Jobs` }
         ];
 
         const nameEl = document.getElementById('interactive-name');
@@ -510,7 +572,7 @@
 
         document.addEventListener('mouseover', e => {
             const cursor = document.getElementById('cursor'); if (!cursor) return;
-            if (e.target.closest('a, button, .char, input')) cursor.style.transform = 'scale(2.5)';
+            if (e.target.closest('a, button, .char, input')) cursor.style.transform = 'scale(2.5) rotate(45deg)';
             else cursor.style.transform = 'scale(1)';
         });
 
@@ -521,7 +583,7 @@
             quoteIdx = (quoteIdx + 1) % quotes.length;
             qText.style.opacity = '0'; qAuth.style.opacity = '0';
             setTimeout(() => { qText.innerText = `"${quotes[quoteIdx].t}"`; qAuth.innerText = quotes[quoteIdx].a; qText.style.opacity = '1'; qAuth.style.opacity = '1'; }, 500);
-        }, 5000);
+        }, 6000);
 
         window.switchView = (viewId) => {
             document.querySelectorAll('.page-view').forEach(v => v.classList.add('view-hidden'));
@@ -530,8 +592,16 @@
             if (view) view.classList.remove('view-hidden');
             document.getElementById(`nav-${viewId}`).classList.add('nav-active');
             window.scrollTo(0,0);
+            
+            const mobileCtrls = document.getElementById('mobile-controls');
+            if(viewId === 'arcade') { 
+                initGame(); 
+                resetArcadeSteps();
+            } else {
+                stopGame();
+                mobileCtrls.classList.remove('manual-active');
+            }
             if(viewId === 'home') document.body.classList.remove('view-open'); else document.body.classList.add('view-open');
-            if(viewId === 'arcade') { initGame(); document.getElementById('game-modal').style.display='flex'; } else stopGame();
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -546,6 +616,7 @@
             if (toast) { toast.classList.remove('hidden'); setTimeout(() => toast.classList.add('hidden'), 2000); }
         };
 
+        // --- BUBBLE ENGINE ---
         const bCanvas = document.getElementById('bubble-canvas');
         const bCtx = bCanvas.getContext('2d');
         let bubbles = [];
@@ -568,84 +639,52 @@
         }
         handleBubbles();
         window.addEventListener('mousedown', e => { for (let i = 0; i < 8; i++) bubbles.push(new Bubble(e.clientX, e.clientY)); });
+        window.addEventListener('touchstart', e => { for (let i = 0; i < 4; i++) bubbles.push(new Bubble(e.touches[0].clientX, e.touches[0].clientY)); });
 
+        // --- GAME ENGINE ---
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
         let currentGame = 'dino', gameActive = false, score = 0, loop, frame = 0;
         let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 10, y: 10}], food = {x: 5, y: 5}, dir = {x: 1, y: 0};
 
         window.switchGame = (type) => {
-            const nameInput = document.getElementById('arcade-nickname');
-            const name = nameInput.value.trim();
-            if (!name) {
-                nameInput.classList.add('input-error');
-                setTimeout(() => nameInput.classList.remove('input-error'), 500);
-                return;
-            }
-            // Check for taken name
-            const isUsed = leaderboardData.some(entry => entry.name?.toLowerCase() === name.toLowerCase());
-            if (isUsed) {
-                nameInput.value = "";
-                nameInput.placeholder = "NAME ALREADY TAKEN";
-                nameInput.classList.add('input-error');
-                setTimeout(() => nameInput.classList.remove('input-error'), 500);
-                return;
-            }
             currentGame = type;
             document.getElementById('game-modal').style.display='none';
-            gameActive = false; updateLeaderboardUI();
-            document.getElementById('overlay-title').innerText = "READY?";
-            document.getElementById('overlay-btn').innerText = "BOOT GAME";
+            gameActive = false; 
+            updateLeaderboardUI();
+            document.getElementById('overlay-title').innerText = type.toUpperCase() + " READY";
             document.getElementById('game-overlay').style.display = 'flex';
         };
 
         window.startGame = () => {
-            const nameInput = document.getElementById('arcade-nickname');
-            const name = nameInput.value.trim();
-            if (!name) {
-                document.getElementById('game-modal').style.display='flex';
-                nameInput.classList.add('input-error');
-                setTimeout(() => nameInput.classList.remove('input-error'), 500);
-                return;
-            }
-            const isUsed = leaderboardData.some(entry => entry.name?.toLowerCase() === name.toLowerCase());
-            if (isUsed) {
-                document.getElementById('game-modal').style.display='flex';
-                nameInput.value = "";
-                nameInput.placeholder = "NAME ALREADY TAKEN";
-                nameInput.classList.add('input-error');
-                setTimeout(() => nameInput.classList.remove('input-error'), 500);
-                return;
-            }
-            document.getElementById('game-modal').style.display='none';
             document.getElementById('game-overlay').style.display = 'none';
             gameActive = true; score = 0; resetGameState(); runLoop();
         };
 
         const initGame = () => { canvas.width = canvas.parentElement.clientWidth; canvas.height = 450; };
         const stopGame = () => { gameActive = false; cancelAnimationFrame(loop); };
-        const resetGameState = () => { dino = { y: 390, v: 0 }; obstacles = []; snake = [{x: 10, y: 10}]; dir = {x: 1, y: 0}; frame = 0; };
+        const resetGameState = () => { dino = { y: 390, v: 0 }; obstacles = []; snake = [{x:5, y:5}]; dir = {x: 1, y: 0}; frame = 0; food = {x: 10, y: 10}; };
 
         const runLoop = () => {
             if(!gameActive) return;
             ctx.fillStyle = '#000000'; ctx.fillRect(0,0,canvas.width, canvas.height);
             if(currentGame === 'dino') {
                 dino.v += 1.2; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
-                if(frame % 70 === 0) obstacles.push({x: canvas.width, w: 40, h: 50 + Math.random()*50});
+                if(frame % 80 === 0) obstacles.push({x: canvas.width, w: 40, h: 50 + Math.random()*60});
                 ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 45, 45); 
                 ctx.fillStyle = '#FF0055';
                 obstacles.forEach(o => {
-                    o.x -= 8 + (score/500); ctx.fillRect(o.x, 450 - o.h, o.w, o.h);
-                    if(o.x < 100 && o.x > 60 && dino.y + 45 > 450 - o.h) gameOver();
+                    o.x -= 7 + (score/200); ctx.fillRect(o.x, 450 - o.h, o.w, o.h);
+                    if(o.x < 105 && o.x > 15 && dino.y + 45 > 450 - o.h) gameOver();
                 });
-                obstacles = obstacles.filter(o => o.x > -50); score += 0.1;
+                obstacles = obstacles.filter(o => o.x > -50); score += 0.15;
             } else {
-                if(frame % 6 === 0) {
+                if(frame % 7 === 0) {
                     const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
                     const gridW = Math.floor(canvas.width / 25), gridH = 18;
                     if(head.x < 0 || head.x >= gridW || head.y < 0 || head.y >= gridH || snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
                     snake.unshift(head);
-                    if(head.x === food.x && head.y === food.y) { score += 10; food = {x: Math.floor(Math.random()*gridW), y: Math.floor(Math.random()*gridH)}; }
+                    if(head.x === food.x && head.y === food.y) { score += 10; food = {x: Math.floor(Math.random()*(gridW-1)), y: Math.floor(Math.random()*(gridH-1))}; }
                     else { snake.pop(); }
                 }
                 ctx.fillStyle = '#00F0FF'; snake.forEach(s => ctx.fillRect(s.x*25, s.y*25, 23, 23));
@@ -658,22 +697,24 @@
         const gameOver = () => { 
             gameActive = false; cancelAnimationFrame(loop); 
             window.saveArcadeScore(Math.floor(score)); 
-            document.getElementById('overlay-title').innerText = "YOU LOSE";
-            document.getElementById('overlay-btn').innerText = "TRY AGAIN";
+            document.getElementById('overlay-title').innerText = "FATAL ERROR";
+            document.getElementById('overlay-btn').innerText = "REBOOT";
             document.getElementById('game-overlay').style.display = 'flex'; 
         };
 
         window.handleControl = (type) => {
             if (currentGame === 'dino' && (type === 'action' || type === 'up') && dino.y === 390) dino.v = -22;
             if (currentGame === 'snake') {
-                if(type === 'up' && dir.y !== 1) dir = {x:0, y:-1}; if(type === 'down' && dir.y !== -1) dir = {x:0, y:1};
-                if(type === 'left' && dir.x !== 1) dir = {x:-1, y:0}; if(type === 'right' && dir.x !== -1) dir = {x:1, y:0};
+                if((type === 'up' || type === 'action') && dir.y !== 1) dir = {x:0, y:-1}; 
+                if(type === 'down' && dir.y !== -1) dir = {x:0, y:1};
+                if(type === 'left' && dir.x !== 1) dir = {x:-1, y:0}; 
+                if(type === 'right' && dir.x !== -1) dir = {x:1, y:0};
             }
         };
 
         window.addEventListener('keydown', e => {
-            if(document.activeElement.id === 'comment-input' && e.key === 'Enter') { window.postComment(); return; }
-            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code) && document.activeElement.tagName !== 'INPUT') {
+            if(document.activeElement.tagName === 'INPUT') return;
+            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) {
                 e.preventDefault();
                 if(e.code === 'Space' || e.code === 'ArrowUp') handleControl('up');
                 if(e.code === 'ArrowDown') handleControl('down');
