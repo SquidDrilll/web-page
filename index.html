@@ -142,11 +142,11 @@
     <canvas id="bubble-canvas" class="bubble-effect"></canvas>
     <div id="cursor"></div>
 
-    <!-- Alert Modal (PC advice) -->
+    <!-- PC Alert Modal -->
     <div id="pc-alert-modal" class="modal-overlay" style="display: flex;">
         <div class="grey-dialog border-pink-500 shadow-[25px_25px_0px_var(--pink)]">
-            <h2 class="text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">ALERT_ENTRY</h2>
-            <p class="mono text-white text-lg mb-10 leading-relaxed">FOR THE ULTIMATE EXPERIENCE AND UNCOMPROMISED LOGIC CONTROL, ACCESS VIA PC IS HIGHLY RECOMMENDED.</p>
+            <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">ALERT ENTRY</h2>
+            <p class="mono text-white text-lg mb-10 leading-relaxed">FOR THE BEST EXPERIENCE AND ACCURATE CONTROL, ACCESS VIA PC IS RECOMMENDED.</p>
             <button onclick="document.getElementById('pc-alert-modal').style.display='none'" class="w-full bg-white text-black py-5 font-black uppercase text-2xl border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:scale-105 transition-all">I UNDERSTAND</button>
         </div>
     </div>
@@ -160,14 +160,14 @@
                 <button onclick="switchGame('dino')" class="bg-lime text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Dino Survival</button>
                 <button onclick="switchGame('snake')" class="bg-cyan text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Classic Snake</button>
             </div>
-            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-8 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ CLOSE_ACCESS ]</button>
+            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-8 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ CLOSE ACCESS ]</button>
         </div>
     </div>
 
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
-                All time Visitors <span id="v-count" class="text-pink-600 animate-pulse">🤔</span> ⚡
+                All time Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
             </span>
         </div>
         <div class="flex gap-3">
@@ -198,17 +198,17 @@
                     <div class="neo-box p-10 border-cyan-400">
                         <span class="mono text-sm text-cyan-400 font-black mb-4 block">01</span>
                         <h3 class="text-4xl font-black uppercase mb-6">PYTHON</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"I use Python to solve complex logical puzzles and build the brains behind automation."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"I enjoy using Python to solve complex logical puzzles and build automation brains."</p>
                     </div>
                     <div class="neo-box p-10 border-pink-500">
                         <span class="mono text-sm text-pink-500 font-black mb-4 block">02</span>
                         <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Organizing chaotic data into relational structures is where I find my flow."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Chaotic data needs order; I find peace in organizing it into relational structures."</p>
                     </div>
                     <div class="neo-box p-10 border-lime">
                         <span class="mono text-sm text-lime font-black mb-4 block">03</span>
                         <h3 class="text-4xl font-black uppercase mb-6">NETS</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Exploring digital nodes helps me understand the skeleton of the internet."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Understanding the linking of digital nodes helps me visualize the internet skeleton."</p>
                     </div>
                 </div>
             </section>
@@ -231,12 +231,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                     <div class="space-y-10">
                         <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL.FUN</h4>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">A personal digital monolith recording my progress through architectural software and logical experimentation.</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">A personal digital monolith recording my progress through architectural software and logic.</p>
                         <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">© ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE IDENTITY PROTOCOL</p>
                     </div>
                     <div class="flex flex-col gap-8 md:items-end">
                         <div class="neo-box bg-white text-black p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
-                            <div class="mb-2">ESTABLISHED 2026</div><div class="mb-6">LOC: ANAND, GUJ, IN</div>
+                            <div class="mb-2">ESTABLISHED 2026</div><div class="mb-6">LOC ANAND GUJ IN</div>
                             <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>LIVE NODE ACTIVE</span>
                         </div>
                     </div>
@@ -324,6 +324,16 @@
         let leaderboardData = [];
         let sessionGuestId = Math.floor(1000 + Math.random() * 9000);
 
+        const badWords = ["fuck", "shit", "bitch", "asshole", "pussy", "dick"]; 
+        const filterProfanity = (text) => {
+            let clean = text;
+            badWords.forEach(word => {
+                const regex = new RegExp(word, 'gi');
+                clean = clean.replace(regex, "****");
+            });
+            return clean;
+        };
+
         const init = async () => {
             if (!auth || !db) return;
             try {
@@ -358,9 +368,10 @@
                         const div = document.createElement('div');
                         const isCreator = c.id === 'ITNzsIyGh9EU4hyUwWQm' || c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name?.toUpperCase() === 'CREATOR';
                         div.className = "neo-box p-8 bg-black border-white" + (isCreator ? " comment-pinned" : "");
-                        const displayName = c.name ? c.name : `USER ${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`;
+                        const displayName = filterProfanity(c.name ? c.name : `USER ${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`);
+                        const cleanMsg = filterProfanity(c.text || '');
                         const pinBadge = isCreator ? `<span class="ml-4 bg-white text-black px-2 text-[10px] font-black uppercase italic tracking-widest">CREATOR</span>` : '';
-                        div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span><span class="mono text-[8px] opacity-40">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...'}</span></div><p class="text-sm md:text-base font-bold uppercase tracking-tight">${c.text || ''}</p>`;
+                        div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span><span class="mono text-[8px] opacity-40">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...'}</span></div><p class="text-sm md:text-base font-bold uppercase tracking-tight">${cleanMsg}</p>`;
                         list.appendChild(div);
                     });
                 });
@@ -379,7 +390,7 @@
             if (!text || !user || !db) return;
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'comments'), {
-                    uid: user.uid, name: name, text: text, timestamp: Date.now(), pinned: name?.toUpperCase() === 'CREATOR'
+                    uid: user.uid, name: name, text: filterProfanity(text), timestamp: Date.now(), pinned: name?.toUpperCase() === 'CREATOR'
                 });
                 input.value = ""; nameInput.value = "";
             } catch (e) {}
@@ -535,7 +546,6 @@
             if (toast) { toast.classList.remove('hidden'); setTimeout(() => toast.classList.add('hidden'), 2000); }
         };
 
-        // BUBBLE CLICK EFFECT
         const bCanvas = document.getElementById('bubble-canvas');
         const bCtx = bCanvas.getContext('2d');
         let bubbles = [];
@@ -559,7 +569,6 @@
         handleBubbles();
         window.addEventListener('mousedown', e => { for (let i = 0; i < 8; i++) bubbles.push(new Bubble(e.clientX, e.clientY)); });
 
-        // ARCADE ENGINE
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
         let currentGame = 'dino', gameActive = false, score = 0, loop, frame = 0;
@@ -607,7 +616,7 @@
                 ctx.fillStyle = '#FF0055';
                 obstacles.forEach(o => {
                     o.x -= 8 + (score/500); ctx.fillRect(o.x, 450 - o.h, o.w, o.h);
-                    if(o.x < 105 && o.x > 60 && dino.y + 45 > 450 - o.h) gameOver();
+                    if(o.x < 100 && o.x > 60 && dino.y + 45 > 450 - o.h) gameOver();
                 });
                 obstacles = obstacles.filter(o => o.x > -50); score += 0.1;
             } else {
