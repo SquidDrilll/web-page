@@ -63,7 +63,6 @@
             justify-content: center;
         }
 
-        /* Slanted Interactive Name */
         #interactive-name {
             transform: skewX(-10deg);
             display: inline-block;
@@ -193,17 +192,21 @@
         }
 
         .connect-card {
-            border: 8px solid white;
-            padding: 2rem;
+            border: 6px solid white;
+            padding: 2.5rem;
             background: black;
             color: white;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 15px 15px 0px 0px white;
+            box-shadow: 12px 12px 0px 0px white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 240px;
         }
         .connect-card:hover {
-            transform: translate(-10px, -10px);
-            box-shadow: 30px 30px 0px 0px var(--cyan);
-            border-color: var(--cyan);
+            transform: translate(-6px, -6px);
+            box-shadow: 20px 20px 0px 0px var(--lime);
+            border-color: var(--lime);
         }
 
         #game-canvas {
@@ -212,6 +215,13 @@
             width: 100%;
             height: 450px;
             border: 8px solid white;
+        }
+
+        .comment-pinned {
+            background: black !important;
+            color: white !important;
+            border-color: white !important;
+            box-shadow: 10px 10px 0px 0px white !important;
         }
 
         @media (max-width: 640px) {
@@ -279,17 +289,18 @@
                     <div class="neo-box p-10 border-cyan-400">
                         <span class="mono text-sm text-cyan-400 font-black mb-4 block">01</span>
                         <h3 class="text-4xl font-black uppercase mb-6">PYTHON</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed">System automation, logical foundations, and computational scripts.</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed">I use Python to build efficient logical foundations and automate the heavy lifting of computational tasks.</p>
                     </div>
                     <div class="neo-box p-10 border-pink-500">
                         <span class="mono text-sm text-pink-500 font-black mb-4 block">02</span>
                         <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed">Structural data management and high efficiency relational query optimization.</p>
+                        <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed">I architect relational data structures to ensure every piece of information stays organized and accessible.</p>
                     </div>
                     <div class="neo-box p-10 border-lime">
                         <span class="mono text-sm text-lime font-black mb-4 block">03</span>
                         <h3 class="text-4xl font-black uppercase mb-6">NETS</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed">Network protocol analysis, secure communication logic, and infrastructure.</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed">I analyze network protocols and secure communication layers to better understand how our digital world stays linked.</p>
                     </div>
                 </div>
             </section>
@@ -302,7 +313,7 @@
                     <div class="h-2 flex-grow bg-white"></div>
                 </div>
                 <div class="neo-box p-10">
-                    <div id="comments-list" class="max-h-[500px] overflow-y-auto mb-10 space-y-6 pr-4">
+                    <div id="comments-list" class="max-h-[480px] overflow-y-auto mb-10 space-y-6 pr-4 scrollbar-hide">
                         <p class="mono text-xs opacity-50 uppercase">Syncing with global node...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -318,7 +329,7 @@
                     <div class="max-w-md space-y-10">
                         <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL.FUN</h4>
                         <p class="text-sm font-bold opacity-60 leading-relaxed uppercase">
-                            A HIGH LOGIC DIGITAL ARCHIVE SHOWCASING ARCHITECTURAL SOFTWARE PROGRESS AND ACADEMIC EXPERIMENTATION.
+                            A personal digital monolith recording my progress through architectural software and logical experimentation.
                         </p>
                     </div>
                     <div class="space-y-10">
@@ -363,16 +374,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Mobile Controls -->
-                    <div class="mt-10 flex justify-between items-center md:hidden">
-                        <div class="grid grid-cols-3 gap-3">
-                            <div></div><button onmousedown="handleControl('up')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-up"></i></button><div></div>
-                            <button onmousedown="handleControl('left')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-left"></i></button>
-                            <button onmousedown="handleControl('down')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-down"></i></button>
-                            <button onmousedown="handleControl('right')" class="w-16 h-16 bg-white text-black border-4 border-black shadow-[5px_5px_0px_var(--cyan)] active:translate-y-1"><i class="fa-solid fa-arrow-right"></i></button>
-                        </div>
-                        <button onmousedown="handleControl('action')" class="w-32 h-32 bg-lime rounded-full border-8 border-black font-black uppercase shadow-[8px_8px_0px_white]">JUMP</button>
-                    </div>
                 </div>
 
                 <div class="lg:col-span-1 space-y-8">
@@ -400,12 +401,12 @@
             </h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-5xl mb-6"></i><h3 class="text-2xl font-black">GITHUB</h3><p class="mono text-[10px] opacity-50 mt-4">SOURCE NODE ↗</p></a>
-                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card border-blue-600"><i class="fa-brands fa-linkedin text-5xl mb-6 text-blue-600"></i><h3 class="text-2xl font-black">LINKEDIN</h3><p class="mono text-[10px] opacity-50 mt-4">PROFESSIONAL GRID ↗</p></a>
-                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-5xl mb-6"></i><h3 class="text-2xl font-black">X TWITTER</h3><p class="mono text-[10px] opacity-50 mt-4">STATUS BROADCAST ↗</p></a>
-                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card border-pink-600"><i class="fa-brands fa-instagram text-5xl mb-6 text-pink-600"></i><h3 class="text-2xl font-black">INSTAGRAM</h3><p class="mono text-[10px] opacity-50 mt-4">VISUAL FEED ↗</p></a>
-                <button onclick="copyText('squiddrill', this)" class="connect-card text-left border-indigo-500"><i class="fa-brands fa-discord text-5xl mb-6 text-indigo-500"></i><h3 class="text-2xl font-black">DISCORD</h3><p class="mono text-[10px] opacity-50 mt-4">COPY USER ID 📋</p></button>
-                <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card bg-lime text-black border-black"><i class="fa-solid fa-envelope text-5xl mb-6"></i><h3 class="text-2xl font-black">DIRECT MAIL</h3><p class="mono text-[10px] opacity-50 mt-4">SEND MESSAGE ✉️</p></a>
+                <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">GITHUB</h3><p class="mono text-xs opacity-50 mt-4">SOURCE NODE ↗</p></a>
+                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-6xl mb-6 text-blue-600"></i><h3 class="text-3xl font-black uppercase">LINKEDIN</h3><p class="mono text-xs opacity-50 mt-4">PROFESSIONAL GRID ↗</p></a>
+                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">X TWITTER</h3><p class="mono text-xs opacity-50 mt-4">STATUS BROADCAST ↗</p></a>
+                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-6xl mb-6 text-pink-600"></i><h3 class="text-3xl font-black uppercase">INSTAGRAM</h3><p class="mono text-xs opacity-50 mt-4">VISUAL FEED ↗</p></a>
+                <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-6xl mb-6 text-indigo-500"></i><h3 class="text-3xl font-black uppercase">DISCORD</h3><p class="mono text-xs opacity-50 mt-4">COPY USER ID 📋</p></button>
+                <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card"><i class="fa-solid fa-envelope text-6xl mb-6 text-lime"></i><h3 class="text-3xl font-black uppercase">DIRECT MAIL</h3><p class="mono text-xs opacity-50 mt-4">SEND MESSAGE ✉️</p></a>
             </div>
 
             <div class="text-center">
@@ -415,15 +416,15 @@
     </div>
 
     <div id="toast" class="fixed bottom-12 left-1/2 -translate-x-1/2 hidden z-[5000]">
-        <div class="bg-white text-black border-8 border-black px-12 py-6 font-black uppercase text-2xl shadow-[12px_12px_0px_var(--lime)]">
+        <div class="bg-white text-black border-8 border-black px-12 py-6 font-black uppercase text-2xl shadow-[15px_15px_0px_var(--lime)]">
             Copied ✅
         </div>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-ljBHE316s_9ssHeBjyQ2zF6lpNo93VY",
@@ -431,7 +432,8 @@
             projectId: "website-ddb0c",
             storageBucket: "website-ddb0c.firebasestorage.app",
             messagingSenderId: "143641913342",
-            appId: "1:143641913342:web:ef0f6494e3676d6396c2af"
+            appId: "1:143641913342:web:ef0f6494e3676d6396c2af",
+            measurementId: "G-Q78HWFPEKP"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -439,7 +441,6 @@
         const db = getFirestore(app);
         const appId = "web-page"; 
         let user = null;
-        let cachedLeaderboard = [];
 
         const init = async () => {
             if (!auth || !db) return;
@@ -474,29 +475,35 @@
                     if (!list) return;
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => d.data());
-                    docs.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+                    docs.sort((a,b) => {
+                        const pinA = a.pinned === true ? 1 : 0;
+                        const pinB = b.pinned === true ? 1 : 0;
+                        if (pinA !== pinB) return pinB - pinA;
+                        return (b.timestamp || 0) - (a.timestamp || 0);
+                    });
                     if (docs.length === 0) {
-                        list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">No messages yet.</p>`;
-                    } else {
-                        docs.forEach(c => {
-                            const div = document.createElement('div');
-                            div.className = "neo-box p-8 bg-black border-white";
-                            div.innerHTML = `
-                                <div class="flex justify-between items-center mb-4">
-                                    <span class="mono text-xs text-lime font-black uppercase">${c.name || 'ANON NODE'}</span>
-                                    <span class="mono text-[10px] opacity-30">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...'}</span>
-                                </div>
-                                <p class="text-lg font-black uppercase tracking-tight">${c.text || ''}</p>
-                            `;
-                            list.appendChild(div);
-                        });
+                        list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">No messages yet. Be the first.</p>`;
+                        return;
                     }
+                    docs.forEach(c => {
+                        const div = document.createElement('div');
+                        div.className = "neo-box p-8 bg-black border-white" + (c.pinned ? " comment-pinned" : "");
+                        const displayName = c.name ? c.name : `USER ${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`;
+                        const pinBadge = c.pinned ? `<span class="ml-4 bg-white text-black px-2 text-[10px] font-black uppercase italic tracking-widest">CREATOR</span>` : '';
+                        div.innerHTML = `
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span>
+                                <span class="mono text-[8px] opacity-40">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...'}</span>
+                            </div>
+                            <p class="text-sm md:text-base font-bold uppercase tracking-tight">${c.text || ''}</p>
+                        `;
+                        list.appendChild(div);
+                    });
                 });
 
                 const leaderboardCol = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
                 onSnapshot(leaderboardCol, (snapshot) => {
-                    cachedLeaderboard = snapshot.docs.map(d => d.data());
-                    updateLeaderboardUI(cachedLeaderboard);
+                    updateLeaderboardUI(snapshot.docs.map(d => d.data()));
                 });
             });
         };
@@ -509,7 +516,7 @@
             if (!text || !user || !db) return;
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'comments'), {
-                    uid: user.uid, name: name, text: text, timestamp: Date.now()
+                    uid: user.uid, name: name, text: text, timestamp: Date.now(), pinned: false
                 });
                 input.value = ""; nameInput.value = "";
             } catch (e) {}
@@ -518,13 +525,17 @@
         const updateLeaderboardUI = (data) => {
             const list = document.getElementById('leaderboard-list');
             if (!list) return;
-            const filtered = data.filter(d => d.game === currentGame).sort((a,b) => b.score - a.score).slice(0, 5);
-            list.innerHTML = filtered.length ? "" : "<p class='opacity-50'>EMPTY SECTOR</p>";
-            filtered.forEach((entry, idx) => {
-                list.innerHTML += `<div class="flex justify-between border-b-2 border-white/10 pb-2">
-                    <span>${idx + 1}. ${entry.name || 'GUEST'}</span>
-                    <span class="text-pink-600 font-black">${entry.score}</span>
-                </div>`;
+            const filtered = data.filter(d => d.game === currentGame);
+            filtered.sort((a,b) => b.score - a.score);
+            const top5 = filtered.slice(0, 5);
+            list.innerHTML = top5.length ? "" : "<p class='opacity-50'>No global records yet.</p>";
+            top5.forEach((entry, idx) => {
+                list.innerHTML += `
+                    <div class="flex justify-between border-b-2 border-black/10 pb-1">
+                        <span>${idx + 1}. ${entry.name || 'GUEST'}</span>
+                        <span class="text-pink-600 font-black">${entry.score}</span>
+                    </div>
+                `;
             });
         };
 
@@ -549,10 +560,58 @@
             { t: `The unexamined life is not worth living.`, a: `Socrates` },
             { t: `I think, therefore I am.`, a: `René Descartes` },
             { t: `He who has a why to live for can bear almost any how.`, a: `Friedrich Nietzsche` },
+            { t: `We are what we repeatedly do. Excellence, then, is not an act, but a habit.`, a: `Aristotle` },
+            { t: `The only constant is change.`, a: `Heraclitus` },
+            { t: `Knowing yourself is the beginning of all wisdom.`, a: `Aristotle` },
+            { t: `What we think, we become.`, a: `Buddha` },
+            { t: `Man is condemned to be free.`, a: `Jean-Paul Sartre` },
+            { t: `The happiness of your life depends upon the quality of your thoughts.`, a: `Marcus Aurelius` },
+            { t: `We suffer more often in imagination than in reality.`, a: `Seneca` },
+            { t: `Waste no more time arguing about what a good man should be. Be one.`, a: `Marcus Aurelius` },
+            { t: `The mind is its own place, and in itself can make a heaven of hell.`, a: `John Milton` },
+            { t: `Life can only be understood backwards; but it must be lived forwards.`, a: `Søren Kierkegaard` },
+            { t: `Everything has beauty, but not everyone sees it.`, a: `Confucius` },
+            { t: `Doubt is the origin of wisdom.`, a: `René Descartes` },
+            { t: `Whereof one cannot speak, thereof one must be silent.`, a: `Ludwig Wittgenstein` },
+            { t: `To be is to be perceived.`, a: `George Berkeley` },
+            { t: `Character is destiny.`, a: `Heraclitus` },
+            { t: `Out of the crooked timber of humanity, no straight thing was ever made.`, a: `Immanuel Kant` },
             { t: `Intelligence is the ability to adapt to change.`, a: `Stephen Hawking` },
-            { t: `The best way to predict the future is to invent it.`, a: `Alan Kay` },
+            { t: `The present is theirs; the future, for which I really worked, is mine.`, a: `Nikola Tesla` },
+            { t: `The Analytical Engine weaves algebraic patterns like the Jacquard loom.`, a: `Ada Lovelace` },
+            { t: `If I have seen further it is by standing on the shoulders of Giants.`, a: `Isaac Newton` },
+            { t: `Science is a way of thinking much more than it is a body of knowledge.`, a: `Carl Sagan` },
+            { t: `Nature uses only the longest threads to weave her patterns.`, a: `Richard Feynman` },
+            { t: `Any sufficiently advanced technology is indistinguishable from magic.`, a: `Arthur C. Clarke` },
+            { t: `Information is the resolution of uncertainty.`, a: `Claude Shannon` },
+            { t: `Everything is a file.`, a: `Unix Philosophy` },
+            { t: `Simplicity is prerequisite for reliability.`, a: `Edsger W. Dijkstra` },
+            { t: `The details are not the details. They make the design.`, a: `Charles Eames` },
             { t: `Simplicity is the ultimate sophistication.`, a: `Leonardo da Vinci` },
-            { t: `Truth is found in simplicity, not in confusion.`, a: `Isaac Newton` }
+            { t: `Less is more.`, a: `Mies van der Rohe` },
+            { t: `Form follows function.`, a: `Louis Sullivan` },
+            { t: `A house is a machine for living in.`, a: `Le Corbusier` },
+            { t: `Creativity is intelligence having fun.`, a: `Albert Einstein` },
+            { t: `Every child is an artist. The problem is how to remain an artist.`, a: `Pablo Picasso` },
+            { t: `Learn the rules like a pro, so you can break them like an artist.`, a: `Pablo Picasso` },
+            { t: `The best way to predict the future is to invent it.`, a: `Alan Kay` },
+            { t: `The city is a machine for living in.`, a: `Le Corbusier` },
+            { t: `Architecture is the reaching out for liberty.`, a: `Louis Kahn` },
+            { t: `Truth is found in simplicity, not in multiplicity and confusion.`, a: `Isaac Newton` },
+            { t: `It always seems impossible until it's done.`, a: `Nelson Mandela` },
+            { t: `In the middle of difficulty lies opportunity.`, a: `Albert Einstein` },
+            { t: `Whether you think you can or you think you can't, you're right.`, a: `Henry Ford` },
+            { t: `The secret of getting ahead is getting started.`, a: `Mark Twain` },
+            { t: `Action is the foundational key to all success.`, a: `Pablo Picasso` },
+            { t: `The future belongs to those who believe in the beauty of their dreams.`, a: `Eleanor Roosevelt` },
+            { t: `Success is walking from failure to failure with no loss of enthusiasm.`, a: `Winston Churchill` },
+            { t: `Vision is the art of seeing what is invisible to others.`, a: `Jonathan Swift` },
+            { t: `Great things are done by a series of small things brought together.`, a: `Vincent van Gogh` },
+            { t: `Do what you can, with what you have, where you are.`, a: `Theodore Roosevelt` },
+            { t: `Don't find fault, find a remedy.`, a: `Henry Ford` },
+            { t: `The only limit to our realization of tomorrow will be our doubts of today.`, a: `F. D. Roosevelt` },
+            { t: `One cannot step twice into the same river.`, a: `Heraclitus` },
+            { t: `System Offline. Rebuilding Reality.`, a: `SquidDrill` }
         ];
 
         const nameEl = document.getElementById('interactive-name');
@@ -581,11 +640,9 @@
         document.addEventListener('mouseover', e => {
             if (!cursor) return;
             if (e.target.closest('a, button, .char, input')) {
-                cursor.style.transform = 'scale(3) rotate(45deg)';
-                cursor.style.background = 'var(--lime)';
+                cursor.style.transform = 'scale(2.5)';
             } else {
                 cursor.style.transform = 'scale(1)';
-                cursor.style.background = '#fff';
             }
         });
 
@@ -624,7 +681,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        window.copyText = (text) => {
+        window.copyText = (text, btn) => {
             const el = document.createElement('textarea');
             el.value = text; document.body.appendChild(el);
             el.select(); document.execCommand('copy'); document.body.removeChild(el);
@@ -636,11 +693,17 @@
         };
 
         const canvas = document.getElementById('game-canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas instanceof HTMLCanvasElement ? canvas.getContext('2d') : null;
         let currentGame = 'dino';
         let gameActive = false;
         let score = 0, loop, frame = 0;
         let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 10, y: 10}], food = {x: 5, y: 5}, dir = {x: 1, y: 0};
+
+        window.startGame = () => {
+            const overlay = document.getElementById('game-overlay');
+            if (overlay) overlay.style.display = 'none';
+            gameActive = true; score = 0; resetGameState(); runLoop();
+        };
 
         window.switchGame = (type) => {
             currentGame = type;
@@ -651,17 +714,13 @@
             if (bd) bd.className = base + (type === 'dino' ? "bg-lime text-black shadow-[8px_8px_0px_white]" : "bg-transparent text-white hover:bg-lime hover:text-black");
             if (bs) bs.className = base + (type === 'snake' ? "bg-cyan text-black shadow-[8px_8px_0px_white]" : "bg-transparent text-white hover:bg-cyan hover:text-black");
             
-            updateLeaderboardUI(cachedLeaderboard);
             gameActive = false; document.getElementById('game-overlay').style.display = 'flex';
         };
 
-        window.startGame = () => {
-            document.getElementById('game-overlay').style.display = 'none';
-            gameActive = true; score = 0; resetGameState(); runLoop();
-        };
-
         const initGame = () => {
-            canvas.width = canvas.parentElement.clientWidth; canvas.height = 450;
+            if (canvas && canvas.parentElement) {
+                canvas.width = canvas.parentElement.clientWidth; canvas.height = 450;
+            }
         };
 
         const stopGame = () => { gameActive = false; cancelAnimationFrame(loop); };
@@ -671,32 +730,33 @@
         };
 
         const runLoop = () => {
-            if(!gameActive) return;
+            if(!gameActive || !ctx || !canvas) return;
             ctx.fillStyle = '#000'; ctx.fillRect(0,0,canvas.width, canvas.height);
             if(currentGame === 'dino') {
-                dino.v += 1.3; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
-                if(frame % 70 === 0) obstacles.push({x: canvas.width, w: 40, h: 50 + Math.random()*50});
-                ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 45, 45); 
-                ctx.fillStyle = '#fff';
-                obstacles.forEach(o => {
-                    o.x -= 10 + (score/300); ctx.fillRect(o.x, 450 - o.h, o.w, o.h);
-                    if(o.x < 105 && o.x > 60 && dino.y + 45 > 450 - o.h) gameOver();
+                dino.v += 1.2; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
+                if(frame % 70 === 0) obstacles.push({x: canvas.width, w: 30, h: 50 + Math.random()*50});
+                ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 40, 40); 
+                ctx.fillStyle = '#ffffff';
+                obstacles.forEach((ob) => {
+                    ob.x -= 8 + (score/500); ctx.fillRect(ob.x, 450 - ob.h, ob.w, ob.h);
+                    if(ob.x < 100 && ob.x > 60 && dino.y + 40 > 450 - ob.h) gameOver();
                 });
-                obstacles = obstacles.filter(o => o.x > -50); score += 0.5;
+                obstacles = obstacles.filter(o => o.x > -50); score++;
             } else {
                 if(frame % 6 === 0) {
                     const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-                    const gridW = Math.floor(canvas.width / 30), gridH = 15;
+                    const gridW = Math.floor(canvas.width / 25), gridH = 18;
                     if(head.x < 0 || head.x >= gridW || head.y < 0 || head.y >= gridH || snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
                     snake.unshift(head);
                     if(head.x === food.x && head.y === food.y) {
                         score += 100; food = {x: Math.floor(Math.random()*gridW), y: Math.floor(Math.random()*gridH)};
                     } else { snake.pop(); }
                 }
-                ctx.fillStyle = '#00F0FF'; snake.forEach(s => ctx.fillRect(s.x*30, s.y*30, 28, 28));
-                ctx.fillStyle = '#FF0055'; ctx.fillRect(food.x*30, food.y*30, 28, 28);
+                ctx.fillStyle = '#00F0FF'; snake.forEach(s => ctx.fillRect(s.x*25, s.y*25, 23, 23));
+                ctx.fillStyle = '#FF0055'; ctx.fillRect(food.x*25, food.y*25, 23, 23);
             }
-            document.getElementById('current-score').innerText = Math.floor(score).toString().padStart(3, '0');
+            const cs = document.getElementById('current-score');
+            if (cs) cs.innerText = Math.floor(score).toString().padStart(3, '0');
             frame++; loop = requestAnimationFrame(runLoop);
         };
 
@@ -707,7 +767,7 @@
         };
 
         window.handleControl = (type) => {
-            if (currentGame === 'dino' && (type === 'action' || type === 'up') && dino.y === 390) dino.v = -25;
+            if (currentGame === 'dino' && (type === 'action' || type === 'up') && dino.y === 390) dino.v = -22;
             if (currentGame === 'snake') {
                 if(type === 'up' && dir.y !== 1) dir = {x:0, y:-1};
                 if(type === 'down' && dir.y !== -1) dir = {x:0, y:1};
@@ -717,13 +777,14 @@
         };
 
         window.addEventListener('keydown', e => {
-            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
-            if(e.code === 'Space' || e.code === 'ArrowUp') handleControl('up');
-            if(e.code === 'ArrowDown') handleControl('down');
-            if(e.code === 'ArrowLeft') handleControl('left');
-            if(e.code === 'ArrowRight') handleControl('right');
+            if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code) && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                if(e.code === 'Space' || e.code === 'ArrowUp') handleControl('up');
+                if(e.code === 'ArrowDown') handleControl('down');
+                if(e.code === 'ArrowLeft') handleControl('left');
+                if(e.code === 'ArrowRight') handleControl('right');
+            }
         });
     </script>
 </body>
 </html>
- 
