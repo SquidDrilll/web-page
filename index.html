@@ -6,7 +6,9 @@
     <meta name="theme-color" content="#0a0a0a">
     <meta name="color-scheme" content="dark">
     
-    <title>suggest title💀</title>
+    <!-- Primary Meta Tags -->
+    <title>SQUIDDRILL | BHAVYA KAPATEL 💀</title>
+    <meta name="title" content="SQUIDDRILL | BHAVYA KAPATEL 💀">
     <meta name="description" content="Digital monolith and logic repository of Bhavya Kapatel. Exploring software architecture, automation, and interactive design.">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
     <link rel="canonical" href="https://squiddrill.fun" />
@@ -131,13 +133,25 @@
         }
         .back-btn:hover { transform: scale(1.02) skewX(-2deg); background: var(--cyan); box-shadow: 12px 12px 0px black; }
 
-        /* Comment Pining Styles */
+        /* --- COMMENT PINNING ENGINE --- */
         .comment-pinned {
             border-color: var(--lime) !important;
             box-shadow: 10px 10px 0px 0px var(--lime) !important;
-            background: rgba(195, 255, 0, 0.05) !important;
-            position: sticky; top: 0; z-index: 10;
+            background: rgba(10, 10, 10, 0.98) !important;
+            position: sticky; top: 0; z-index: 50;
         }
+
+        .comments-scroll-area {
+            max-height: 550px; /* Calibrated for ~7 comments */
+            overflow-y: auto;
+            position: relative;
+            padding-right: 5px;
+        }
+        .comments-scroll-area::-webkit-scrollbar { width: 6px; }
+        .comments-scroll-area::-webkit-scrollbar-thumb { background: var(--white); }
+
+        .input-error { animation: shake 0.4s ease-in-out; border-color: var(--pink) !important; box-shadow: 0 0 15px var(--pink) !important; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
 
         body.view-open { overflow: hidden; }
 
@@ -165,7 +179,7 @@
         </div>
     </div>
 
-    <!-- Arcade Modal with Device Selector Restored -->
+    <!-- Arcade Modal with Device Selector -->
     <div id="game-modal" class="modal-overlay">
         <div class="grey-dialog">
             <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">Sector Entry</h2>
@@ -198,7 +212,7 @@
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
-                All-Time-Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
+                Node Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
             </span>
         </div>
         <div class="flex gap-2 sm:gap-3">
@@ -215,7 +229,7 @@
                 <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">Status Live ⚡</div>
                 <div class="block mb-20">
                     <h1 id="interactive-name" class="text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1>
-                    <div class="mono text-[10px] md:text-xs opacity-40 mt-4 uppercase tracking-[0.3em]">aka squiddrill, sentinel</div>
+                    <div class="mono text-[10px] md:text-xs opacity-40 mt-4 uppercase tracking-[0.3em] font-black">aka squiddrill, sentinel</div>
                 </div>
                 <div class="neo-box p-10 md:p-16 max-w-4xl bg-white text-black relative">
                     <div class="flex gap-4 mb-8"><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div></div>
@@ -226,7 +240,6 @@
                 </div>
             </section>
 
-            <!-- Reverted Logic Stack -->
             <section class="reveal">
                 <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Logic Stack 💻</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -251,8 +264,8 @@
             <section class="reveal">
                 <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Feed 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="neo-box p-6 md:p-10 relative">
-                    <div id="comments-list" class="comments-scroll-area space-y-6 pr-4 mb-10 overflow-y-auto max-h-[500px]">
-                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Data...</p>
+                    <div id="comments-list" class="comments-scroll-area space-y-6 mb-10">
+                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Node Data...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <input id="comment-name" type="text" placeholder="GUEST NAME" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
@@ -360,7 +373,6 @@
         let currentActiveSessionName = "";
         let selectedInputMode = 'desktop';
 
-        // --- EXPANDED PROFANITY FILTER ---
         const blacklist = ["fuck", "shit", "bitch", "ass", "nigger", "cunt", "pussy", "dick", "faggot", "whore", "slut", "bastard", "cock", "tit", "rape", "porn", "hitler", "nazi", "gay", "lesbian", "hoe", "cum", "bollocks", "motherfucker", "nigga", "retard", "fag", "dyke", "kike", "spic", "chink"];
         
         const filterProfanity = (text) => {
@@ -401,23 +413,23 @@
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => ({...d.data(), id: d.id}));
                     
-                    // Pin Logic: Absolute sort for Creator's unique ID
+                    // Pin Logic: Absolute sort for Creator's unique ID or flagged pinned=true
                     docs.sort((a, b) => {
-                        const isCreatorA = a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
-                        const isCreatorB = b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
-                        if (isCreatorA && !isCreatorB) return -1;
-                        if (!isCreatorA && isCreatorB) return 1;
+                        const isPinnedA = a.pinned === true || a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || a.name === 'Creator';
+                        const isPinnedB = b.pinned === true || b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || b.name === 'Creator';
+                        if (isPinnedA && !isPinnedB) return -1;
+                        if (!isPinnedA && isPinnedB) return 1;
                         return (b.timestamp || 0) - (a.timestamp || 0);
                     });
 
                     docs.forEach(c => {
                         const div = document.createElement('div');
-                        const isOwner = c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
+                        const isOwner = c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name === 'Creator' || c.pinned === true;
                         div.className = "neo-box p-6 bg-black border-white " + (isOwner ? "comment-pinned" : "");
-                        const name = filterProfanity(c.name || "ANON");
+                        const displayName = filterProfanity(c.name || "ANON");
                         const msg = filterProfanity(c.text || "");
-                        const badge = isOwner ? '<span class="ml-2 bg-lime text-black px-2 text-[8px] font-black uppercase">CREATOR</span>' : '';
-                        div.innerHTML = `<div class="flex justify-between mb-2"><span class="mono text-[10px] text-lime font-black">${name.toUpperCase()}${badge}</span></div><p class="text-sm font-bold uppercase tracking-tight">${msg}</p>`;
+                        const badge = (c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name === 'Creator') ? '<span class="ml-2 bg-lime text-black px-2 text-[8px] font-black uppercase tracking-widest">CREATOR</span>' : '';
+                        div.innerHTML = `<div class="flex justify-between mb-2"><span class="mono text-[10px] text-lime font-black uppercase tracking-tight">${displayName.toUpperCase()}${badge}</span></div><p class="text-sm font-bold uppercase tracking-tight">${msg}</p>`;
                         list.appendChild(div);
                     });
                 });
@@ -500,11 +512,66 @@
         window.addEventListener('load', init);
 
         const quotes = [
-            { t: `Imagination is more important than knowledge.`, a: `Albert Einstein` },
-            { t: `Logic will get you from A to B. Imagination everywhere.`, a: `Albert Einstein` },
-            { t: `Code is poetry.`, a: `Automattic` },
-            { t: `The best way to predict the future is to invent it.`, a: `Alan Kay` },
-            { t: `Stay hungry, stay foolish.`, a: `Steve Jobs` }
+            { t: "Imagination is more important than knowledge.", a: "Albert Einstein" },
+            { t: "The only way to do great work is to love what you do.", a: "Steve Jobs" },
+            { t: "Innovation distinguishes between a leader and a follower.", a: "Steve Jobs" },
+            { t: "Logic will get you from A to B. Imagination will take you everywhere.", a: "Albert Einstein" },
+            { t: "Whether you think you can or you think you can't, you're right.", a: "Henry Ford" },
+            { t: "Your most unhappy customers are your greatest source of learning.", a: "Bill Gates" },
+            { t: "When something is important enough, you do it even if the odds are not in your favor.", a: "Elon Musk" },
+            { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" },
+            { t: "That brain of mine is something more than merely mortal; as time will show.", a: "Ada Lovelace" },
+            { t: "We can only see a short distance ahead, but we can see plenty there that needs to be done.", a: "Alan Turing" },
+            { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" },
+            { t: "Energy and persistence conquer all things.", a: "Benjamin Franklin" },
+            { t: "The happiness of your life depends upon the quality of your thoughts.", a: "Marcus Aurelius" },
+            { t: "Luck is what happens when preparation meets opportunity.", a: "Seneca" },
+            { t: "It's not what happens to you, but how you react to it that matters.", a: "Epictetus" },
+            { t: "He who has a why to live can bear almost any how.", a: "Friedrich Nietzsche" },
+            { t: "The unexamined life is not worth living.", a: "Socrates" },
+            { t: "Quality is not an act, it is a habit.", a: "Aristotle" },
+            { t: "Wise men speak because they have something to say; Fools because they have to say something.", a: "Plato" },
+            { t: "In the middle of difficulty lies opportunity.", a: "Albert Einstein" },
+            { t: "Appear weak when you are strong, and strong when you are weak.", a: "Sun Tzu" },
+            { t: "Knowing others is intelligence; knowing yourself is true wisdom.", a: "Lao Tzu" },
+            { t: "Success is not final, failure is not fatal: it is the courage to continue that counts.", a: "Winston Churchill" },
+            { t: "Everything you've ever wanted is on the other side of fear.", a: "George Addair" },
+            { t: "The best way to predict the future is to invent it.", a: "Alan Kay" },
+            { t: "It does not matter how slowly you go as long as you do not stop.", a: "Confucius" },
+            { t: "Life is what happens when you're making other plans.", a: "John Lennon" },
+            { t: "The secret of getting ahead is getting started.", a: "Mark Twain" },
+            { t: "I have not failed. I've just found 10,000 ways that won't work.", a: "Thomas Edison" },
+            { t: "Code is like humor. When you have to explain it, it’s bad.", a: "Cory House" },
+            { t: "Stay hungry, stay foolish.", a: "Steve Jobs" },
+            { t: "First, solve the problem. Then, write the code.", a: "John Johnson" },
+            { t: "Experience is the name everyone gives to their mistakes.", a: "Oscar Wilde" },
+            { t: "The machine does not isolate man from the great problems of nature but plunges him more deeply into them.", a: "Antoine de Saint-Exupéry" },
+            { t: "Man is a tool-using animal. Without tools he is nothing, with tools he is all.", a: "Thomas Carlyle" },
+            { t: "The advance of technology is based on making it fit in so that you don't even notice it.", a: "Bill Gates" },
+            { t: "Technology is a useful servant but a dangerous master.", a: "Christian Lous Lange" },
+            { t: "Any sufficiently advanced technology is indistinguishable from magic.", a: "Arthur C. Clarke" },
+            { t: "The great myth of our times is that technology is communication.", a: "Libby Larsen" },
+            { t: "It has become appallingly obvious that our technology has exceeded our humanity.", a: "Albert Einstein" },
+            { t: "The science of today is the technology of tomorrow.", a: "Edward Teller" },
+            { t: "The real problem is not whether machines think but whether men do.", a: "B.F. Skinner" },
+            { t: "The human spirit must prevail over technology.", a: "Albert Einstein" },
+            { t: "Modern technology has made the world a small neighborhood.", a: "Unknown" },
+            { t: "Technology is best when it brings people together.", a: "Matt Mullenweg" },
+            { t: "The internet is the first thing that humanity has built that humanity doesn't understand.", a: "Eric Schmidt" },
+            { t: "Privacy is not an option, and it shouldn't be the price we pay for just getting on the Internet.", a: "Gary Kovacs" },
+            { t: "Data is the new oil.", a: "Clive Humby" },
+            { t: "In God we trust, all others must bring data.", a: "W. Edwards Deming" },
+            { t: "Computers are incredibly fast, accurate, and stupid.", a: "Leo Cherne" },
+            { t: "Hardware is where the people in your company who don't write software work.", a: "Unknown" },
+            { t: "If you think technology can solve your security problems, then you don't understand the problems.", a: "Bruce Schneier" },
+            { t: "The computer was born to solve problems that did not exist before.", a: "Bill Gates" },
+            { t: "One man's constant is another man's variable.", a: "Alan Perlis" },
+            { t: "Talk is cheap. Show me the code.", a: "Linus Torvalds" },
+            { t: "Programs must be written for people to read, and only incidentally for machines to execute.", a: "Harold Abelson" },
+            { t: "Deleted code is debugged code.", a: "Jeff Sickel" },
+            { t: "Good design adds value faster than it adds cost.", a: "Thomas C. Gale" },
+            { t: "Software is a great combination between artistry and engineering.", a: "Bill Gates" },
+            { t: "There are two ways to write error-free programs; only the third one works.", a: "Alan Perlis" }
         ];
 
         const nameEl = document.getElementById('interactive-name');
@@ -589,17 +656,26 @@
         const ctx = canvas.getContext('2d');
         let currentGame = 'dino', gameActive = false, score = 0, loop, frame = 0;
         let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 5, y: 5}], food = {x: 10, y: 10}, dir = {x: 1, y: 0};
+        let isMobileDevice = false;
 
-        // Swipe Controls Logic
-        let touchStartX = 0, touchStartY = 0;
+        // Swipe & Tap Controls Logic
+        let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
         canvas.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
         }, { passive: false });
 
         canvas.addEventListener('touchend', (e) => {
             if (selectedInputMode !== 'touch') return;
             const dx = e.changedTouches[0].clientX - touchStartX;
             const dy = e.changedTouches[0].clientY - touchStartY;
+            const dt = Date.now() - touchStartTime;
+
+            if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 200) {
+                if (currentGame === 'dino') handleControl('up');
+                return;
+            }
+
             if (Math.abs(dx) > Math.abs(dy)) {
                 if (Math.abs(dx) > 30) handleControl(dx > 0 ? 'right' : 'left');
             } else {
@@ -616,25 +692,33 @@
         };
 
         window.startGame = () => { document.getElementById('game-overlay').style.display = 'none'; gameActive = true; score = 0; resetGameState(); runLoop(); };
-        const initGame = () => { canvas.width = canvas.parentElement.clientWidth; canvas.height = 450; };
+        const initGame = () => { 
+            canvas.width = canvas.parentElement.clientWidth; 
+            canvas.height = 450; 
+            isMobileDevice = window.innerWidth < 768;
+        };
         const stopGame = () => { gameActive = false; cancelAnimationFrame(loop); };
         const resetGameState = () => { dino = { y: 390, v: 0 }; obstacles = []; snake = [{x:5, y:5}]; dir = {x: 1, y: 0}; frame = 0; food = {x: 10, y: 10}; };
 
         const runLoop = () => {
             if(!gameActive) return;
             ctx.fillStyle = '#000000'; ctx.fillRect(0,0,canvas.width, canvas.height);
+            
+            const baseDinoSpeed = isMobileDevice ? 5 : 7;
+            const snakeRate = isMobileDevice ? 10 : 7;
+
             if(currentGame === 'dino') {
                 dino.v += 1.2; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
                 if(frame % 80 === 0) obstacles.push({x: canvas.width, w: 40, h: 50 + Math.random()*60});
                 ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 45, 45); 
                 ctx.fillStyle = '#FF0055';
                 obstacles.forEach(o => {
-                    o.x -= 7 + (score/200); ctx.fillRect(o.x, 450 - o.h, o.w, o.h);
+                    o.x -= baseDinoSpeed + (score/200); ctx.fillRect(o.x, 450 - o.h, o.w, o.h);
                     if(o.x < 105 && o.x > 15 && dino.y + 45 > 450 - o.h) gameOver();
                 });
                 obstacles = obstacles.filter(o => o.x > -50); score += 0.15;
             } else {
-                if(frame % 7 === 0) {
+                if(frame % snakeRate === 0) {
                     const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
                     const gridW = Math.floor(canvas.width / 25), gridH = 18;
                     if(head.x < 0 || head.x >= gridW || head.y < 0 || head.y >= gridH || snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
