@@ -6,26 +6,10 @@
     <meta name="theme-color" content="#0a0a0a">
     <meta name="color-scheme" content="dark">
     
-    <!-- Primary Meta Tags -->
-    <title>SQUIDDRILL | BHAVYA KAPATEL</title>
-    <meta name="title" content="SQUIDDRILL | BHAVYA KAPATEL">
+    <title>suggest title💀</title>
     <meta name="description" content="Digital monolith and logic repository of Bhavya Kapatel. Exploring software architecture, automation, and interactive design.">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
     <link rel="canonical" href="https://squiddrill.fun" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://squiddrill.fun/">
-    <meta property="og:title" content="SQUIDDRILL | BHAVYA KAPATEL">
-    <meta property="og:description" content="Digital monolith and logic repository. Python, SQL, and Interactive Logic.">
-    <meta property="og:image" content="favicon.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://squiddrill.fun/">
-    <meta property="twitter:title" content="SQUIDDRILL | BHAVYA KAPATEL">
-    <meta property="twitter:description" content="Digital monolith and logic repository. Python, SQL, and Interactive Logic.">
-    <meta property="twitter:image" content="favicon.jpg">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -57,10 +41,7 @@
             touch-action: manipulation;
         }
 
-        /* Hide system cursor only on desktop/mouse devices */
-        @media (pointer: fine) {
-            body { cursor: none; }
-        }
+        @media (pointer: fine) { body { cursor: none; } }
 
         body::before {
             content: "";
@@ -95,7 +76,7 @@
         }
         .neo-box:hover { transform: translate(-4px, -4px); box-shadow: 18px 18px 0px 0px var(--lime); border-color: var(--lime); }
 
-        .page-view { transition: opacity 0.5s; min-height: 100vh; width: 100%; }
+        .page-view { transition: opacity 0.5s ease-in-out; min-height: 100vh; width: 100%; }
         .view-hidden { display: none !important; opacity: 0; }
         .full-view-container { position: fixed; inset: 0; overflow-y: auto; z-index: 1500; background: black; padding-top: 100px; padding-bottom: 100px; }
 
@@ -129,22 +110,16 @@
 
         #game-canvas { image-rendering: pixelated; background: #000000; width: 100%; height: 450px; border: 8px solid white; touch-action: none; }
 
-        .comments-scroll-area { max-height: 500px; overflow-y: auto; position: relative; padding-top: 10px; -ms-overflow-style: none; scrollbar-width: none; }
-        .comments-scroll-area::-webkit-scrollbar { display: none; }
-
-        .comment-pinned {
-            position: sticky; top: 0; z-index: 20; border-color: var(--white) !important;
-            box-shadow: 10px 10px 0px 0px var(--white) !important; background: rgba(255, 255, 255, 0.15) !important;
-            margin-bottom: 2.5rem !important; backdrop-filter: blur(10px);
-        }
-
         .modal-overlay {
-            position: fixed; inset: 0; z-index: 99999; background: rgba(0,0,0,0.95);
-            display: none; align-items: center; justify-content: center; backdrop-filter: blur(12px);
+            position: fixed; inset: 0; z-index: 99999; background: rgba(0,0,0,0.98);
+            display: none; align-items: center; justify-content: center; backdrop-filter: blur(20px);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
+        .modal-overlay.closing { opacity: 0; transform: scale(1.1); pointer-events: none; }
+
         .grey-dialog {
-            background: #333333; border: 8px solid white; box-shadow: 25px 25px 0px 0px var(--lime);
-            padding: 3rem; width: 95%; max-width: 550px; text-align: center;
+            background: #1a1a1a; border: 8px solid white; box-shadow: 30px 30px 0px 0px var(--lime);
+            padding: 3.5rem; width: 95%; max-width: 600px; text-align: center;
         }
 
         .bubble-effect { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999999; }
@@ -156,17 +131,15 @@
         }
         .back-btn:hover { transform: scale(1.02) skewX(-2deg); background: var(--cyan); box-shadow: 12px 12px 0px black; }
 
-        .input-error { animation: shake 0.4s ease-in-out; border-color: var(--pink) !important; box-shadow: 0 0 15px var(--pink) !important; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+        /* Comment Pining Styles */
+        .comment-pinned {
+            border-color: var(--lime) !important;
+            box-shadow: 10px 10px 0px 0px var(--lime) !important;
+            background: rgba(195, 255, 0, 0.05) !important;
+            position: sticky; top: 0; z-index: 10;
+        }
 
         body.view-open { overflow: hidden; }
-
-        /* Mobile Arcade Controls */
-        #mobile-controls { display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 3000; width: 90%; max-width: 400px; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .control-btn { background: white; border: 4px solid black; color: black; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 6px 6px 0px var(--lime); }
-        .control-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px black; background: var(--lime); }
-
-        #mobile-controls.manual-active { display: grid; }
 
         @media (max-width: 640px) {
             .nav-link span { display: none; }
@@ -180,65 +153,52 @@
     <canvas id="bubble-canvas" class="bubble-effect"></canvas>
     <div id="cursor"></div>
 
-    <!-- Mobile Arcade Controls UI -->
-    <div id="mobile-controls">
-        <div></div>
-        <button class="control-btn" onmousedown="handleControl('up')" ontouchstart="handleControl('up')"><i class="fa-solid fa-chevron-up"></i></button>
-        <div></div>
-        <button class="control-btn" onmousedown="handleControl('left')" ontouchstart="handleControl('left')"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="control-btn bg-pink-500 text-white" onmousedown="handleControl('action')" ontouchstart="handleControl('action')"><i class="fa-solid fa-bolt"></i></button>
-        <button class="control-btn" onmousedown="handleControl('right')" ontouchstart="handleControl('right')"><i class="fa-solid fa-chevron-right"></i></button>
-        <div></div>
-        <button class="control-btn" onmousedown="handleControl('down')" ontouchstart="handleControl('down')"><i class="fa-solid fa-chevron-down"></i></button>
-        <div></div>
-    </div>
-
-    <!-- Initialization Modal -->
-    <div id="pc-alert-modal" class="modal-overlay" style="display: flex;">
-        <div class="grey-dialog border-cyan-400 shadow-[25px_25px_0px_var(--cyan)]">
-            <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">NODE SYNCED</h2>
-            <p class="mono text-white text-lg mb-10 leading-relaxed uppercase">Cross-Platform Protocols Active. Optimized for Touch and Desktop. <br><span class="text-lime">[ SQUIDDRILL.FUN v2.0 ]</span></p>
-            <button onclick="document.getElementById('pc-alert-modal').style.display='none'" class="w-full bg-white text-black py-5 font-black uppercase text-2xl border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:scale-105 transition-all">ENTER SYSTEM</button>
+    <!-- Professionally Cool Initial Modal -->
+    <div id="initial-modal" class="modal-overlay" style="display: flex;">
+        <div class="grey-dialog border-white">
+            <h2 class="text-5xl md:text-6xl font-black text-white uppercase italic mb-8 tracking-tighter">HELLO.</h2>
+            <p class="mono text-white text-xl mb-12 leading-relaxed opacity-90 uppercase tracking-tight">
+                Welcome to my digital workspace. <br>
+                <span class="text-lime">I build things with logic and caffeine.</span>
+            </p>
+            <button onclick="closeInitialModal()" class="w-full bg-white text-black py-6 font-black uppercase text-3xl border-4 border-black shadow-[10px_10px_0px_var(--lime)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all">ENTER SYSTEM</button>
         </div>
     </div>
 
-    <!-- Game Selection Modal (Updated with Step Logic) -->
+    <!-- Arcade Modal with Device Selector Restored -->
     <div id="game-modal" class="modal-overlay">
         <div class="grey-dialog">
             <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">Sector Entry</h2>
             
-            <!-- Step 1: Nickname -->
             <div id="game-step-1" class="space-y-6">
-                <input id="arcade-nickname" type="text" maxlength="12" placeholder="USERNAME (MANDATORY)" class="w-full bg-black border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime text-center text-xl">
-                <button onclick="validateNickname()" class="w-full bg-white text-black py-4 font-black uppercase text-xl border-4 border-black shadow-[6px_6px_0px_var(--lime)] hover:translate-y-[-2px]">CONTINUE</button>
+                <input id="arcade-nickname" type="text" maxlength="12" placeholder="USERNAME (MANDATORY)" class="w-full bg-black border-4 border-white p-6 mono text-white uppercase outline-none focus:border-lime text-center text-2xl">
+                <button onclick="validateNickname()" class="w-full bg-white text-black py-4 font-black uppercase text-xl border-4 border-black shadow-[6px_6px_0px_var(--lime)]">CONTINUE</button>
             </div>
 
-            <!-- Step 2: Device Choice -->
             <div id="game-step-2" class="hidden flex flex-col gap-4">
-                <p class="mono text-white mb-4 text-sm opacity-60">SELECT INPUT PROTOCOL</p>
+                <p class="mono text-white mb-4 text-sm opacity-60 uppercase tracking-widest">Select Control Interface</p>
                 <button onclick="selectDevice('desktop')" class="bg-white text-black py-5 font-black uppercase text-xl border-4 border-black shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-keyboard"></i> MOUSE & KEYBOARD
+                    <i class="fa-solid fa-keyboard"></i> Mouse & Keyboard
                 </button>
                 <button onclick="selectDevice('touch')" class="bg-pink-500 text-white py-5 font-black uppercase text-xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-hand-pointer"></i> TOUCH CONTROLS
+                    <i class="fa-solid fa-hand-pointer"></i> Touch (Gestures)
                 </button>
             </div>
 
-            <!-- Step 3: Game Select -->
             <div id="game-step-3" class="hidden flex flex-col gap-4">
-                <p class="mono text-white mb-4 text-sm opacity-60">CHOOSE MODULE</p>
+                <p class="mono text-white mb-4 text-sm opacity-60 uppercase tracking-widest">CHOOSE MODULE</p>
                 <button onclick="switchGame('dino')" class="bg-lime text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Dino Survival</button>
                 <button onclick="switchGame('snake')" class="bg-cyan text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Classic Snake</button>
             </div>
 
-            <button onclick="closeArcadeModal()" class="mt-8 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ ABORT ACCESS ]</button>
+            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-10 text-white font-black uppercase text-xs border-b-2 border-white opacity-50 hover:opacity-100 transition-opacity">ABORT ACCESS</button>
         </div>
     </div>
 
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
-                Node Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
+                All-Time-Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
             </span>
         </div>
         <div class="flex gap-2 sm:gap-3">
@@ -253,7 +213,10 @@
         <main class="max-w-5xl mx-auto px-6 space-y-48">
             <section class="reveal visible">
                 <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">Status Live ⚡</div>
-                <div class="block mb-20"><h1 id="interactive-name" class="text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1></div>
+                <div class="block mb-20">
+                    <h1 id="interactive-name" class="text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1>
+                    <div class="mono text-[10px] md:text-xs opacity-40 mt-4 uppercase tracking-[0.3em]">aka squiddrill, sentinel</div>
+                </div>
                 <div class="neo-box p-10 md:p-16 max-w-4xl bg-white text-black relative">
                     <div class="flex gap-4 mb-8"><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div></div>
                     <div id="quote-container" class="min-h-[140px]">
@@ -263,6 +226,7 @@
                 </div>
             </section>
 
+            <!-- Reverted Logic Stack -->
             <section class="reveal">
                 <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Logic Stack 💻</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -287,8 +251,8 @@
             <section class="reveal">
                 <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Feed 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="neo-box p-6 md:p-10 relative">
-                    <div id="comments-list" class="comments-scroll-area space-y-6 pr-4 mb-10">
-                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Node Data...</p>
+                    <div id="comments-list" class="comments-scroll-area space-y-6 pr-4 mb-10 overflow-y-auto max-h-[500px]">
+                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Data...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <input id="comment-name" type="text" placeholder="GUEST NAME" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
@@ -396,65 +360,26 @@
         let currentActiveSessionName = "";
         let selectedInputMode = 'desktop';
 
-        // --- PROFANITY FILTER ---
-        const badWords = ["fuck", "shit", "bitch", "asshole", "pussy", "dick", "cunt", "nigger"]; 
+        // --- EXPANDED PROFANITY FILTER ---
+        const blacklist = ["fuck", "shit", "bitch", "ass", "nigger", "cunt", "pussy", "dick", "faggot", "whore", "slut", "bastard", "cock", "tit", "rape", "porn", "hitler", "nazi", "gay", "lesbian", "hoe", "cum", "bollocks", "motherfucker", "nigga", "retard", "fag", "dyke", "kike", "spic", "chink"];
+        
         const filterProfanity = (text) => {
             if (!text) return "";
-            let clean = text;
-            badWords.forEach(word => {
+            let clean = text.toLowerCase();
+            blacklist.forEach(word => {
                 const regex = new RegExp(word, 'gi');
                 clean = clean.replace(regex, "****");
             });
-            return clean;
+            const aggressiveRegex = new RegExp(blacklist.map(w => w.split('').join('[^a-zA-Z0-9]*')).join('|'), 'gi');
+            return text.replace(aggressiveRegex, "****");
         };
 
-        // --- ARCADE MODAL STEPS ---
-        window.validateNickname = () => {
-            const nameInput = document.getElementById('arcade-nickname');
-            const newName = nameInput.value.trim().toUpperCase();
-            if (!newName) {
-                nameInput.classList.add('input-error');
-                setTimeout(() => nameInput.classList.remove('input-error'), 500);
-                return;
-            }
-            // Check uniqueness only if it's NOT the current session name
-            if (currentActiveSessionName !== "" && newName !== currentActiveSessionName) {
-                const isTaken = leaderboardData.some(entry => entry.name === newName);
-                if (isTaken) {
-                    nameInput.classList.add('input-error');
-                    nameInput.value = "";
-                    nameInput.placeholder = "NAME TAKEN";
-                    setTimeout(() => nameInput.classList.remove('input-error'), 500);
-                    return;
-                }
-            }
-            currentActiveSessionName = newName;
-            document.getElementById('game-step-1').classList.add('hidden');
-            document.getElementById('game-step-2').classList.remove('hidden');
+        window.closeInitialModal = () => {
+            const modal = document.getElementById('initial-modal');
+            modal.classList.add('closing');
+            setTimeout(() => { modal.style.display = 'none'; }, 600);
         };
 
-        window.selectDevice = (mode) => {
-            selectedInputMode = mode;
-            const mobileCtrls = document.getElementById('mobile-controls');
-            if (mode === 'touch') mobileCtrls.classList.add('manual-active');
-            else mobileCtrls.classList.remove('manual-active');
-            
-            document.getElementById('game-step-2').classList.add('hidden');
-            document.getElementById('game-step-3').classList.remove('hidden');
-        };
-
-        window.resetArcadeSteps = () => {
-            document.getElementById('game-modal').style.display = 'flex';
-            document.getElementById('game-step-1').classList.remove('hidden');
-            document.getElementById('game-step-2').classList.add('hidden');
-            document.getElementById('game-step-3').classList.add('hidden');
-        };
-
-        window.closeArcadeModal = () => {
-            document.getElementById('game-modal').style.display = 'none';
-        };
-
-        // --- FIREBASE CORE ---
         const init = async () => {
             await signInAnonymously(auth);
             onAuthStateChanged(auth, async (u) => {
@@ -469,28 +394,34 @@
                     const count = doc.data()?.total || 0;
                     document.getElementById('v-count').innerText = count.toLocaleString();
                 });
+                
                 const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
                 onSnapshot(commentsCol, (snapshot) => {
                     const list = document.getElementById('comments-list'); if (!list) return;
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => ({...d.data(), id: d.id}));
-                    docs.sort((a,b) => {
-                        const isPinA = a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || a.pinned;
-                        const isPinB = b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || b.pinned;
-                        if (isPinA && !isPinB) return -1; if (!isPinA && isPinB) return 1;
+                    
+                    // Pin Logic: Absolute sort for Creator's unique ID
+                    docs.sort((a, b) => {
+                        const isCreatorA = a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
+                        const isCreatorB = b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
+                        if (isCreatorA && !isCreatorB) return -1;
+                        if (!isCreatorA && isCreatorB) return 1;
                         return (b.timestamp || 0) - (a.timestamp || 0);
                     });
+
                     docs.forEach(c => {
                         const div = document.createElement('div');
-                        const isCreator = c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name?.toUpperCase() === 'CREATOR';
-                        div.className = "neo-box p-6 bg-black border-white" + (isCreator ? " comment-pinned" : "");
-                        const displayName = filterProfanity(c.name || `USER_${c.uid?.substring(0,4)}`);
-                        const cleanMsg = filterProfanity(c.text || '');
-                        const pinBadge = isCreator ? `<span class="ml-2 bg-white text-black px-2 text-[10px] font-black uppercase tracking-widest">OWNER</span>` : '';
-                        div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span><span class="mono text-[8px] opacity-40">${c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : ''}</span></div><p class="text-sm font-bold uppercase tracking-tight">${cleanMsg}</p>`;
+                        const isOwner = c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
+                        div.className = "neo-box p-6 bg-black border-white " + (isOwner ? "comment-pinned" : "");
+                        const name = filterProfanity(c.name || "ANON");
+                        const msg = filterProfanity(c.text || "");
+                        const badge = isOwner ? '<span class="ml-2 bg-lime text-black px-2 text-[8px] font-black uppercase">CREATOR</span>' : '';
+                        div.innerHTML = `<div class="flex justify-between mb-2"><span class="mono text-[10px] text-lime font-black">${name.toUpperCase()}${badge}</span></div><p class="text-sm font-bold uppercase tracking-tight">${msg}</p>`;
                         list.appendChild(div);
                     });
                 });
+
                 const leaderboardCol = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
                 onSnapshot(leaderboardCol, (snapshot) => {
                     leaderboardData = snapshot.docs.map(d => d.data());
@@ -499,10 +430,39 @@
             });
         };
 
+        window.validateNickname = () => {
+            const nameInput = document.getElementById('arcade-nickname');
+            const newName = nameInput.value.trim().toUpperCase();
+            if (!newName) { nameInput.classList.add('input-error'); setTimeout(() => nameInput.classList.remove('input-error'), 500); return; }
+            if (currentActiveSessionName !== "" && newName !== currentActiveSessionName) {
+                if (leaderboardData.some(e => e.name === newName)) {
+                    nameInput.placeholder = "NAME TAKEN"; nameInput.value = "";
+                    nameInput.classList.add('input-error'); setTimeout(() => nameInput.classList.remove('input-error'), 500);
+                    return;
+                }
+            }
+            currentActiveSessionName = newName;
+            document.getElementById('game-step-1').classList.add('hidden');
+            document.getElementById('game-step-2').classList.remove('hidden');
+        };
+
+        window.selectDevice = (mode) => {
+            selectedInputMode = mode;
+            document.getElementById('game-step-2').classList.add('hidden');
+            document.getElementById('game-step-3').classList.remove('hidden');
+        };
+
+        window.resetArcadeSteps = () => {
+            document.getElementById('game-modal').style.display = 'flex';
+            document.getElementById('game-step-1').classList.remove('hidden');
+            document.getElementById('game-step-2').classList.add('hidden');
+            document.getElementById('game-step-3').classList.add('hidden');
+        };
+
         window.postComment = async () => {
             const input = document.getElementById('comment-input');
             const nameInput = document.getElementById('comment-name');
-            const text = input?.value.trim(); const name = nameInput?.value.trim() || 'ANONYMOUS';
+            const text = input?.value.trim(); const name = nameInput?.value.trim();
             if (!text || !user) return;
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'comments'), {
@@ -517,13 +477,11 @@
             const uniqueEntries = {};
             leaderboardData.forEach(d => {
                 if (d.game === currentGame) {
-                    if (!uniqueEntries[d.name] || d.score > uniqueEntries[d.name].score) {
-                        uniqueEntries[d.name] = d;
-                    }
+                    if (!uniqueEntries[d.name] || d.score > uniqueEntries[d.name].score) { uniqueEntries[d.name] = d; }
                 }
             });
             const filtered = Object.values(uniqueEntries).sort((a,b) => b.score - a.score).slice(0, 5);
-            list.innerHTML = filtered.length ? "" : "<p class='opacity-50 italic uppercase tracking-widest'>Node Empty...</p>";
+            list.innerHTML = filtered.length ? "" : "<p class='opacity-50 italic'>Node Empty...</p>";
             filtered.forEach((entry, idx) => {
                 const crown = idx === 0 ? " 👑" : "";
                 list.innerHTML += `<div class="flex justify-between border-b-2 border-white/10 pb-1"><span class="mono">${idx + 1}. ${entry.name}${crown}</span><span class="text-pink-600 font-black">${Math.floor(entry.score)}</span></div>`;
@@ -541,13 +499,11 @@
 
         window.addEventListener('load', init);
 
-        // --- UI LOGIC ---
         const quotes = [
             { t: `Imagination is more important than knowledge.`, a: `Albert Einstein` },
             { t: `Logic will get you from A to B. Imagination everywhere.`, a: `Albert Einstein` },
             { t: `Code is poetry.`, a: `Automattic` },
             { t: `The best way to predict the future is to invent it.`, a: `Alan Kay` },
-            { t: `System Offline. Rebuilding Reality.`, a: `SquidDrill` },
             { t: `Stay hungry, stay foolish.`, a: `Steve Jobs` }
         ];
 
@@ -555,10 +511,7 @@
         const buildName = () => {
             if (!nameEl) return;
             let html = "";
-            [..."BHAVYA"].forEach((char, i) => {
-                const colorClass = (i % 3 === 0) ? 'c-1' : (i % 3 === 1) ? 'c-2' : (i % 3 === 2) ? 'c-3' : '';
-                html += `<span class="char ${colorClass}">${char}</span>`;
-            });
+            [..."BHAVYA"].forEach((char, i) => { html += `<span class="char ${(i % 3 === 0) ? 'c-1' : (i % 3 === 1) ? 'c-2' : 'c-3'}">${char}</span>`; });
             html += "<br>";
             [..."KAPATEL"].forEach(char => html += `<span class="char text-white">${char}</span>`);
             nameEl.innerHTML = html;
@@ -592,15 +545,7 @@
             if (view) view.classList.remove('view-hidden');
             document.getElementById(`nav-${viewId}`).classList.add('nav-active');
             window.scrollTo(0,0);
-            
-            const mobileCtrls = document.getElementById('mobile-controls');
-            if(viewId === 'arcade') { 
-                initGame(); 
-                resetArcadeSteps();
-            } else {
-                stopGame();
-                mobileCtrls.classList.remove('manual-active');
-            }
+            if(viewId === 'arcade') { initGame(); resetArcadeSteps(); } else stopGame();
             if(viewId === 'home') document.body.classList.remove('view-open'); else document.body.classList.add('view-open');
         };
 
@@ -616,7 +561,6 @@
             if (toast) { toast.classList.remove('hidden'); setTimeout(() => toast.classList.add('hidden'), 2000); }
         };
 
-        // --- BUBBLE ENGINE ---
         const bCanvas = document.getElementById('bubble-canvas');
         const bCtx = bCanvas.getContext('2d');
         let bubbles = [];
@@ -626,8 +570,7 @@
             constructor(x, y) {
                 this.x = x; this.y = y; this.size = Math.random() * 8 + 4;
                 this.speedX = Math.random() * 4 - 2; this.speedY = Math.random() * -4 - 1;
-                this.opacity = 1; const colors = ['#C3FF00', '#FF0055', '#00F0FF', '#ffffff'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = 1; this.color = ['#C3FF00', '#FF0055', '#00F0FF', '#ffffff'][Math.floor(Math.random() * 4)];
             }
             update() { this.x += this.speedX; this.y += this.speedY; this.opacity -= 0.02; }
             draw() { bCtx.globalAlpha = this.opacity; bCtx.beginPath(); bCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); bCtx.fillStyle = this.color; bCtx.fill(); }
@@ -645,22 +588,34 @@
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
         let currentGame = 'dino', gameActive = false, score = 0, loop, frame = 0;
-        let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 10, y: 10}], food = {x: 5, y: 5}, dir = {x: 1, y: 0};
+        let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 5, y: 5}], food = {x: 10, y: 10}, dir = {x: 1, y: 0};
+
+        // Swipe Controls Logic
+        let touchStartX = 0, touchStartY = 0;
+        canvas.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', (e) => {
+            if (selectedInputMode !== 'touch') return;
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dy = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(dx) > Math.abs(dy)) {
+                if (Math.abs(dx) > 30) handleControl(dx > 0 ? 'right' : 'left');
+            } else {
+                if (Math.abs(dy) > 30) handleControl(dy > 0 ? 'down' : 'up');
+            }
+        });
 
         window.switchGame = (type) => {
             currentGame = type;
             document.getElementById('game-modal').style.display='none';
-            gameActive = false; 
-            updateLeaderboardUI();
+            gameActive = false; updateLeaderboardUI();
             document.getElementById('overlay-title').innerText = type.toUpperCase() + " READY";
             document.getElementById('game-overlay').style.display = 'flex';
         };
 
-        window.startGame = () => {
-            document.getElementById('game-overlay').style.display = 'none';
-            gameActive = true; score = 0; resetGameState(); runLoop();
-        };
-
+        window.startGame = () => { document.getElementById('game-overlay').style.display = 'none'; gameActive = true; score = 0; resetGameState(); runLoop(); };
         const initGame = () => { canvas.width = canvas.parentElement.clientWidth; canvas.height = 450; };
         const stopGame = () => { gameActive = false; cancelAnimationFrame(loop); };
         const resetGameState = () => { dino = { y: 390, v: 0 }; obstacles = []; snake = [{x:5, y:5}]; dir = {x: 1, y: 0}; frame = 0; food = {x: 10, y: 10}; };
@@ -694,13 +649,7 @@
             frame++; loop = requestAnimationFrame(runLoop);
         };
 
-        const gameOver = () => { 
-            gameActive = false; cancelAnimationFrame(loop); 
-            window.saveArcadeScore(Math.floor(score)); 
-            document.getElementById('overlay-title').innerText = "FATAL ERROR";
-            document.getElementById('overlay-btn').innerText = "REBOOT";
-            document.getElementById('game-overlay').style.display = 'flex'; 
-        };
+        const gameOver = () => { gameActive = false; cancelAnimationFrame(loop); window.saveArcadeScore(Math.floor(score)); document.getElementById('overlay-title').innerText = "FATAL ERROR"; document.getElementById('overlay-btn').innerText = "REBOOT"; document.getElementById('game-overlay').style.display = 'flex'; };
 
         window.handleControl = (type) => {
             if (currentGame === 'dino' && (type === 'action' || type === 'up') && dino.y === 390) dino.v = -22;
