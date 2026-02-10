@@ -35,6 +35,17 @@
             position: relative;
         }
 
+        /* Animated Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/feFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
         #cursor {
             width: 24px; height: 24px;
             background: #fff;
@@ -102,6 +113,40 @@
         .nav-link:hover { background: var(--lime); transform: scale(1.1) rotate(-1deg); box-shadow: 6px 6px 0px black; }
         .nav-active { background: var(--orange) !important; color: white !important; box-shadow: 8px 8px 0px white !important; }
 
+        .status-tag-anim {
+            background: black;
+            color: white;
+            border: 4px solid white;
+            box-shadow: 6px 6px 0px var(--lime);
+            padding: 6px 20px;
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            animation: status-float 3s infinite ease-in-out;
+        }
+
+        @keyframes status-float {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-5px) rotate(1deg); box-shadow: 10px 10px 0px var(--pink); }
+        }
+
+        .live-dot {
+            width: 12px; height: 12px;
+            background: #ef4444;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            box-shadow: 0 0 15px #ef4444;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
+        }
+
         .connect-card {
             border: 6px solid white;
             padding: 2.5rem;
@@ -112,7 +157,7 @@
             min-height: 220px;
             display: flex; flex-direction: column; justify-content: center;
         }
-        .connect-card:hover { transform: translate(-8px, -8px); box-shadow: 24px 24px 0px 0px var(--lime); border-color: var(--lime); }
+        .connect-card:hover { transform: translate(-8px, -8px); box-shadow: 20px 20px 0px 0px var(--lime); border-color: var(--lime); }
 
         #game-canvas { image-rendering: pixelated; background: #000; width: 100%; height: 450px; border: 8px solid white; }
 
@@ -148,7 +193,7 @@
             font-weight: 900; text-transform: uppercase;
             box-shadow: 8px 8px 0px var(--lime);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 1rem 2rem;
+            padding: 1.5rem 3rem;
             display: inline-block;
             cursor: pointer;
         }
@@ -179,14 +224,14 @@
                 <button onclick="switchGame('dino')" class="bg-lime text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Dino Survival</button>
                 <button onclick="switchGame('snake')" class="bg-cyan text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Classic Snake</button>
             </div>
-            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-10 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ CLOSE ACCESS ]</button>
+            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-10 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ CLOSE_ACCESS ]</button>
         </div>
     </div>
 
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
-                All time Visitors <span id="v-count" class="text-pink-600">...</span> ⚡
+                All time Visitors <span id="v-count" class="text-pink-600 animate-pulse">🤔</span> ⚡
             </span>
         </div>
         <div class="flex gap-3">
@@ -200,7 +245,7 @@
     <div id="home-view" class="page-view pt-32 pb-48">
         <main class="max-w-5xl mx-auto px-6 space-y-48">
             <section class="reveal">
-                <div class="inline-block bg-black text-white border-4 border-white shadow-[6px_6px_0px_var(--lime)] px-6 py-2 mb-10 font-black uppercase text-xs">
+                <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">
                     Status Live ⚡
                 </div>
                 
@@ -236,17 +281,17 @@
                     <div class="neo-box p-10 border-cyan-400">
                         <span class="mono text-sm text-cyan-400 font-black mb-4 block">01</span>
                         <h3 class="text-4xl font-black uppercase mb-6">PYTHON</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"I really enjoy using Python to solve complex logic puzzles and build the brains behind automation."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"I use Python to solve complex logical puzzles and build the brains behind automation."</p>
                     </div>
                     <div class="neo-box p-10 border-pink-500">
                         <span class="mono text-sm text-pink-500 font-black mb-4 block">02</span>
                         <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"There's something satisfying about taking chaotic data and organizing it into perfect relational structures."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Organizing chaotic data into perfect relational structures is where I find my flow."</p>
                     </div>
                     <div class="neo-box p-10 border-lime">
                         <span class="mono text-sm text-lime font-black mb-4 block">03</span>
                         <h3 class="text-4xl font-black uppercase mb-6">NETS</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"I spend a lot of time exploring how digital nodes communicate to better understand the internet skeleton."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Exploring how digital nodes communicate helps me understand the internet skeleton."</p>
                     </div>
                 </div>
             </section>
@@ -258,32 +303,35 @@
                 </div>
                 <div class="neo-box p-10 relative">
                     <div id="comments-list" class="comments-scroll-area space-y-6 pr-4 mb-10">
-                        <p class="mono text-xs opacity-50 uppercase">Syncing with global node...</p>
+                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-spinner animate-spin"></i> Syncing Node...
+                        </p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <input id="comment-name" type="text" placeholder="NAME (OPTIONAL)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
-                        <input id="comment-input" type="text" placeholder="WRITE MESSAGE (ENTER TO SEND)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2">
+                        <input id="comment-input" type="text" placeholder="MESSAGE (ENTER TO SEND)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2">
                         <button onclick="window.postComment()" class="bg-white text-black px-10 font-black uppercase hover:bg-lime transition-all border-4 border-black text-xl shadow-[8px_8px_0px_var(--lime)]">POST</button>
                     </div>
                 </div>
             </section>
 
             <footer class="reveal pt-32 border-t-8 border-white mt-40 pb-20">
-                <div class="flex flex-col md:flex-row justify-between items-start gap-16">
-                    <div class="max-w-md space-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                    <div class="space-y-10">
                         <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL.FUN</h4>
                         <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">
-                            A personal digital monolith recording my progress through architectural software and logical experimentation.
+                            I am building a personal digital monolith to record my progress through architectural code and structural logic.
                         </p>
-                    </div>
-                    <div class="space-y-10">
-                        <div class="neo-box bg-white text-black p-10 font-black uppercase">
-                            Established 2026<br>LOC Anand, Guj, IN<br>
-                            <span class="text-red-600 flex items-center mt-4"><span class="live-dot"></span>LIVE NODE ACTIVE</span>
-                        </div>
-                        <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose">
+                        <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">
                             © ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE IDENTITY PROTOCOL
                         </p>
+                    </div>
+                    <div class="flex flex-col gap-8 md:items-end">
+                        <div class="neo-box bg-white text-black p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
+                            <div class="mb-2">ESTABLISHED 2026</div>
+                            <div class="mb-6">LOC: ANAND, GUJ, IN</div>
+                            <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>LIVE NODE ACTIVE</span>
+                        </div>
                     </div>
                 </div>
             </footer>
@@ -324,7 +372,7 @@
                         <span class="mono text-xs font-black uppercase block mb-2">Score</span>
                         <span id="current-score" class="text-6xl font-black italic">000</span>
                     </div>
-                    <button onclick="switchView('home')" class="w-full back-btn">BACK TO HOME</button>
+                    <button onclick="switchView('home')" class="w-full back-btn text-xl">BACK TO HOME</button>
                 </div>
             </div>
         </div>
@@ -336,10 +384,10 @@
             <h2 class="text-7xl md:text-9xl font-black uppercase italic text-center tracking-tighter brutal-heading">Socials</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">GITHUB</h3><p class="mono text-xs opacity-50 mt-4">SOURCE NODE ↗</p></a>
-                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-6xl mb-6 text-blue-500"></i><h3 class="text-3xl font-black uppercase">LINKEDIN</h3><p class="mono text-xs opacity-50 mt-4">CONNECT GRID ↗</p></a>
+                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase">LINKEDIN</h3><p class="mono text-xs opacity-50 mt-4">CONNECT GRID ↗</p></a>
                 <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase">X TWITTER</h3><p class="mono text-xs opacity-50 mt-4">BROADCAST ↗</p></a>
-                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-6xl mb-6 text-pink-500"></i><h3 class="text-3xl font-black uppercase">INSTAGRAM</h3><p class="mono text-xs opacity-50 mt-4">VISUAL FEED ↗</p></a>
-                <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-6xl mb-6 text-indigo-500"></i><h3 class="text-3xl font-black uppercase">DISCORD</h3><p class="mono text-xs opacity-50 mt-4">USER ID 📋</p></button>
+                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase">INSTAGRAM</h3><p class="mono text-xs opacity-50 mt-4">VISUAL FEED ↗</p></a>
+                <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase">DISCORD</h3><p class="mono text-xs opacity-50 mt-4">USER ID 📋</p></button>
                 <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card"><i class="fa-solid fa-envelope text-6xl mb-6 text-lime"></i><h3 class="text-3xl font-black uppercase">DIRECT MAIL</h3><p class="mono text-xs opacity-50 mt-4">SEND MESSAGE ✉️</p></a>
             </div>
             <div class="text-center pb-20">
@@ -363,8 +411,7 @@
             projectId: "website-ddb0c",
             storageBucket: "website-ddb0c.firebasestorage.app",
             messagingSenderId: "143641913342",
-            appId: "1:143641913342:web:ef0f6494e3676d6396c2af",
-            measurementId: "G-Q78HWFPEKP"
+            appId: "1:143641913342:web:ef0f6494e3676d6396c2af"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -413,7 +460,7 @@
                     });
                     docs.forEach(c => {
                         const div = document.createElement('div');
-                        const isCreator = c.id === 'ITNzsIyGh9EU4hyUwWQm' || c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name?.toUpperCase() === 'CREATOR' || c.pinned === true;
+                        const isCreator = c.id === 'ITNzsIyGh9EU4hyUwWQm' || c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name?.toUpperCase() === 'CREATOR';
                         div.className = "neo-box p-8 bg-black border-white" + (isCreator ? " comment-pinned" : "");
                         const displayName = c.name ? c.name : `USER ${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`;
                         const pinBadge = isCreator ? `<span class="ml-4 bg-white text-black px-2 text-[10px] font-black uppercase italic tracking-widest">CREATOR</span>` : '';
