@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
-    <title>null 💀</title>
+    <title>Bhavya Kapatel // SquidDrill</title>
     <link rel="canonical" href="https://squiddrill.fun" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -192,7 +192,7 @@
         @keyframes pulse-red {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
         }
 
         .connect-card {
@@ -455,25 +455,39 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // Defensive initialization for external environments
+        let db, auth, appId;
+        try {
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        } catch (e) {
+            console.warn("Firebase config missing or invalid. Real-time features disabled.");
+        }
 
         let user = null;
 
         const init = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
+            if (!auth || !db) return;
+
+            try {
+                // Rule 3: Auth FIRST and await it before any queries
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (authError) {
+                console.error("Firebase Authentication Error:", authError);
             }
 
             onAuthStateChanged(auth, async (u) => {
                 user = u;
-                if (!user) return;
+                if (!user) return; // Guard for Rule 3
 
+                // Visitor Counter Logic
                 const statsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'counters');
                 try {
                     const snap = await getDoc(statsDoc);
@@ -482,21 +496,26 @@
                     } else {
                         await updateDoc(statsDoc, { total: increment(1) });
                     }
-                } catch (e) { }
+                } catch (e) { 
+                    console.error("Visitor update failed (Permission Denied):", e);
+                }
                 
+                // Real-time Visitor Count with Error Callback
                 onSnapshot(statsDoc, (doc) => {
                     const count = doc.data()?.total || 0;
                     const vCount = document.getElementById('v-count');
                     if (vCount) vCount.innerText = count.toLocaleString();
-                }, (err) => console.error(err));
+                }, (err) => console.warn("Visitor listener limited by permissions."));
 
+                // Real-time Comments with Error Callback
                 const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
                 onSnapshot(commentsCol, (snapshot) => {
                     const list = document.getElementById('comments-list');
                     if (!list) return;
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => d.data());
-                    docs.sort((a,b) => b.timestamp - a.timestamp);
+                    // Sort in memory as per Rule 2
+                    docs.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
                     
                     if (docs.length === 0) {
                         list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">No messages yet. Be the first.</p>`;
@@ -506,26 +525,30 @@
                     docs.forEach(c => {
                         const div = document.createElement('div');
                         div.className = "comment-item";
-                        const displayName = c.name ? c.name : `USER_${c.uid?.substring(0,5).toUpperCase()}`;
+                        const displayName = c.name ? c.name : `USER_${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`;
+                        const timeStr = c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...';
                         div.innerHTML = `
                             <div class="flex justify-between items-start mb-2">
                                 <span class="mono text-[10px] text-lime font-bold">${displayName}</span>
-                                <span class="mono text-[8px] opacity-40">${new Date(c.timestamp).toLocaleTimeString()}</span>
+                                <span class="mono text-[8px] opacity-40">${timeStr}</span>
                             </div>
-                            <p class="text-sm font-bold uppercase tracking-tight">${c.text}</p>
+                            <p class="text-sm font-bold uppercase tracking-tight">${c.text || ''}</p>
                         `;
                         list.appendChild(div);
                     });
-                }, (err) => console.error(err));
+                }, (err) => {
+                    const list = document.getElementById('comments-list');
+                    if (list) list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">Database connection restricted by project rules.</p>`;
+                });
             });
         };
 
         window.postComment = async () => {
             const input = document.getElementById('comment-input');
             const nameInput = document.getElementById('comment-name');
-            const text = input.value.trim();
-            const name = nameInput.value.trim();
-            if (!text || !user) return;
+            const text = input?.value.trim();
+            const name = nameInput?.value.trim();
+            if (!text || !user || !db) return;
             
             try {
                 const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
@@ -535,13 +558,16 @@
                     text: text,
                     timestamp: Date.now()
                 });
-                input.value = "";
-                nameInput.value = "";
-            } catch (e) { }
+                if (input) input.value = "";
+                if (nameInput) nameInput.value = "";
+            } catch (e) {
+                console.error("Posting comment failed (Permission Denied):", e);
+            }
         };
 
         window.addEventListener('load', init);
 
+        // UI Logic
         const quotes = [
             { t: "Imagination is more important than knowledge.", a: "Albert Einstein" },
             { t: "The important thing is not to stop questioning.", a: "Albert Einstein" },
@@ -580,7 +606,7 @@
         document.addEventListener('mouseover', e => {
             if (!cursor) return;
             const target = e.target;
-            if (target.closest('a, button, .char, input')) {
+            if (target instanceof HTMLElement && target.closest('a, button, .char, input')) {
                 cursor.style.transform = 'scale(2.5)';
             } else {
                 cursor.style.transform = 'scale(1)';
@@ -625,7 +651,13 @@
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         window.copyText = (text, btn) => {
-            navigator.clipboard.writeText(text);
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
             const toast = document.getElementById('toast');
             if (toast) {
                 toast.classList.remove('hidden');
@@ -635,7 +667,7 @@
 
         // --- GAME ENGINE ---
         const canvas = document.getElementById('game-canvas');
-        const ctx = canvas ? canvas.getContext('2d') : null;
+        const ctx = canvas instanceof HTMLCanvasElement ? canvas.getContext('2d') : null;
         let currentGame = 'dino';
         let gameActive = false;
         let score = 0, hiScore = 0, loop, frame = 0;
@@ -659,7 +691,7 @@
         };
 
         const initGame = () => {
-            if (canvas) {
+            if (canvas && canvas.parentElement) {
                 canvas.width = canvas.parentElement.clientWidth; canvas.height = 450;
             }
         };
@@ -671,14 +703,14 @@
         };
 
         const runLoop = () => {
-            if(!gameActive || !ctx) return;
+            if(!gameActive || !ctx || !canvas) return;
             ctx.fillStyle = '#000'; ctx.fillRect(0,0,canvas.width, canvas.height);
             if(currentGame === 'dino') {
                 dino.v += 1.2; dino.y += dino.v; if(dino.y > 390) { dino.y = 390; dino.v = 0; }
                 if(frame % 70 === 0) obstacles.push({x: canvas.width, w: 30, h: 50 + Math.random()*50});
                 ctx.fillStyle = '#C3FF00'; ctx.fillRect(60, dino.y, 40, 40); 
                 ctx.fillStyle = '#ffffff';
-                obstacles.forEach((ob, i) => {
+                obstacles.forEach((ob) => {
                     ob.x -= 8 + (score/500); ctx.fillRect(ob.x, 450 - ob.h, ob.w, ob.h);
                     if(ob.x < 100 && ob.x > 60 && dino.y + 40 > 450 - ob.h) gameOver();
                 });
