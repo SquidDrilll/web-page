@@ -456,8 +456,8 @@
                 </div>
                 <div class="flex gap-2 md:gap-4 w-full md:w-auto">
                     <!-- Fixed blackout issue: specific text colors and border logic -->
-                    <button onclick="switchGame('dino')" id="btn-dino" class="flex-1 md:flex-none px-4 md:px-8 py-3 bg-lime text-black font-black uppercase shadow-[4px_4px_0px_white] border-4 border-white transition-all">DINO</button>
-                    <button onclick="switchGame('snake')" id="btn-snake" class="flex-1 md:flex-none px-4 md:px-8 py-3 bg-transparent text-white font-black uppercase border-4 border-white hover:bg-cyan hover:text-black transition-all">SNAKE</button>
+                    <button onclick="switchGame('dino')" id="btn-dino" class="min-w-[120px] flex-shrink-0 px-4 md:px-8 py-3 bg-lime text-black font-black uppercase shadow-[4px_4px_0px_white] border-4 border-white transition-all">DINO</button>
+                    <button onclick="switchGame('snake')" id="btn-snake" class="min-w-[120px] flex-shrink-0 px-4 md:px-8 py-3 bg-transparent text-white font-black uppercase border-4 border-white hover:bg-cyan hover:text-black transition-all">SNAKE</button>
                 </div>
             </div>
 
@@ -685,7 +685,61 @@
             { t: "Stay hungry, stay foolish.", a: "Steve Jobs" },
             { t: "Logic will get you from A to B. Imagination everywhere.", a: "Albert Einstein" },
             { t: "Success is not final, failure is not fatal.", a: "Winston Churchill" },
-            { t: "Code is poetry.", a: "Automattic" }
+            { t: "The unexamined life is not worth living.", a: "Socrates" },
+            { t: "I think, therefore I am.", a: "René Descartes" },
+            { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche" },
+            { t: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", a: "Aristotle" },
+            { t: "The only constant is change.", a: "Heraclitus" },
+            { t: "Knowing yourself is the beginning of all wisdom.", a: "Aristotle" },
+            { t: "What we think, we become.", a: "Buddha" },
+            { t: "Man is condemned to be free.", a: "Jean-Paul Sartre" },
+            { t: "The happiness of your life depends upon the quality of your thoughts.", a: "Marcus Aurelius" },
+            { t: "We suffer more often in imagination than in reality.", a: "Seneca" },
+            { t: "Waste no more time arguing about what a good man should be. Be one.", a: "Marcus Aurelius" },
+            { t: "The mind is its own place, and in itself can make a heaven of hell, a hell of heaven.", a: "John Milton" },
+            { t: "Life can only be understood backwards; but it must be lived forwards.", a: "Søren Kierkegaard" },
+            { t: "Everything has beauty, but not everyone sees it.", a: "Confucius" },
+            { t: "Doubt is the origin of wisdom.", a: "René Descartes" },
+            { t: "Whereof one cannot speak, thereof one must be silent.", a: "Ludwig Wittgenstein" },
+            { t: "To be is to be perceived.", a: "George Berkeley" },
+            { t: "Character is destiny.", a: "Heraclitus" },
+            { t: "Out of the crooked timber of humanity, no straight thing was ever made.", a: "Immanuel Kant" },
+            { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" },
+            { t: "The present is theirs; the future, for which I really worked, is mine.", a: "Nikola Tesla" },
+            { t: "The Analytical Engine weaves algebraic patterns just as the Jacquard loom weaves flowers.", a: "Ada Lovelace" },
+            { t: "If I have seen further it is by standing on the shoulders of Giants.", a: "Isaac Newton" },
+            { t: "Science is a way of thinking much more than it is a body of knowledge.", a: "Carl Sagan" },
+            { t: "Nature uses only the longest threads to weave her patterns.", a: "Richard Feynman" },
+            { t: "Any sufficiently advanced technology is indistinguishable from magic.", a: "Arthur C. Clarke" },
+            { t: "Information is the resolution of uncertainty.", a: "Claude Shannon" },
+            { t: "Everything is a file.", a: "Unix Philosophy" },
+            { t: "Simplicity is prerequisite for reliability.", a: "Edsger W. Dijkstra" },
+            { t: "The details are not the details. They make the design.", a: "Charles Eames" },
+            { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" },
+            { t: "Less is more.", a: "Mies van der Rohe" },
+            { t: "Form follows function.", a: "Louis Sullivan" },
+            { t: "A house is a machine for living in.", a: "Le Corbusier" },
+            { t: "Creativity is intelligence having fun.", a: "Albert Einstein" },
+            { t: "Every child is an artist. The problem is how to remain an artist once he grows up.", a: "Pablo Picasso" },
+            { t: "Learn the rules like a pro, so you can break them like an artist.", a: "Pablo Picasso" },
+            { t: "The best way to predict the future is to invent it.", a: "Alan Kay" },
+            { t: "The city is a machine for living in.", a: "Le Corbusier" },
+            { t: "Architecture is the reaching out for liberty.", a: "Louis Kahn" },
+            { t: "Truth is found in simplicity, and not in the multiplicity and confusion of things.", a: "Isaac Newton" },
+            { t: "It always seems impossible until it's done.", a: "Nelson Mandela" },
+            { t: "In the middle of difficulty lies opportunity.", a: "Albert Einstein" },
+            { t: "Whether you think you can or you think you can't, you're right.", a: "Henry Ford" },
+            { t: "The secret of getting ahead is getting started.", a: "Mark Twain" },
+            { t: "Action is the foundational key to all success.", a: "Pablo Picasso" },
+            { t: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt" },
+            { t: "Success is walking from failure to failure with no loss of enthusiasm.", a: "Winston Churchill" },
+            { t: "Vision is the art of seeing what is invisible to others.", a: "Jonathan Swift" },
+            { t: "Great things are done by a series of small things brought together.", a: "Vincent van Gogh" },
+            { t: "Do what you can, with what you have, where you are.", a: "Theodore Roosevelt" },
+            { t: "Don't find fault, find a remedy.", a: "Henry Ford" },
+            { t: "The only limit to our realization of tomorrow will be our doubts of today.", a: "Franklin D. Roosevelt" },
+            { t: "One cannot step twice into the same river.", a: "Heraclitus" },
+            { t: "System Offline. Rebuilding Reality.", a: "SquidDrill" }
         ];
 
         const nameEl = document.getElementById('interactive-name');
@@ -798,25 +852,20 @@
             currentGame = type;
             const bd = document.getElementById('btn-dino');
             const bs = document.getElementById('btn-snake');
+            const base = "min-w-[120px] flex-shrink-0 px-4 md:px-8 py-3 font-black uppercase border-4 border-white transition-all ";
             
             if (bd) {
-                if (type === 'dino') {
-                    bd.className = 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-lime text-black font-black uppercase shadow-[4px_4px_0px_white] border-4 border-white transition-all';
-                } else {
-                    bd.className = 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-transparent text-white font-black uppercase border-4 border-white hover:bg-lime hover:text-black transition-all';
-                }
+                bd.className = base + (type === 'dino' ? "bg-lime text-black shadow-[4px_4px_0px_white]" : "bg-transparent text-white hover:bg-lime hover:text-black");
             }
             if (bs) {
-                if (type === 'snake') {
-                    bs.className = 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-cyan text-black font-black uppercase shadow-[4px_4px_0px_white] border-4 border-white transition-all';
-                } else {
-                    bs.className = 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-transparent text-white font-black uppercase border-4 border-white hover:bg-cyan hover:text-black transition-all';
-                }
+                bs.className = base + (type === 'snake' ? "bg-cyan text-black shadow-[4px_4px_0px_white]" : "bg-transparent text-white hover:bg-cyan hover:text-black");
             }
             gameActive = false; 
             const overlay = document.getElementById('game-overlay');
             if (overlay) overlay.style.display = 'flex';
         };
+
+            
 
         const initGame = () => {
             if (canvas && canvas.parentElement) {
