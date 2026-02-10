@@ -1,215 +1,307 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhavya Kapatel | Exploring Next</title>
-    <!-- Your Custom Domain -->
+    <title>BHAVYA | THE PROTOCOL</title>
     <link rel="canonical" href="https://squiddrill.fun" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #F4F4F4;
-            --card-bg: #ffffff;
-            --text-main: #333333;
-            --accent: #007bff;
-            --border-soft: rgba(0, 0, 0, 0.06);
+            --bg: #0a0a0a;
+            --white: #ffffff;
+            --lime: #C3FF00;
+            --pink: #FF0055;
+            --cyan: #00F0FF;
+            --orange: #FF5C00;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Public Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--white);
+            overflow-x: hidden;
+            cursor: none; 
         }
 
-        .bento-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            border-radius: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Custom Cursor */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000000; 
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease-out;
         }
 
-        .bento-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.08);
-            border-color: rgba(0, 123, 255, 0.2);
+        /* Neobrutalist Hard Borders */
+        .neo-box {
+            background: var(--bg);
+            border: 4px solid var(--white);
+            box-shadow: 10px 10px 0px 0px var(--white);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .neo-box:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 16px 16px 0px 0px var(--white);
         }
 
-        .social-link {
+        /* Skill Box Contrast Classes */
+        .skill-cyan { background: var(--cyan); color: #000; border: 4px solid #fff; box-shadow: 6px 6px 0px 0px #fff; }
+        .skill-pink { background: var(--pink); color: #fff; border: 4px solid #fff; box-shadow: 6px 6px 0px 0px #fff; }
+        .skill-lime { background: var(--lime); color: #000; border: 4px solid #fff; box-shadow: 6px 6px 0px 0px #fff; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Name Colors - 3 specific colors for BHAVYA */
+        .c-1 { color: var(--cyan); }
+        .c-2 { color: var(--lime); }
+        .c-3 { color: var(--pink); }
+        .c-surname { color: var(--white); }
+
+        /* Static Status Bar */
+        .status-bar {
+            background: var(--white);
+            color: var(--bg);
+            border-bottom: 4px solid var(--white);
+        }
+
+        /* Persistent Button Styling */
+        .float-trigger {
+            background: var(--white);
+            color: var(--bg);
+            border: 3px solid var(--white);
+            box-shadow: 6px 6px 0px 0px #3b82f6;
             transition: all 0.2s ease;
         }
-
-        .social-link:hover {
-            background-color: var(--accent);
-            color: white !important;
-            transform: scale(1.02);
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d1d1d1;
-            border-radius: 10px;
-        }
-
-        .copy-success {
-            animation: fadeInOut 2s ease-in-out forwards;
-        }
-
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(10px); }
-            15% { opacity: 1; transform: translateY(0); }
-            85% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-10px); }
+        .float-trigger:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px 0px #3b82f6;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-blue-100 selection:text-blue-600">
+<body class="antialiased selection:bg-white selection:text-black">
 
-    <div class="max-w-2xl mx-auto px-5 py-12 md:py-20 flex flex-col gap-6">
-        
-        <!-- Hero / Header Section -->
-        <header class="bento-card p-8 flex flex-col items-center text-center gap-4">
-            <div class="relative group">
-                <div class="w-24 h-24 rounded-full bg-neutral-200 overflow-hidden border-4 border-white shadow-sm transition-transform group-hover:scale-105 duration-500">
-                    <!-- Replace URL below with your actual headshot link later -->
-                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop" alt="Bhavya Kapatel" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></div>
-            </div>
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight text-neutral-800">Bhavya Kapatel</h1>
-                <p class="text-neutral-500 font-medium">17 • Class 12 • Exploring the "what's next."</p>
-            </div>
-        </header>
+    <div id="cursor"></div>
 
-        <!-- About Section -->
-        <section class="bento-card p-7">
-            <h2 class="text-xs font-bold uppercase tracking-widest text-neutral-400 mb-3">About</h2>
-            <p class="text-[15px] leading-relaxed text-neutral-600">
-                A student builder currently navigating the final year of high school. I'm focused on the intersection of design and development, constantly experimenting with new tools and ideas to see what sticks.
-            </p>
-        </section>
+    <!-- Persistent Shortcut Button -->
+    <button onclick="toggleModal(true)" class="fixed bottom-6 right-6 z-[500] float-trigger px-4 py-2 font-black text-xs uppercase mono reveal">
+        CONNECT_LINK
+    </button>
 
-        <!-- Main Socials Grid -->
-        <section class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <a href="https://www.instagram.com/bhavya.kapatel/" target="_blank" class="social-link bento-card p-4 flex items-center gap-3 font-medium text-sm">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                Instagram
-            </a>
-            <button onclick="copyDiscord()" class="social-link bento-card p-4 flex items-center gap-3 font-medium text-sm text-left">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.086 2.157 2.419c0 1.334-.947 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.086 2.157 2.419c0 1.334-.946 2.419-2.157 2.419z"/></svg>
-                Discord
-            </button>
-            <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="social-link bento-card p-4 flex items-center gap-3 font-medium text-sm">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                LinkedIn
-            </a>
-            <a href="https://x.com/SquidDrill" target="_blank" class="social-link bento-card p-4 flex items-center gap-3 font-medium text-sm">
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                X / Twitter
-            </a>
-            <a href="https://www.reddit.com/user/squiddrill/" target="_blank" class="social-link bento-card p-4 flex items-center gap-3 font-medium text-sm">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.671 15.217c.041.25.06.502.06.754 0 2.415-2.827 4.375-6.315 4.375-3.489 0-6.315-1.96-6.315-4.375 0-.254.019-.507.06-.757l-.062-.013c-.468-.116-.804-.54-.804-1.047 0-.598.485-1.085 1.083-1.085.253 0 .486.088.67.235 1.159-.792 2.73-1.299 4.463-1.391l.933-4.167c.021-.101.124-.162.226-.141l2.84.574c.124-.31.426-.53.782-.53.465 0 .843.378.843.843s-.378.843-.843.843c-.348 0-.645-.213-.772-.515l-2.541-.514-.806 3.599c1.713.104 3.264.614 4.403 1.4.187-.145.42-.231.673-.231.598 0 1.083.486 1.083 1.085 0 .508-.336.932-.804 1.047l-.063.013zm-8.335-1.91c-.606 0-1.096.491-1.096 1.097s.491 1.097 1.096 1.097c.605 0 1.096-.491 1.096-1.097s-.491-1.097-1.096-1.097zm6.667 0c-.606 0-1.096.491-1.096 1.097s.491 1.097 1.096 1.097c.605 0 1.096-.491 1.096-1.097s-.491-1.097-1.096-1.097z"/></svg>
-                Reddit
-            </a>
-            <a href="mailto:bhavyakapatel2008@gmail.com" class="social-link bento-card p-4 flex items-center gap-3 font-medium text-sm">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                Email
-            </a>
-        </section>
-
-        <!-- Dynamic Content (Skills & Projects) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Toolkit -->
-            <section class="bento-card p-6 flex flex-col gap-4">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-neutral-400">Toolkit</h2>
-                <div class="flex flex-wrap gap-2">
-                    <span class="px-3 py-1 bg-neutral-100 rounded-full text-xs font-semibold">Python</span>
-                    <span class="px-3 py-1 bg-neutral-100 rounded-full text-xs font-semibold">UI Design</span>
-                    <span class="px-3 py-1 bg-neutral-100 rounded-full text-xs font-semibold">JavaScript</span>
-                    <span class="px-3 py-1 bg-neutral-100 rounded-full text-xs font-semibold">Tailwind</span>
-                    <span class="px-3 py-1 bg-neutral-100 rounded-full text-xs font-semibold">Video Editing</span>
-                </div>
-            </section>
-
-            <!-- Status Card -->
-            <section class="bento-card p-6 flex flex-col justify-center gap-2">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-neutral-400">Currently</h2>
-                <p class="text-sm font-medium">Studying for Boards & learning Three.js 🚀</p>
-            </section>
+    <!-- Static System Status Bar -->
+    <div class="status-bar sticky top-0 z-[100] px-6 py-2 flex justify-between items-center overflow-hidden">
+        <div class="flex gap-8 mono text-[10px] font-black uppercase tracking-widest">
+            <span>LOC: ANAND_GUJ</span>
+            <span class="hidden md:block">NODE: SQUIDDRILL.FUN</span>
+            <span>USER: BHAVYA_KAPATEL</span>
         </div>
-
-        <!-- Projects Section -->
-        <section class="flex flex-col gap-3">
-            <h2 class="text-xs font-bold uppercase tracking-widest text-neutral-400 px-2">Featured Projects</h2>
-            
-            <a href="#" class="bento-card p-5 group flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm">Physics Investigatory</h3>
-                        <p class="text-xs text-neutral-500">Research on Capacitor Discharge</p>
-                    </div>
-                </div>
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="text-neutral-300 transition-all group-hover:text-neutral-900 group-hover:translate-x-1"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-            </a>
-
-            <a href="#" class="bento-card p-5 group flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 transition-colors group-hover:bg-purple-600 group-hover:text-white">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm">Student-Dashboard.py</h3>
-                        <p class="text-xs text-neutral-500">A CLI tool for tracking grades</p>
-                    </div>
-                </div>
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="text-neutral-300 transition-all group-hover:text-neutral-900 group-hover:translate-x-1"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-            </a>
-        </section>
-
-        <!-- Footer -->
-        <footer class="text-center py-6">
-            <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-400">© 2026 • Made with minimal intent</p>
-        </footer>
+        <div class="flex items-center gap-2 mono text-[10px] font-black uppercase">
+            <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+            LIVE_LINK
+        </div>
     </div>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 hidden z-50">
-        <div class="bg-black text-white px-6 py-3 rounded-full text-sm font-medium shadow-2xl copy-success flex items-center gap-2">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-            Discord ID copied!
+    <main class="max-w-4xl mx-auto px-6 pt-24 pb-48 space-y-40">
+        
+        <!-- Hero Section -->
+        <section class="reveal relative">
+            <div class="inline-block bg-white text-black px-4 py-1 -rotate-1 mb-8 text-sm font-black uppercase border-2 border-white">
+                MISSION_CRITICAL: CLASS_12
+            </div>
+            
+            <h1 class="text-7xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase mb-12">
+                <span class="c-1">B</span>H<span class="c-2">A</span>V<span class="c-3">Y</span>A<br>
+                <span class="c-surname">KAPATEL</span>
+            </h1>
+
+            <div class="max-w-md neo-box p-8 rotate-1">
+                <p class="text-xl font-bold uppercase italic leading-tight">
+                    Class 12 student focusing on physics, academics, and the logic of software.
+                </p>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="reveal space-y-12">
+            <div class="flex items-center gap-6">
+                <h2 class="text-3xl font-black uppercase italic bg-white text-black px-4 py-1">TECH_STACK</h2>
+                <div class="h-[2px] flex-grow bg-white/20"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="skill-cyan p-8 flex flex-col justify-between h-52 group">
+                    <div>
+                        <p class="mono text-[10px] font-black mb-4 bg-black text-white px-2 inline-block">ID_01</p>
+                        <h3 class="text-3xl font-black uppercase">PYTHON</h3>
+                    </div>
+                    <p class="text-[10px] font-black uppercase tracking-widest italic">Core Logic Foundations</p>
+                </div>
+
+                <div class="skill-pink p-8 flex flex-col justify-between h-52 group">
+                    <div>
+                        <p class="mono text-[10px] font-black mb-4 bg-black text-white px-2 inline-block">ID_02</p>
+                        <h3 class="text-3xl font-black uppercase">SQL</h3>
+                    </div>
+                    <p class="text-[10px] font-black uppercase tracking-widest italic">Relational Queries</p>
+                </div>
+
+                <div class="skill-lime p-8 flex flex-col justify-between h-52 group">
+                    <div>
+                        <p class="mono text-[10px] font-black mb-4 bg-black text-white px-2 inline-block">ID_03</p>
+                        <h3 class="text-3xl font-black uppercase">NETS</h3>
+                    </div>
+                    <p class="text-[10px] font-black uppercase tracking-widest italic">Architecture Concepts</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Knowledge Archive -->
+        <section class="reveal space-y-10">
+            <div class="flex items-center gap-6">
+                <div class="h-[2px] flex-grow bg-white/20"></div>
+                <h2 class="text-3xl font-black uppercase italic">KNOWLEDGE_ARCHIVE</h2>
+            </div>
+            
+            <div class="border-4 border-dashed border-white/20 p-20 rounded-[2rem] text-center transition-all hover:border-white hover:bg-white/5">
+                <div class="bg-white text-black px-6 py-2 inline-block -rotate-1 mb-4">
+                    <p class="mono font-black text-sm uppercase italic">Encrypted_Waiting_Deployment</p>
+                </div>
+                <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.4em]">Post-Board Deployment Scheduled // 2026</p>
+            </div>
+        </section>
+
+        <!-- Final Connect Action -->
+        <section class="reveal">
+            <button onclick="toggleModal(true)" class="w-full bg-white text-black p-10 neo-box border-none hover:bg-lime transition-all active:scale-[0.98]">
+                <div class="flex items-center justify-between">
+                    <span class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter">ESTABLISH_LINK</span>
+                    <span class="text-5xl">→</span>
+                </div>
+            </button>
+        </section>
+
+        <!-- Professional Footer -->
+        <footer class="text-center pt-20 pb-16">
+            <div class="inline-block border-t-2 border-white/10 pt-10 w-full">
+                <p class="text-3xl md:text-5xl font-black tracking-tight uppercase italic mb-3">SQUIDDRILL.FUN</p>
+                <div class="mono text-[9px] text-neutral-600 uppercase tracking-[0.4em] space-y-1">
+                    <p>© 2026 GLOBAL IDENTITY PROTOCOL</p>
+                    <p>ALL RIGHTS RESERVED // BHAVYA KAPATEL</p>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Connectivity Terminal Modal -->
+    <div id="contactModal" class="fixed inset-0 z-[1000] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div onclick="toggleModal(false)" class="absolute inset-0 bg-black/95 backdrop-blur-xl"></div>
+        <div class="relative bg-black border-4 border-white p-8 md:p-12 w-full max-w-2xl neo-box shadow-[20px_20px_0px_0px_#fff] overflow-y-auto max-h-[90vh]">
+            
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-5xl font-black uppercase italic text-white border-b-8 border-lime pb-2">CHANNELS</h2>
+                <button onclick="toggleModal(false)" class="bg-pink text-white border-2 border-black px-4 py-2 font-black hover:bg-white hover:text-black transition-colors">EXIT</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="skill-lime p-5 font-black uppercase flex justify-between items-center group">Instagram <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">OPEN_↗</span></a>
+                <a href="https://github.com/squiddrilll" target="_blank" class="skill-cyan p-5 font-black uppercase flex justify-between items-center group">GitHub <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">CODE_↗</span></a>
+                <a href="https://x.com/SquidDrill" target="_blank" class="bg-white text-black p-5 font-black uppercase flex justify-between items-center group border-4 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">X / Twitter <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">TWEET_↗</span></a>
+                <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="bg-blue-600 text-white p-5 font-black uppercase flex justify-between items-center group border-4 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">LinkedIn <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">LINK_↗</span></a>
+                <a href="https://www.reddit.com/user/squiddrill/" target="_blank" class="bg-orange-600 text-white p-5 font-black uppercase flex justify-between items-center group border-4 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">Reddit <span class="group-hover:translate-x-1 transition-transform italic text-[10px]">USER_↗</span></a>
+                
+                <button onclick="copyText('squiddrill', this)" class="skill-pink p-5 font-black uppercase flex justify-between items-center text-left group">
+                    <span>Discord</span>
+                    <span class="mono text-[10px] bg-black text-white px-1">COPY</span>
+                </button>
+
+                <!-- Mail Hub -->
+                <div class="md:col-span-2 mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t-2 border-white/20 pt-8">
+                    <a href="mailto:bhavyakapatel2008@gmail.com" class="bg-white text-black p-6 font-black uppercase text-center text-xl hover:bg-lime transition-all active:scale-95">Send_Mail ✉️</a>
+                    <button onclick="copyText('bhavyakapatel2008@gmail.com', this)" class="bg-black text-white border-2 border-white p-6 font-black uppercase text-center text-xl hover:bg-pink transition-all active:scale-95 italic">Copy_Email 📋</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- High-Visibility Toast -->
+    <div id="toast" class="fixed bottom-32 left-1/2 -translate-x-1/2 hidden z-[1000000]">
+        <div class="bg-black text-white border-[6px] border-white px-12 py-5 font-black uppercase neo-brutal text-2xl shadow-[12px_12px_0px_0px_#C3FF00]">
+            ID_STASHED! ✅
         </div>
     </div>
 
     <script>
-        function copyDiscord() {
-            const discordID = "squiddrill"; 
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3.5)');
+            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function toggleModal(show) {
+            const modal = document.getElementById('contactModal');
+            if (show) {
+                modal.classList.add('active');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.remove('active');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function copyText(text, btn) {
             const el = document.createElement('textarea');
-            el.value = discordID;
+            el.value = text;
             document.body.appendChild(el);
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            
+
             const toast = document.getElementById('toast');
             toast.classList.remove('hidden');
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "<span class='italic'>COPIED! ✅</span>";
+            
             setTimeout(() => {
                 toast.classList.add('hidden');
+                btn.innerHTML = originalText;
             }, 2000);
         }
+
+        window.addEventListener('keydown', e => { if(e.key === 'Escape') toggleModal(false); });
     </script>
 </body>
 </html>
