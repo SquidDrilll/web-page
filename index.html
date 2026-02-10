@@ -256,6 +256,12 @@
             background: rgba(255,255,255,0.08);
         }
 
+        /* Pinned Style */
+        .comment-pinned {
+            border-left: 8px solid var(--cyan) !important;
+            background: rgba(0, 240, 255, 0.1) !important;
+        }
+
         @media (max-width: 640px) {
             .nav-link span { display: none; }
             .nav-link { padding: 0.75rem; }
@@ -344,7 +350,8 @@
                     <div class="tech-line"></div>
                 </div>
                 <div class="neo-box p-8 bg-black">
-                    <div id="comments-list" class="max-h-[500px] overflow-y-auto mb-8 space-y-4 pr-2">
+                    <!-- Increased max-height to show 5-10 comments clearly -->
+                    <div id="comments-list" class="max-h-[850px] overflow-y-auto mb-8 space-y-4 pr-2">
                         <p class="mono text-xs opacity-50 uppercase">Syncing with global node...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -448,7 +455,7 @@
 
     <!-- Firebase SDKs -->
     <script type="module">
-        // Only use the 12.9.0 version to match your new config
+        // Using version 12.9.0 exclusively to match your new config and avoid script redeclaration errors
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
@@ -508,7 +515,14 @@
                     if (!list) return;
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => d.data());
-                    docs.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+                    
+                    // PIN LOGIC: Sort by "pinned" status first (true > false), then by timestamp (newest first)
+                    docs.sort((a, b) => {
+                        const pinA = a.pinned === true ? 1 : 0;
+                        const pinB = b.pinned === true ? 1 : 0;
+                        if (pinA !== pinB) return pinB - pinA; // Pinned goes to the top
+                        return (b.timestamp || 0) - (a.timestamp || 0); // Then newest messages
+                    });
                     
                     if (docs.length === 0) {
                         list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">No messages yet. Be the first.</p>`;
@@ -517,12 +531,18 @@
 
                     docs.forEach(c => {
                         const div = document.createElement('div');
-                        div.className = "comment-item";
+                        // Use special styling if pinned
+                        div.className = "comment-item" + (c.pinned ? " comment-pinned" : "");
+                        
                         const displayName = c.name ? c.name : `USER_${c.uid?.substring(0,5).toUpperCase() || 'ANON'}`;
                         const timeStr = c.timestamp ? new Date(c.timestamp).toLocaleTimeString() : '...';
+                        
+                        // Added Pinned Label logic
+                        const pinBadge = c.pinned ? `<span class="ml-2 bg-cyan-400 text-black px-1 text-[8px] font-black uppercase tracking-widest italic">📌 Pinned by Creator</span>` : '';
+
                         div.innerHTML = `
                             <div class="flex justify-between items-start mb-2">
-                                <span class="mono text-[10px] text-lime font-bold">${displayName}</span>
+                                <span class="mono text-[10px] text-lime font-bold uppercase">${displayName}${pinBadge}</span>
                                 <span class="mono text-[8px] opacity-40">${timeStr}</span>
                             </div>
                             <p class="text-sm font-bold uppercase tracking-tight">${c.text || ''}</p>
@@ -546,7 +566,8 @@
                     uid: user.uid,
                     name: name,
                     text: text,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    pinned: false // New comments are never pinned by default
                 });
                 if (input) input.value = "";
                 if (nameInput) nameInput.value = "";
