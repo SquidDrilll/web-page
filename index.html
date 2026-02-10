@@ -35,51 +35,37 @@
             position: relative;
         }
 
-        #cursor {
-            width: 24px; height: 24px;
-            background: #fff;
-            border-radius: 2px;
+        body::before {
+            content: "";
             position: fixed;
-            pointer-events: none;
-            z-index: 1000000; 
-            mix-blend-mode: difference;
-            transition: transform 0.1s ease-out;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/feFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05; pointer-events: none; z-index: 9999;
+        }
+
+        #cursor {
+            width: 24px; height: 24px; background: #fff; border-radius: 2px;
+            position: fixed; pointer-events: none; z-index: 1000000; 
+            mix-blend-mode: difference; transition: transform 0.1s ease-out;
             display: flex; align-items: center; justify-content: center;
         }
 
         #interactive-name { transform: skewX(-10deg); display: inline-block; }
-        .char {
-            display: inline-block;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            padding: 0 1px;
-        }
+        .char { display: inline-block; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; padding: 0 1px; }
         .char:hover { transform: scale(1.3) translateY(-10px) rotate(5deg); text-shadow: 8px 8px 0px black; }
         .c-1 { color: var(--cyan); }
         .c-2 { color: var(--lime); }
         .c-3 { color: var(--pink); }
 
-        .brutal-heading {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: inline-block;
-        }
-        .brutal-heading:hover {
-            transform: skewX(-10deg) scale(1.05);
-            color: var(--lime);
-            text-shadow: 10px 10px 0px var(--pink);
-        }
+        .brutal-heading { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-block; }
+        .brutal-heading:hover { transform: skewX(-10deg) scale(1.05); color: var(--lime); text-shadow: 10px 10px 0px var(--pink); }
 
         .neo-box {
-            background: var(--bg);
-            border: 4px solid var(--white);
+            background: var(--bg); border: 4px solid var(--white);
             box-shadow: 10px 10px 0px 0px var(--white);
             transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .neo-box:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 18px 18px 0px 0px var(--lime);
-            border-color: var(--lime);
-        }
+        .neo-box:hover { transform: translate(-4px, -4px); box-shadow: 18px 18px 0px 0px var(--lime); border-color: var(--lime); }
 
         .page-view { transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1), opacity 0.5s; min-height: 100vh; width: 100%; }
         .view-hidden { display: none !important; opacity: 0; }
@@ -89,113 +75,56 @@
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
         .nav-link {
-            padding: 0.75rem 1.25rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            transition: all 0.2s;
-            border: 4px solid white;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: white;
-            color: black;
-            box-shadow: 4px 4px 0px rgba(255,255,255,0.2);
+            padding: 0.75rem 1.25rem; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;
+            transition: all 0.2s; border: 4px solid white; display: flex; align-items: center; gap: 6px;
+            background: white; color: black; box-shadow: 4px 4px 0px rgba(255,255,255,0.2);
         }
         .nav-link:hover { background: var(--lime); transform: scale(1.1) rotate(-1deg); box-shadow: 6px 6px 0px black; }
         .nav-active { background: var(--orange) !important; color: white !important; box-shadow: 8px 8px 0px white !important; }
 
         .status-tag-anim {
-            background: black;
-            color: white;
-            border: 4px solid white;
-            box-shadow: 6px 6px 0px var(--lime);
-            padding: 6px 20px;
-            display: inline-block;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 900;
-            text-transform: uppercase;
-            animation: status-float 3s infinite ease-in-out;
+            background: black; color: white; border: 4px solid white; box-shadow: 6px 6px 0px var(--lime);
+            padding: 6px 20px; display: inline-block; font-family: 'JetBrains Mono', monospace;
+            font-weight: 900; text-transform: uppercase; animation: status-float 3s infinite ease-in-out;
         }
+        @keyframes status-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); box-shadow: 10px 10px 0px var(--pink); } }
 
-        @keyframes status-float {
-            0%, 100% { transform: translateY(0) rotate(-1deg); }
-            50% { transform: translateY(-5px) rotate(1deg); box-shadow: 10px 10px 0px var(--pink); }
-        }
-
-        .live-dot {
-            width: 12px; height: 12px;
-            background: #ef4444;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
-            box-shadow: 0 0 15px #ef4444;
-            animation: pulse-red 1.5s infinite;
-        }
-
-        @keyframes pulse-red {
-            0% { transform: scale(0.9); opacity: 0.7; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.9); opacity: 0.7; }
-        }
+        .live-dot { width: 12px; height: 12px; background: #ef4444; border-radius: 50%; display: inline-block; margin-right: 10px; box-shadow: 0 0 15px #ef4444; animation: pulse-red 1.5s infinite; }
+        @keyframes pulse-red { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
 
         .connect-card {
-            border: 6px solid white;
-            padding: 2.5rem;
-            background: black;
-            color: white;
+            border: 6px solid white; padding: 2.5rem; background: black; color: white;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 12px 12px 0px 0px white;
-            min-height: 220px;
-            display: flex; flex-direction: column; justify-content: center;
+            box-shadow: 12px 12px 0px 0px white; min-height: 220px; display: flex; flex-direction: column; justify-content: center;
         }
         .connect-card:hover { transform: translate(-8px, -8px); box-shadow: 24px 24px 0px 0px var(--lime); border-color: var(--lime); }
 
-        #game-canvas { image-rendering: pixelated; background: #000; width: 100%; height: 450px; border: 8px solid white; }
+        #game-canvas { image-rendering: pixelated; background: #000000; width: 100%; height: 450px; border: 8px solid white; }
 
         .comments-scroll-area { max-height: 500px; overflow-y: auto; position: relative; padding-top: 10px; }
         .comment-pinned {
-            position: sticky; top: 0; z-index: 20;
-            border-color: var(--white) !important;
-            box-shadow: 10px 10px 0px 0px var(--white) !important;
-            background: rgba(255, 255, 255, 0.15) !important;
-            margin-bottom: 2.5rem !important;
-            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 20; border-color: var(--white) !important;
+            box-shadow: 10px 10px 0px 0px var(--white) !important; background: rgba(255, 255, 255, 0.15) !important;
+            margin-bottom: 2.5rem !important; backdrop-filter: blur(10px);
         }
 
-        #game-modal {
-            position: fixed; inset: 0; z-index: 99999;
-            background: rgba(0,0,0,0.9);
-            display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(10px);
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 99999; background: rgba(0,0,0,0.95);
+            display: none; align-items: center; justify-content: center; backdrop-filter: blur(12px);
         }
         .grey-dialog {
-            background: #333333; border: 8px solid white;
-            box-shadow: 25px 25px 0px 0px var(--lime);
+            background: #333333; border: 8px solid white; box-shadow: 25px 25px 0px 0px var(--lime);
             padding: 3rem; width: 90%; max-width: 550px; text-align: center;
         }
 
-        .bubble-effect {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 999999;
-        }
+        .bubble-effect { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999999; }
 
         .back-btn {
-            background: white; color: black; border: 4px solid black;
-            font-weight: 900; text-transform: uppercase;
-            box-shadow: 8px 8px 0px var(--lime);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 1.5rem 3rem;
-            display: inline-block;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
+            background: white; color: black; border: 4px solid black; font-weight: 900; text-transform: uppercase;
+            box-shadow: 8px 8px 0px var(--lime); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 1.5rem 3rem; display: inline-block; cursor: pointer; width: 100%; text-align: center;
         }
-        .back-btn:hover {
-            transform: scale(1.05) skewX(-5deg);
-            background: var(--cyan);
-            box-shadow: 12px 12px 0px black;
-        }
+        .back-btn:hover { transform: scale(1.05) skewX(-5deg); background: var(--cyan); box-shadow: 12px 12px 0px black; }
 
         .input-error { animation: shake 0.4s ease-in-out; border-color: var(--pink) !important; box-shadow: 0 0 15px var(--pink) !important; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
@@ -213,8 +142,17 @@
     <canvas id="bubble-canvas" class="bubble-effect"></canvas>
     <div id="cursor"></div>
 
+    <!-- Alert Modal (PC advice) -->
+    <div id="pc-alert-modal" class="modal-overlay" style="display: flex;">
+        <div class="grey-dialog border-pink-500 shadow-[25px_25px_0px_var(--pink)]">
+            <h2 class="text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">ALERT_ENTRY</h2>
+            <p class="mono text-white text-lg mb-10 leading-relaxed">FOR THE ULTIMATE EXPERIENCE AND UNCOMPROMISED LOGIC CONTROL, ACCESS VIA PC IS HIGHLY RECOMMENDED.</p>
+            <button onclick="document.getElementById('pc-alert-modal').style.display='none'" class="w-full bg-white text-black py-5 font-black uppercase text-2xl border-4 border-black shadow-[8px_8px_0px_var(--lime)] hover:scale-105 transition-all">I UNDERSTAND</button>
+        </div>
+    </div>
+
     <!-- Game Selection Modal -->
-    <div id="game-modal">
+    <div id="game-modal" class="modal-overlay">
         <div class="grey-dialog">
             <h2 class="text-4xl md:text-5xl font-black text-white uppercase italic mb-6 tracking-tighter brutal-heading">Sector Entry</h2>
             <input id="arcade-nickname" type="text" placeholder="USERNAME (MANDATORY)" class="w-full bg-black border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime mb-8 text-center text-xl">
@@ -222,14 +160,14 @@
                 <button onclick="switchGame('dino')" class="bg-lime text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Dino Survival</button>
                 <button onclick="switchGame('snake')" class="bg-cyan text-black py-5 font-black uppercase text-2xl border-4 border-white shadow-[8px_8px_0px_white] hover:translate-x-2 transition-transform">Classic Snake</button>
             </div>
-            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-8 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ CLOSE ACCESS ]</button>
+            <button onclick="document.getElementById('game-modal').style.display='none'" class="mt-8 text-white font-black uppercase text-sm border-b-4 border-white hover:text-pink-500 hover:border-pink-500 transition-colors">[ CLOSE_ACCESS ]</button>
         </div>
     </div>
 
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
-                All time Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
+                All time Visitors <span id="v-count" class="text-pink-600 animate-pulse">🤔</span> ⚡
             </span>
         </div>
         <div class="flex gap-3">
@@ -243,38 +181,19 @@
     <div id="home-view" class="page-view pt-32 pb-48">
         <main class="max-w-5xl mx-auto px-6 space-y-48">
             <section class="reveal visible">
-                <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">
-                    Status Live ⚡
-                </div>
-                
-                <div class="block mb-20">
-                    <h1 id="interactive-name" class="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none">
-                        <!-- JS Inject -->
-                    </h1>
-                </div>
-
+                <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">Status Live ⚡</div>
+                <div class="block mb-20"><h1 id="interactive-name" class="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1></div>
                 <div class="neo-box p-10 md:p-16 max-w-4xl bg-white text-black relative">
-                    <div class="flex gap-4 mb-8">
-                        <div class="w-4 h-4 bg-black"></div>
-                        <div class="w-4 h-4 bg-black"></div>
-                        <div class="w-4 h-4 bg-black"></div>
-                    </div>
+                    <div class="flex gap-4 mb-8"><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div></div>
                     <div id="quote-container" class="min-h-[140px]">
-                        <p id="quote-text" class="text-3xl md:text-5xl font-black uppercase italic leading-none transition-all duration-500">
-                            "Imagination is more important than knowledge."
-                        </p>
-                        <p id="quote-author" class="mono text-xs mt-8 font-black uppercase tracking-[0.3em] text-pink-600">
-                            Albert Einstein
-                        </p>
+                        <p id="quote-text" class="text-3xl md:text-5xl font-black uppercase italic leading-none transition-all duration-500">"Imagination is more important than knowledge."</p>
+                        <p id="quote-author" class="mono text-xs mt-8 font-black uppercase tracking-[0.3em] text-pink-600">Albert Einstein</p>
                     </div>
                 </div>
             </section>
 
             <section class="reveal">
-                <div class="flex items-center gap-8">
-                    <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Tech Stack 💻</h2>
-                    <div class="h-2 flex-grow bg-white"></div>
-                </div>
+                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Tech Stack 💻</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div class="neo-box p-10 border-cyan-400">
                         <span class="mono text-sm text-cyan-400 font-black mb-4 block">01</span>
@@ -284,26 +203,21 @@
                     <div class="neo-box p-10 border-pink-500">
                         <span class="mono text-sm text-pink-500 font-black mb-4 block">02</span>
                         <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Chaotic data needs order; I find peace in architectingRelational structures that tell a story."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Organizing chaotic data into relational structures is where I find my flow."</p>
                     </div>
                     <div class="neo-box p-10 border-lime">
                         <span class="mono text-sm text-lime font-black mb-4 block">03</span>
                         <h3 class="text-4xl font-black uppercase mb-6">NETS</h3>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Understanding the linking of digital nodes helps me visualize the internet skeleton."</p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Exploring digital nodes helps me understand the skeleton of the internet."</p>
                     </div>
                 </div>
             </section>
 
             <section class="reveal">
-                <div class="flex items-center gap-8">
-                    <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Comments 💬</h2>
-                    <div class="h-2 flex-grow bg-white"></div>
-                </div>
+                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Comments 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="neo-box p-10 relative">
                     <div id="comments-list" class="comments-scroll-area space-y-6 pr-4 mb-10 scrollbar-hide">
-                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2">
-                            <i class="fa-solid fa-spinner animate-spin"></i> Syncing Node...
-                        </p>
+                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Syncing Node...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <input id="comment-name" type="text" placeholder="NAME (OPTIONAL)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
@@ -317,17 +231,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                     <div class="space-y-10">
                         <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight brutal-heading">SQUIDDRILL.FUN</h4>
-                        <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">
-                            Building a digital monolith to record my progress through architectural code and structural logic.
-                        </p>
-                        <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">
-                            © ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE IDENTITY PROTOCOL
-                        </p>
+                        <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">A personal digital monolith recording my progress through architectural software and logical experimentation.</p>
+                        <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">© ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE IDENTITY PROTOCOL</p>
                     </div>
                     <div class="flex flex-col gap-8 md:items-end">
                         <div class="neo-box bg-white text-black p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
-                            <div class="mb-2">ESTABLISHED 2026</div>
-                            <div class="mb-6">LOC: ANAND, GUJ, IN</div>
+                            <div class="mb-2">ESTABLISHED 2026</div><div class="mb-6">LOC: ANAND, GUJ, IN</div>
                             <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>LIVE NODE ACTIVE</span>
                         </div>
                     </div>
@@ -380,7 +289,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 <a href="https://github.com/squiddrilll" target="_blank" class="connect-card"><i class="fa-brands fa-github text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase text-white">GITHUB</h3><p class="mono text-xs opacity-50 mt-4">SOURCE NODE ↗</p></a>
                 <a href="https://linkedin.com/in/bhavya-kapatel-9a392a3a7/" target="_blank" class="connect-card"><i class="fa-brands fa-linkedin text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase text-white">LINKEDIN</h3><p class="mono text-xs opacity-50 mt-4">CONNECT GRID ↗</p></a>
-                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase text-white">X TWITTER</h3><p class="mono text-xs opacity-50 mt-4">BROADCAST ↗</p></a>
+                <a href="https://x.com/SquidDrill" target="_blank" class="connect-card"><i class="fa-brands fa-x-twitter text-6xl mb-6"></i><h3 class="text-3xl font-black uppercase text-white">X TWITTER</h3><p class="mono text-xs opacity-50 mt-4">BROADCAST ↗</p></a>
                 <a href="https://instagram.com/bhavya.kapatel" target="_blank" class="connect-card"><i class="fa-brands fa-instagram text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase text-white">INSTAGRAM</h3><p class="mono text-xs opacity-50 mt-4">VISUAL FEED ↗</p></a>
                 <button onclick="copyText('squiddrill', this)" class="connect-card text-left"><i class="fa-brands fa-discord text-6xl mb-6 text-white"></i><h3 class="text-3xl font-black uppercase text-white">DISCORD</h3><p class="mono text-xs opacity-50 mt-4">USER ID 📋</p></button>
                 <a href="mailto:bhavyakapatel2008@gmail.com" target="_blank" class="connect-card"><i class="fa-solid fa-envelope text-6xl mb-6 text-lime"></i><h3 class="text-3xl font-black uppercase text-white">DIRECT MAIL</h3><p class="mono text-xs opacity-50 mt-4">SEND MESSAGE ✉️</p></a>
@@ -413,6 +322,7 @@
         const appId = "web-page"; 
         let user = null;
         let leaderboardData = [];
+        let sessionGuestId = Math.floor(1000 + Math.random() * 9000);
 
         const init = async () => {
             if (!auth || !db) return;
@@ -477,7 +387,6 @@
 
         const updateLeaderboardUI = () => {
             const list = document.getElementById('leaderboard-list'); if (!list) return;
-            // Only show highest score per unique name
             const uniqueEntries = {};
             leaderboardData.forEach(d => {
                 if (d.game === currentGame) {
@@ -496,10 +405,10 @@
 
         window.saveArcadeScore = async (score) => {
             if (!user || !db || score < 1) return;
-            const name = document.getElementById('arcade-nickname')?.value.trim() || 'ANON';
+            const rawName = document.getElementById('arcade-nickname')?.value.trim() || 'ANON';
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard'), {
-                    name: name, score: score, game: currentGame, timestamp: Date.now()
+                    name: rawName, score: score, game: currentGame, timestamp: Date.now()
                 });
             } catch (e) {}
         };
@@ -657,7 +566,14 @@
         let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 10, y: 10}], food = {x: 5, y: 5}, dir = {x: 1, y: 0};
 
         window.switchGame = (type) => {
+            const nameInput = document.getElementById('arcade-nickname');
+            if (!nameInput.value.trim()) {
+                nameInput.classList.add('input-error');
+                setTimeout(() => nameInput.classList.remove('input-error'), 500);
+                return;
+            }
             currentGame = type;
+            document.getElementById('game-modal').style.display='none';
             gameActive = false; updateLeaderboardUI();
             document.getElementById('overlay-title').innerText = "READY?";
             document.getElementById('overlay-btn').innerText = "BOOT GAME";
@@ -667,6 +583,7 @@
         window.startGame = () => {
             const nameInput = document.getElementById('arcade-nickname');
             if (!nameInput.value.trim()) {
+                document.getElementById('game-modal').style.display='flex';
                 nameInput.classList.add('input-error');
                 setTimeout(() => nameInput.classList.remove('input-error'), 500);
                 return;
@@ -738,4 +655,3 @@
     </script>
 </body>
 </html>
-    
