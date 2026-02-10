@@ -8,7 +8,7 @@
     
     <!-- Primary Meta Tags -->
     <title>Suggest Title💀</title>
-    <meta name="title" content="SQUIDDRILL | BHAVYA KAPATEL 💀">
+    <meta name="title" content="Suggest Title💀">
     <meta name="description" content="Digital monolith and logic repository of Bhavya Kapatel. Exploring software architecture, automation, and interactive design.">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
     <link rel="canonical" href="https://squiddrill.fun" />
@@ -273,7 +273,7 @@
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
-                Node Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
+                All-Time-Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
             </span>
         </div>
         <div class="flex gap-2 sm:gap-3">
@@ -287,7 +287,7 @@
     <div id="home-view" class="page-view pt-32 pb-48">
         <main class="max-w-5xl mx-auto px-6 space-y-48">
             <section class="reveal visible">
-                <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">Status Live ⚡</div>
+                <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">Status-> Live ⚡</div>
                 <div class="block mb-20">
                     <h1 id="interactive-name" class="text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1>
                     <div class="mono text-[10px] md:text-xs opacity-40 mt-4 uppercase tracking-[0.3em] font-black">aka squiddrill, sentinel</div>
@@ -323,13 +323,13 @@
             </section>
 
             <section class="reveal">
-                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Feed 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
+                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Comments 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="neo-box p-6 md:p-10 relative">
                     <div id="comments-list" class="comments-scroll-area space-y-6 mb-10">
-                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Node Data...</p>
+                        <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Data...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <input id="comment-name" type="text" placeholder="GUEST NAME" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
+                        <input id="comment-name" type="text" placeholder="GUEST NAME[ OPTIONAL]" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
                         <input id="comment-input" type="text" placeholder="MESSAGE (ENTER)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2">
                         <button onclick="window.postComment()" class="bg-white text-black px-10 font-black uppercase hover:bg-lime transition-all border-4 border-black text-xl shadow-[8px_8px_0px_var(--lime)]">POST</button>
                     </div>
@@ -345,7 +345,7 @@
                     </div>
                     <div class="flex flex-col gap-8 md:items-end">
                         <div class="neo-box footer-system-box p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
-                            <div class="mb-2">ACTIVE SINCE 2024</div><div class="mb-6">LOC: ANAND / GUJ / IN</div>
+                            <div class="mb-2">ACTIVE SINCE 2026</div><div class="mb-6">LOC: ANAND / GUJ / IN</div>
                             <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>SYSTEM ONLINE</span>
                         </div>
                     </div>
@@ -374,9 +374,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="lg:col-span-1 space-y-8">
+                <div class="lg:col-span-1 space-y-8 flex flex-col">
+                    <!-- ABORT BUTTON MOVED ABOVE -->
+                    <button onclick="switchView('home')" class="back-btn text-xl mb-4">RAGE QUITF</button>
+
                     <div class="neo-box bg-white p-8 text-black">
-                        <h3 class="text-2xl font-black uppercase mb-6 border-b-4 border-black pb-2">Records</h3>
+                        <h3 class="text-2xl font-black uppercase mb-6 border-b-4 border-black pb-2">LEADERBOARD</h3>
                         <div id="leaderboard-list" class="space-y-4 mono font-black uppercase text-sm">
                             <p class="opacity-50 italic uppercase tracking-widest">Querying Records...</p>
                         </div>
@@ -385,7 +388,6 @@
                         <span class="mono text-xs font-black uppercase block mb-2">OUTPUT</span>
                         <span id="current-score" class="text-6xl font-black italic">000</span>
                     </div>
-                    <button onclick="switchView('home')" class="back-btn text-xl">ABORT</button>
                 </div>
             </div>
         </div>
@@ -523,7 +525,6 @@
 
         window.openArcadeMenu = () => {
             if (currentActiveSessionName && selectedInputMode) {
-                // Skip directly to game selection if user & mode already set
                 document.getElementById('game-modal').style.display = 'flex';
                 document.getElementById('game-step-1').classList.add('hidden');
                 document.getElementById('game-step-2').classList.add('hidden');
@@ -538,7 +539,6 @@
             document.getElementById('game-step-1').classList.remove('hidden');
             document.getElementById('game-step-2').classList.add('hidden');
             document.getElementById('game-step-3').classList.add('hidden');
-            // If we have a cached name, fill it in but let user change it
             if (currentActiveSessionName) {
                 document.getElementById('arcade-nickname').value = currentActiveSessionName;
             }
@@ -556,6 +556,14 @@
                 input.value = ""; nameInput.value = "";
             } catch (e) {}
         };
+
+        // ENTER TO SEND FOR COMMENTS
+        document.getElementById('comment-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                window.postComment();
+            }
+        });
 
         const updateLeaderboardUI = () => {
             const list = document.getElementById('leaderboard-list'); if (!list) return;
@@ -731,7 +739,7 @@
             frame++; loop = requestAnimationFrame(runLoop);
         };
 
-        const gameOver = () => { gameActive = false; cancelAnimationFrame(loop); window.saveArcadeScore(Math.floor(score)); document.getElementById('overlay-title').innerText = "FATAL ERROR"; document.getElementById('overlay-btn').innerText = "REBOOT"; document.getElementById('overlay-btn').onclick = startGame; document.getElementById('game-overlay').style.display = 'flex'; };
+        const gameOver = () => { gameActive = false; cancelAnimationFrame(loop); window.saveArcadeScore(Math.floor(score)); document.getElementById('overlay-title').innerText = "SKILL ISSUE"; document.getElementById('overlay-btn').innerText = "REBOOT"; document.getElementById('overlay-btn').onclick = startGame; document.getElementById('game-overlay').style.display = 'flex'; };
 
         window.handleControl = (type) => {
             if (currentGame === 'dino' && (type === 'action' || type === 'up') && dino.y === 390) dino.v = -22;
