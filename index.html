@@ -123,7 +123,6 @@
             opacity: 0;
         }
 
-        /* Scrollable Full-Page Views */
         .full-view-container {
             position: fixed;
             inset: 0;
@@ -232,7 +231,6 @@
             transform: scale(1.1);
         }
 
-        /* Comments Styling */
         .comment-input, .comment-name-input {
             background: transparent;
             border: 4px solid white;
@@ -414,7 +412,7 @@
 
             <div class="flex flex-col sm:flex-row justify-between items-center bg-white text-black p-4 md:p-6 border-4 border-black shadow-[8px_8px_0px_var(--pink)] gap-4">
                 <div class="mono text-xl md:text-2xl font-black">Score: <span id="current-score" class="text-pink-600">000</span></div>
-                <div class="mono text-xl md:text-2xl font-black">High: <span id="hi-score">000</span></div>
+                <div class="mono text-xl md:text-2xl font-black">High: <span id="hi-score-display">000</span></div>
                 <button onclick="switchView('home')" class="w-full sm:w-auto bg-black text-white px-6 py-2 font-black uppercase">EXIT_ARCADE</button>
             </div>
         </div>
@@ -454,7 +452,6 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Defensive initialization for external environments
         let db, auth, appId;
         try {
             const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
@@ -463,30 +460,27 @@
             db = getFirestore(app);
             appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         } catch (e) {
-            console.warn("Firebase config missing or invalid. Real-time features disabled.");
+            console.warn("Firebase config missing or invalid.");
         }
 
         let user = null;
 
         const init = async () => {
             if (!auth || !db) return;
-
             try {
-                // Rule 3: Auth FIRST and await it before any queries
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
             } catch (authError) {
-                console.error("Firebase Authentication Error:", authError);
+                console.error("Auth Error:", authError);
             }
 
             onAuthStateChanged(auth, async (u) => {
                 user = u;
-                if (!user) return; // Guard for Rule 3
+                if (!user) return;
 
-                // Visitor Counter Logic
                 const statsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'counters');
                 try {
                     const snap = await getDoc(statsDoc);
@@ -495,25 +489,20 @@
                     } else {
                         await updateDoc(statsDoc, { total: increment(1) });
                     }
-                } catch (e) { 
-                    console.error("Visitor update failed (Permission Denied):", e);
-                }
+                } catch (e) { }
                 
-                // Real-time Visitor Count with Error Callback
                 onSnapshot(statsDoc, (doc) => {
                     const count = doc.data()?.total || 0;
                     const vCount = document.getElementById('v-count');
                     if (vCount) vCount.innerText = count.toLocaleString();
-                }, (err) => console.warn("Visitor listener limited by permissions."));
+                }, (err) => {});
 
-                // Real-time Comments with Error Callback
                 const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
                 onSnapshot(commentsCol, (snapshot) => {
                     const list = document.getElementById('comments-list');
                     if (!list) return;
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => d.data());
-                    // Sort in memory as per Rule 2
                     docs.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
                     
                     if (docs.length === 0) {
@@ -535,10 +524,7 @@
                         `;
                         list.appendChild(div);
                     });
-                }, (err) => {
-                    const list = document.getElementById('comments-list');
-                    if (list) list.innerHTML = `<p class="mono text-xs opacity-50 uppercase">Database connection restricted by project rules.</p>`;
-                });
+                }, (err) => {});
             });
         };
 
@@ -560,13 +546,12 @@
                 if (input) input.value = "";
                 if (nameInput) nameInput.value = "";
             } catch (e) {
-                console.error("Posting comment failed (Permission Denied):", e);
+                console.error("Post Error:", e);
             }
         };
 
         window.addEventListener('load', init);
 
-        // UI Logic
         const quotes = [
             { t: "Imagination is more important than knowledge.", a: "Albert Einstein" },
             { t: "The important thing is not to stop questioning.", a: "Albert Einstein" },
@@ -656,7 +641,6 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            
             const toast = document.getElementById('toast');
             if (toast) {
                 toast.classList.remove('hidden');
@@ -669,7 +653,7 @@
         const ctx = canvas instanceof HTMLCanvasElement ? canvas.getContext('2d') : null;
         let currentGame = 'dino';
         let gameActive = false;
-        let score = 0, hiScore = 0, loop, frame = 0;
+        let score = 0, hiScoreDino = 0, hiScoreSnake = 0, loop, frame = 0;
         let dino = { y: 390, v: 0 }, obstacles = [], snake = [{x: 10, y: 10}], food = {x: 5, y: 5}, dir = {x: 1, y: 0};
 
         window.startGame = () => {
@@ -685,6 +669,7 @@
             if (bd) bd.className = type === 'dino' ? 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-lime text-black font-black uppercase shadow-[4px_4px_0px_white]' : 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-zinc-800 text-white font-black uppercase';
             if (bs) bs.className = type === 'snake' ? 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-cyan text-black font-black uppercase shadow-[4px_4px_0px_white]' : 'flex-1 md:flex-none px-4 md:px-8 py-3 bg-zinc-800 text-white font-black uppercase';
             gameActive = false; 
+            updateHiScoreDisplay();
             const overlay = document.getElementById('game-overlay');
             if (overlay) overlay.style.display = 'flex';
         };
@@ -692,6 +677,7 @@
         const initGame = () => {
             if (canvas && canvas.parentElement) {
                 canvas.width = canvas.parentElement.clientWidth; canvas.height = 450;
+                updateHiScoreDisplay();
             }
         };
 
@@ -699,6 +685,14 @@
 
         const resetGameState = () => {
             dino = { y: 390, v: 0 }; obstacles = []; snake = [{x: 10, y: 10}]; dir = {x: 1, y: 0}; frame = 0;
+        };
+
+        const updateHiScoreDisplay = () => {
+            const hsd = document.getElementById('hi-score-display');
+            if (hsd) {
+                const hi = currentGame === 'dino' ? hiScoreDino : hiScoreSnake;
+                hsd.innerText = hi.toString().padStart(3, '0');
+            }
         };
 
         const runLoop = () => {
@@ -735,21 +729,22 @@
 
         const gameOver = () => {
             gameActive = false; cancelAnimationFrame(loop);
-            if(score > hiScore) hiScore = Math.floor(score);
-            const hs = document.getElementById('hi-score');
-            if (hs) hs.innerText = hiScore.toString().padStart(3, '0');
+            const finalScore = Math.floor(score);
+            if (currentGame === 'dino') {
+                if(finalScore > hiScoreDino) hiScoreDino = finalScore;
+            } else {
+                if(finalScore > hiScoreSnake) hiScoreSnake = finalScore;
+            }
+            updateHiScoreDisplay();
             const overlay = document.getElementById('game-overlay');
             if (overlay) overlay.style.display = 'flex';
         };
 
         window.addEventListener('keydown', e => {
-            // Check if user is typing in an input field
             const isTyping = document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA';
-            
             if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code) && !isTyping) {
                 e.preventDefault();
             }
-            
             if(!isTyping) {
                 if(e.code === 'Space' || e.code === 'ArrowUp') { if(currentGame === 'dino' && dino.y === 390) dino.v = -22; }
                 if(currentGame === 'snake') {
