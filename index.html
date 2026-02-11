@@ -224,9 +224,9 @@
             </span>
         </div>
         <div class="flex gap-2 sm:gap-3">
-            <button onclick="switchView('home')" id="nav-home" class="nav-link nav-active"><i class="fa-solid fa-house"></i> <span>Home</span></button>
-            <button onclick="switchView('arcade')" id="nav-arcade" class="nav-link"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></button>
-            <button onclick="switchView('connect')" id="nav-connect" class="nav-link"><i class="fa-solid fa-network-wired"></i> <span>Socials</span></button>
+            <a href="https://squiddrill.fun" id="nav-home" class="nav-link nav-active"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+            <a href="https://arcade.squiddrill.fun" id="nav-arcade" class="nav-link"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></a>
+            <a href="https://socials.squiddrill.fun" id="nav-connect" class="nav-link"><i class="fa-solid fa-network-wired"></i> <span>Socials</span></a>
         </div>
     </nav>
 
@@ -402,7 +402,7 @@
 
         document.addEventListener('mousemove', e => {
             const cursor = document.getElementById('cursor'); if (!cursor) return;
-            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+            cursor.style.left = (e.clientX - 12) + 'px'; cursor.style.top = (e.clientY - 12) + 'px';
         });
 
         document.addEventListener('mouseover', e => {
