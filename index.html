@@ -51,7 +51,7 @@
             background-size: 35px 35px;
             position: relative;
             touch-action: manipulation;
-            animation: flicker 0.15s infinite;
+            animation: flicker 4s infinite; /* Slowed down for better readability */
         }
         
         /* LOCKED STATE FOR MODAL */
@@ -407,7 +407,10 @@
                         const div = document.createElement('div');
                         const isOwner = c.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || c.name === 'Creator' || c.pinned === true;
                         div.className = "neo-box p-6 bg-black border-white " + (isOwner ? "comment-pinned" : "");
-                        div.innerHTML = `<div class="flex justify-between mb-2"><span class="mono text-[10px] text-lime font-black uppercase tracking-tight">${(c.name || 'ANON').toUpperCase()}</span></div><p class="text-sm font-bold uppercase tracking-tight">${c.text}</p>`;
+                        // SECURITY FIX: Escape HTML to prevent XSS
+                        const safeName = (c.name || 'ANON').toUpperCase().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        const safeText = c.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        div.innerHTML = `<div class="flex justify-between mb-2"><span class="mono text-[10px] text-lime font-black uppercase tracking-tight">${safeName}</span></div><p class="text-sm font-bold uppercase tracking-tight">${safeText}</p>`;
                         list.appendChild(div);
                     });
                 });
@@ -437,7 +440,8 @@
             const textLower = text.toLowerCase();
             const nameLower = (name || "").toLowerCase();
             
-            const hasProfanity = BAD_WORDS.some(w => textLower.includes(w)) || BAD_WORDS.some(w => nameLower.includes(w));
+            // FIX: Check for whole words only (prevents blocking "class" or "hello")
+            const hasProfanity = BAD_WORDS.some(w => new RegExp(`\\b${w}\\b`, 'i').test(textLower)) || BAD_WORDS.some(w => new RegExp(`\\b${w}\\b`, 'i').test(nameLower));
 
             if (hasProfanity) {
                  input.classList.add('input-error');
