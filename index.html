@@ -397,8 +397,8 @@
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => ({...d.data(), id: d.id}));
                     docs.sort((a, b) => {
-                        const isPinnedA = a.pinned === true || a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || a.name === 'Creator';
-                        const isPinnedB = b.pinned === true || b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || b.name === 'Creator';
+                        const isPinnedA = a.pinned === true || a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' ;
+                        const isPinnedB = b.pinned === true || b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' ;
                         if (isPinnedA && !isPinnedB) return -1;
                         if (!isPinnedA && isPinnedB) return 1;
                         return (b.timestamp || 0) - (a.timestamp || 0);
