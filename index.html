@@ -30,6 +30,7 @@
             --orange: #FF5C00;
         }
 
+        /* PERMANENT SCANLINE / FLICKER EFFECT */
         @keyframes flicker {
             0% { opacity: 0.97; } 5% { opacity: 0.95; } 10% { opacity: 0.97; } 15% { opacity: 0.94; } 20% { opacity: 0.98; } 100% { opacity: 1; }
         }
@@ -38,7 +39,8 @@
 
         body {
             font-family: 'Public Sans', sans-serif;
-            background-color: var(--bg); color: var(--white);
+            background-color: var(--bg);
+            color: var(--white);
             overflow-x: hidden;
             background-image: radial-gradient(rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
             background-size: 35px 35px;
@@ -50,7 +52,9 @@
         @media (pointer: fine) { body { cursor: none; } }
 
         body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/feFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
             opacity: 0.08; pointer-events: none; z-index: 9999;
         }
@@ -66,7 +70,9 @@
         #interactive-name { transform: skewX(-10deg); display: inline-block; }
         .char { display: inline-block; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; padding: 0 1px; }
         .char:hover { transform: scale(1.3) translateY(-10px) rotate(5deg); text-shadow: 8px 8px 0px black; }
-        .c-1 { color: var(--cyan); } .c-2 { color: var(--lime); } .c-3 { color: var(--pink); }
+        .c-1 { color: var(--cyan); }
+        .c-2 { color: var(--lime); }
+        .c-3 { color: var(--pink); }
 
         @keyframes brutal-pulse {
             0%, 100% { text-shadow: 4px 4px 0px var(--pink); transform: skewX(-10deg) scale(1); }
@@ -74,7 +80,10 @@
         }
 
         .brutal-heading { 
-            display: inline-block; color: var(--lime); transform: skewX(-10deg); text-shadow: 6px 6px 0px var(--pink);
+            display: inline-block; 
+            color: var(--lime); 
+            transform: skewX(-10deg); 
+            text-shadow: 6px 6px 0px var(--pink);
             animation: brutal-pulse 4s infinite ease-in-out;
         }
 
@@ -85,16 +94,23 @@
             transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
         }
-        .neo-box::after { content: ''; position: absolute; inset: 0; box-shadow: 0 0 20px rgba(195, 255, 0, 0.1); pointer-events: none; }
+        .neo-box::after {
+            content: '';
+            position: absolute; inset: 0;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.1);
+            pointer-events: none;
+        }
 
         @keyframes glitch-text {
             0% { transform: translate(0); text-shadow: 3px 3px var(--pink), -3px -3px var(--cyan); }
             2% { transform: translate(-2px, 2px); }
-            4% { transform: translate(2px, -2px); }
-            6% { transform: translate(0); }
             100% { transform: translate(0); text-shadow: 3px 3px var(--pink), -3px -3px var(--cyan); }
         }
-        .squiddrill-title { animation: glitch-text 3s infinite; letter-spacing: -0.05em; }
+
+        .squiddrill-title {
+            animation: glitch-text 3s infinite;
+            letter-spacing: -0.05em;
+        }
 
         .page-view { transition: opacity 0.5s ease-in-out; min-height: 100vh; width: 100%; }
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1); }
@@ -132,7 +148,8 @@
         .footer-system-box { background: var(--white) !important; color: var(--bg) !important; transform: translate(-10px, -10px) !important; box-shadow: 20px 20px 0px 0px var(--pink) !important; border: 6px solid var(--bg); }
 
         @media (max-width: 640px) {
-            .nav-link span { display: none; } #interactive-name { font-size: 4rem; }
+            .nav-link span { display: none; }
+            #interactive-name { font-size: 4rem; }
         }
     </style>
 </head>
@@ -241,15 +258,7 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC-ljBHE316s_9ssHeBjyQ2zF6lpNo93VY",
-            authDomain: "website-ddb0c.firebaseapp.com",
-            projectId: "website-ddb0c",
-            storageBucket: "website-ddb0c.firebasestorage.app",
-            messagingSenderId: "143641913342",
-            appId: "1:143641913342:web:ef0f6494e3676d6396c2af"
-        };
-
+        const firebaseConfig = { apiKey: "AIzaSyC-ljBHE316s_9ssHeBjyQ2zF6lpNo93VY", authDomain: "website-ddb0c.firebaseapp.com", projectId: "website-ddb0c", storageBucket: "website-ddb0c.firebasestorage.app", messagingSenderId: "143641913342", appId: "1:143641913342:web:ef0f6494e3676d6396c2af" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -319,7 +328,7 @@
 
         window.addEventListener('load', init);
 
-        const quotes = [{ t: "Imagination is more important than knowledge.", a: "Albert Einstein" }, { t: "Logic will get you from A to B. Imagination will take you everywhere.", a: "Albert Einstein" }, { t: "The best way to predict the future is to invent it.", a: "Alan Kay" }, { t: "Stay hungry, stay foolish.", a: "Steve Jobs" }, { t: "Your time is limited, so don't waste it living someone else's life.", a: "Steve Jobs" }, { t: "Innovation distinguishes between a leader and a follower.", a: "Steve Jobs" }, { t: "Now I am become Death, the destroyer of worlds.", a: "J. Robert Oppenheimer" }, { t: "The only true wisdom is in knowing you know nothing.", a: "Socrates" }, { t: "It does not matter how slowly you go as long as you do not stop.", a: "Confucius" }, { t: "Everything you've ever wanted is on the other side of fear.", a: "George Addair" }, { t: "Success is not final, failure is not fatal: it is the courage to continue that counts.", a: "Winston Churchill" }, { t: "Hardships often prepare ordinary people for an extraordinary destiny.", a: "C.S. Lewis" }, { t: "Believe you can and you're halfway there.", a: "Theodore Roosevelt" }, { t: "The only way to do great work is to love what you do.", a: "Steve Jobs" }, { t: "If you can dream it, you can do it.", a: "Walt Disney" }, { t: "The mind is everything. What you think you become.", a: "Buddha" }, { t: "An unexamined life is not worth living.", a: "Socrates" }, { t: "What we think, we become.", a: "Buddha" }, { t: "The journey of a thousand miles begins with one step.", a: "Lao Tzu" }, { t: "In the middle of every difficulty lies opportunity.", a: "Albert Einstein" }, { t: "The only thing we have to fear is fear itself.", a: "Franklin D. Roosevelt" }, { t: "Do one thing every day that scares you.", a: "Eleanor Roosevelt" }, { t: "Character is destiny.", a: "Heraclitus" }, { t: "Knowledge is power.", a: "Francis Bacon" }, { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" }, { t: "I think, therefore I am.", a: "René Descartes" }, { t: "To be, or not to be, that is the question.", a: "William Shakespeare" }, { t: "Be yourself; everyone else is already taken.", a: "Oscar Wilde" }, { t: "No one can make you feel inferior without your consent.", a: "Eleanor Roosevelt" }, { t: "You must be the change you wish to see in the world.", a: "Mahatma Gandhi" }, { t: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt" }, { t: "Tell me and I forget. Teach me and I remember. Involve me and I learn.", a: "Benjamin Franklin" }, { t: "Well done is better than well said.", a: "Benjamin Franklin" }, { t: "It is during our darkest moments that we must focus to see the light.", a: "Aristotle" }, { t: "He who has a why to live can bear almost any how.", a: "Friedrich Nietzsche" }, { t: "That which does not kill us makes us stronger.", a: "Friedrich Nietzsche" }, { t: "Life is what happens when you're making other plans.", a: "John Lennon" }, { t: "The way to get started is to quit talking and begin doing.", a: "Walt Disney" }, { t: "Don't let yesterday take up too much of today.", a: "Will Rogers" }, { t: "You learn more from failure than from success.", a: "Unknown" }, { t: "If you are working on something that you care about, you don't have to be pushed.", a: "Steve Jobs" }, { t: "Whether you think you can or you think you can't, you're right.", a: "Henry Ford" }, { t: "Failure is simply the opportunity to begin again more intelligently.", a: "Henry Ford" }, { t: "The secret of getting ahead is getting started.", a: "Mark Twain" }, { t: "Keep your eyes on the stars, and your feet on the ground.", a: "Theodore Roosevelt" }, { t: "Only a life lived for others is a life worthwhile.", a: "Albert Einstein" }, { t: "Life is 10% what happens to us and 90% how we react to it.", a: "Charles R. Swindoll" }, { t: "Success is walking from failure to failure with no loss of enthusiasm.", a: "Winston Churchill" }, { t: "If you want to live a happy life, tie it to a goal.", a: "Albert Einstein" }, { t: "The best revenge is massive success.", a: "Frank Sinatra" }, { t: "A person who never made a mistake never tried anything new.", a: "Albert Einstein" }, { t: "Don't count the days, make the days count.", a: "Muhammad Ali" }, { t: "Your problem isn't the problem. Your reaction is the problem.", a: "Anonymous" }, { t: "Dream big and dare to fail.", a: "Norman Vaughan" }, { t: "Look at the stars and not at your feet.", a: "Stephen Hawking" }, { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" }, { t: "Talk is cheap. Show me the code.", a: "Linus Torvalds" }, { t: "Life is either a daring adventure or nothing at all.", a: "Helen Keller" }, { t: "The only limit to our realization of tomorrow will be our doubts of today.", a: "Franklin D. Roosevelt" }, { t: "Live as if you were to die tomorrow. Learn as if you were to live forever.", a: Mahatma Gandhi" }];
+        const quotes = [{ t: "Imagination is more important than knowledge.", a: "Albert Einstein" }, { t: "Logic will get you from A to B. Imagination will take you everywhere.", a: "Albert Einstein" }, { t: "The best way to predict the future is to invent it.", a: "Alan Kay" }, { t: "Stay hungry, stay foolish.", a: "Steve Jobs" }, { t: "Your time is limited, so don't waste it living someone else's life.", a: "Steve Jobs" }, { t: "Innovation distinguishes between a leader and a follower.", a: "Steve Jobs" }, { t: "Now I am become Death, the destroyer of worlds.", a: "J. Robert Oppenheimer" }, { t: "The only true wisdom is in knowing you know nothing.", a: "Socrates" }, { t: "It does not matter how slowly you go as long as you do not stop.", a: "Confucius" }, { t: "Everything you've ever wanted is on the other side of fear.", a: "George Addair" }, { t: "Success is not final, failure is not fatal: it is the courage to continue that counts.", a: "Winston Churchill" }, { t: "Hardships often prepare ordinary people for an extraordinary destiny.", a: "C.S. Lewis" }, { t: "Believe you can and you're halfway there.", a: "Theodore Roosevelt" }, { t: "The only way to do great work is to love what you do.", a: "Steve Jobs" }, { t: "If you can dream it, you can do it.", a: "Walt Disney" }, { t: "The mind is everything. What you think you become.", a: "Buddha" }, { t: "An unexamined life is not worth living.", a: "Socrates" }, { t: "What we think, we become.", a: "Buddha" }, { t: "The journey of a thousand miles begins with one step.", a: "Lao Tzu" }, { t: "In the middle of every difficulty lies opportunity.", a: "Albert Einstein" }, { t: "The only thing we have to fear is fear itself.", a: "Franklin D. Roosevelt" }, { t: "Do one thing every day that scares you.", a: "Eleanor Roosevelt" }, { t: "Character is destiny.", a: "Heraclitus" }, { t: "Knowledge is power.", a: "Francis Bacon" }, { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" }, { t: "I think, therefore I am.", a: "René Descartes" }, { t: "To be, or not to be, that is the question.", a: "William Shakespeare" }, { t: "Be yourself; everyone else is already taken.", a: "Oscar Wilde" }, { t: "No one can make you feel inferior without your consent.", a: "Eleanor Roosevelt" }, { t: "You must be the change you wish to see in the world.", a: "Mahatma Gandhi" }, { t: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt" }, { t: "Tell me and I forget. Teach me and I remember. Involve me and I learn.", a: "Benjamin Franklin" }, { t: "Well done is better than well said.", a: "Benjamin Franklin" }, { t: "It is during our darkest moments that we must focus to see the light.", a: "Aristotle" }, { t: "He who has a why to live can bear almost any how.", a: "Friedrich Nietzsche" }, { t: "That which does not kill us makes us stronger.", a: "Friedrich Nietzsche" }, { t: "Life is what happens when you're making other plans.", a: "John Lennon" }, { t: "The way to get started is to quit talking and begin doing.", a: "Walt Disney" }, { t: "Don't let yesterday take up too much of today.", a: "Will Rogers" }, { t: "You learn more from failure than from success.", a: "Unknown" }, { t: "If you are working on something that you care about, you don't have to be pushed.", a: "Steve Jobs" }, { t: "Whether you think you can or you think you can't, you're right.", a: "Henry Ford" }, { t: "Failure is simply the opportunity to begin again more intelligently.", a: "Henry Ford" }, { t: "The secret of getting ahead is getting started.", a: "Mark Twain" }, { t: "Keep your eyes on the stars, and your feet on the ground.", a: "Theodore Roosevelt" }, { t: "Only a life lived for others is a life worthwhile.", a: "Albert Einstein" }, { t: "Life is 10% what happens to us and 90% how we react to it.", a: "Charles R. Swindoll" }, { t: "Success is walking from failure to failure with no loss of enthusiasm.", a: "Winston Churchill" }, { t: "If you want to live a happy life, tie it to a goal.", a: "Albert Einstein" }, { t: "The best revenge is massive success.", a: "Frank Sinatra" }, { t: "A person who never made a mistake never tried anything new.", a: "Albert Einstein" }, { t: "Don't count the days, make the days count.", a: "Muhammad Ali" }, { t: "Your problem isn't the problem. Your reaction is the problem.", a: "Anonymous" }, { t: "Dream big and dare to fail.", a: "Norman Vaughan" }, { t: "Look at the stars and not at your feet.", a: "Stephen Hawking" }, { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" }, { t: "Talk is cheap. Show me the code.", a: "Linus Torvalds" }, { t: "Life is either a daring adventure or nothing at all.", a: "Helen Keller" }, { t: "The only limit to our realization of tomorrow will be our doubts of today.", a: "Franklin D. Roosevelt" }, { t: "Live as if you were to die tomorrow. Learn as if you were to live forever.", a: "Mahatma Gandhi" }];
         
         const nameEl = document.getElementById('interactive-name');
         const buildName = () => {
