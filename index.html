@@ -397,8 +397,8 @@
                     list.innerHTML = "";
                     const docs = snapshot.docs.map(d => ({...d.data(), id: d.id}));
                     docs.sort((a, b) => {
-                        const isPinnedA = a.pinned === true || a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || a.name === 'Creator';
-                        const isPinnedB = b.pinned === true || b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2' || b.name === 'Creator';
+                        const isPinnedA = a.pinned === true || a.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
+                        const isPinnedB = b.pinned === true || b.uid === 'M4m4TZm1G5T7FzZ3dhdNfv9SNqY2';
                         if (isPinnedA && !isPinnedB) return -1;
                         if (!isPinnedA && isPinnedB) return 1;
                         return (b.timestamp || 0) - (a.timestamp || 0);
@@ -414,7 +414,7 @@
             });
         };
 
-        const FORBIDDEN_NAMES = ['squiddrill', 'sentinel', 'bhavya'];
+        const FORBIDDEN_NAMES = ['squiddrill', 'sentinel', 'bhavya','bhavya kapatel'];
         const BAD_WORDS_STRING = "abuse,anal,anus,arse,ass,asshole,balls,bastard,bitch,biatch,bloody,blowjob,bollock,bollocks,boner,boob,boobs,bugger,bum,butt,buttplug,clitoris,cock,coon,crap,cunt,damn,dick,dildo,dyke,fag,faggot,feck,fellate,fellatio,felching,fuck,fucker,fucks,fudgepacker,genitals,goddamn,hell,homo,jerk,jizz,knob,knobend,labia,lmao,lmfao,muff,nigger,nigga,omg,penis,piss,poop,prick,pube,pussy,queer,scrotum,sex,shit,sh1t,slut,smegma,spunk,tit,tosser,turd,twat,vagina,wank,whore,wtf,xxx,porn,nude,naked,orgasm,masturbate,masturbation,rimjob,anal,oral,cum,ejaculate,ejaculation,erection,viagra,vibrator,fetish,bdsm,sadism,masochism,pedophile,pedophilia,rape,rapist,molest,molester,incest,bestiality,zoophilia,necrophilia,shithead,shitface,fuckface,fuckhead,assface,butthead,buttface,dumbass,jackass,smartass,hardon,horny,lust,slutty,whorehouse,brothel,prostitute,hooker,stripper,stripclub,pornstar,pornography,erotic,erotica,hentai,yaoi,yuri,ecchi,futanari,lolicon,shotacon,scat,urine,feces,excrement,vomit,puke,barf,snot,booger,fart,burp,belch,homo,lesbo,tranny,shemale,ladyboy,hermaphrodite,intersex,transsexual,transgender,bisexual,pansexual,asexual,polyamorous,polyamory,monogamous,monogamy,heterosexual,hetero,straight,gay,lesbian,autistic,downsyndrome,spastic,cripple,midget,dwarf,giant,albino,leper,aids,hiv,herpes,syphilis,gonorrhea,chlamydia,std,sti,abortion,fetus,embryo,suicide,kill,murder,death,die,dead,blood,gore,violence,violent,weapon,gun,knife,bomb,terrorist,terrorism,isis,alqaeda,taliban,nazi,hitler,kkk,racist,sexist,bigot,fascist,communist,socialist,capitalist,anarchist,satan,devil,lucifer,demon,hellfire,damnation,goddammit,jesus,christ,allah,buddha,krishna,vishnu,shiva,ganesha,hanuman,rama,sita,lakshmi,saraswati,durga,kali,mohammed,prophet,bible,quran,torah,veda,gita,church,mosque,temple,synagogue,religion,religious,atheist,atheism,agnostic,agnosticism,cult,sect,occult,witch,wizard,sorcerer,magic,spell,curse,voodoo,hoodoo,zombie,vampire,werewolf,ghost,spirit,soul,heaven,paradise,nirvana,moksha,reincarnation,karma,dharma,yoga,meditation,guru,swami,monk,nun,priest,bishop,pope,cardinal,rabbi,imam,mullah,sheikh,ayatollah,dalai,lama";
         const BAD_WORDS = BAD_WORDS_STRING.split(',');
 
