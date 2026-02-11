@@ -46,13 +46,16 @@
             font-family: 'Public Sans', sans-serif;
             background-color: var(--bg);
             color: var(--white);
-            overflow-x: hidden;
+            overflow-x: hidden; /* Default overflow */
             background-image: radial-gradient(rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
             background-size: 35px 35px;
             position: relative;
             touch-action: manipulation;
             animation: flicker 0.15s infinite;
         }
+        
+        /* LOCKED STATE FOR MODAL */
+        body.locked { overflow: hidden !important; height: 100vh; }
 
         @media (pointer: fine) { body { cursor: none; } }
 
@@ -64,13 +67,45 @@
             opacity: 0.08; pointer-events: none; z-index: 9999;
         }
 
-        #cursor {
-            width: 24px; height: 24px; background: #fff; border-radius: 2px;
+        /* --- AESTHETIC CURSOR ENGINE --- */
+        #cursor { 
+            width: 30px; height: 30px; 
+            border: 2px solid var(--lime); 
+            border-radius: 50%; 
             position: fixed; pointer-events: none; z-index: 1000000; 
-            mix-blend-mode: difference; transition: transform 0.1s ease-out;
-            display: none; align-items: center; justify-content: center;
+            display: none; align-items: center; justify-content: center; 
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            mix-blend-mode: difference;
+        }
+        #cursor::after {
+            content: ''; width: 4px; height: 4px; background: var(--pink); border-radius: 50%;
         }
         @media (pointer: fine) { #cursor { display: flex; } }
+
+        /* --- INTERACTION PHYSICS --- */
+        .interactive-btn {
+            position: relative; overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .interactive-btn::after {
+            content: ""; position: absolute; top: 0; left: -150%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg); pointer-events: none; transition: none;
+        }
+        .interactive-btn:hover::after { animation: shine-swipe 0.75s ease-out forwards; }
+        @keyframes shine-swipe { 0% { left: -150%; } 100% { left: 150%; } }
+        
+        /* Tactile Press */
+        .interactive-btn:active { transform: scale(0.96) translateY(2px) !important; box-shadow: 2px 2px 0px currentColor !important; }
+
+        /* Ripple */
+        .ripple {
+            position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.8);
+            transform: scale(0); animation: ripple-anim 0.6s linear; pointer-events: none; z-index: 100;
+        }
+        @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
         /* INTERACTIVE NAME */
         #interactive-name { transform: skewX(-10deg); display: inline-block; }
@@ -135,8 +170,10 @@
             padding: 0.75rem 1.25rem; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;
             transition: all 0.2s; border: 4px solid white; display: flex; align-items: center; gap: 6px;
             background: white; color: black; box-shadow: 4px 4px 0px rgba(255,255,255,0.2);
+            position: relative; overflow: hidden;
         }
         .nav-link:hover { background: var(--lime); transform: scale(1.1) rotate(-1deg); box-shadow: 6px 6px 0px black; }
+        .nav-link:active { transform: scale(0.95) !important; box-shadow: 2px 2px 0px black !important; }
         .nav-active { background: var(--orange) !important; color: white !important; box-shadow: 8px 8px 0px white !important; }
 
         .status-tag-anim {
@@ -205,28 +242,47 @@
     <canvas id="bubble-canvas" class="bubble-effect"></canvas>
     <div id="cursor"></div>
 
-    <!-- Initial Modal (Hidden by default for JS triggering) -->
+    <!-- Initial Modal (Hidden by default, triggered instantly via JS) -->
     <div id="initial-modal" class="modal-overlay" style="display: none;">
-        <div class="grey-dialog border-white">
-            <h2 class="text-5xl md:text-6xl font-black text-white uppercase italic mb-8 tracking-tighter squiddrill-title">HELLO.</h2>
-            <p class="mono text-white text-xl mb-12 leading-relaxed opacity-90 uppercase tracking-tight">
+        <div class="grey-dialog border-white relative">
+            <h2 class="text-5xl md:text-6xl font-black text-white uppercase italic mb-8 tracking-tighter squiddrill-title select-none">HELLO.</h2>
+            <p class="mono text-white text-xl mb-12 leading-relaxed opacity-90 uppercase tracking-tight select-none">
                 Welcome to my digital workspace. <br>
                 <span class="text-lime">I build things with logic and caffeine.</span>
             </p>
-            <button onclick="closeInitialModal()" class="w-full bg-white text-black py-6 font-black uppercase text-3xl border-4 border-black shadow-[10px_10px_0px_var(--lime)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all">ENTER SYSTEM</button>
+            <button onclick="closeInitialModal()" onmousedown="createRipple(event)" class="interactive-btn w-full bg-white text-black py-6 font-black uppercase text-3xl border-4 border-black shadow-[10px_10px_0px_var(--lime)] hover:bg-lime">ENTER SYSTEM</button>
         </div>
     </div>
 
+    <!-- IMMEDIATE MODAL EXECUTION SCRIPT -->
+    <script>
+        // Runs immediately to prevent flash and block scroll
+        if (!sessionStorage.getItem('squiddrill_session_active')) {
+            document.getElementById('initial-modal').style.display = 'flex';
+            document.body.classList.add('locked'); // Lock background
+        }
+        
+        window.closeInitialModal = () => {
+            const modal = document.getElementById('initial-modal');
+            modal.classList.add('closing');
+            setTimeout(() => { 
+                modal.style.display = 'none'; 
+                document.body.classList.remove('locked'); // Unlock background
+                sessionStorage.setItem('squiddrill_session_active', 'true');
+            }, 600);
+        };
+    </script>
+
     <nav class="fixed top-0 left-0 w-full z-[2000] bg-black border-b-8 border-white px-6 py-5 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase">
+            <span class="mono text-xs md:text-sm font-black bg-white text-black px-4 py-2 uppercase select-none">
                 All-Time-Visitors <span id="v-count" class="text-pink-600 animate-pulse">...</span> ⚡
             </span>
         </div>
         <div class="flex gap-2 sm:gap-3">
-            <a href="https://squiddrill.fun" id="nav-home" class="nav-link nav-active"><i class="fa-solid fa-house"></i> <span>Home</span></a>
-            <a href="https://arcade.squiddrill.fun" id="nav-arcade" class="nav-link"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></a>
-            <a href="https://socials.squiddrill.fun" id="nav-connect" class="nav-link"><i class="fa-solid fa-network-wired"></i> <span>Socials</span></a>
+            <a href="https://squiddrill.fun" id="nav-home" class="nav-link nav-active" onmousedown="createRipple(event)"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+            <a href="https://arcade.squiddrill.fun" id="nav-arcade" class="nav-link" onmousedown="createRipple(event)"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></a>
+            <a href="https://socials.squiddrill.fun" id="nav-connect" class="nav-link" onmousedown="createRipple(event)"><i class="fa-solid fa-network-wired"></i> <span>Socials</span></a>
         </div>
     </nav>
 
@@ -234,12 +290,12 @@
     <div id="home-view" class="page-view pt-32 pb-48">
         <main class="max-w-5xl mx-auto px-6 space-y-48">
             <section class="reveal visible">
-                <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs">Status-> Live ⚡</div>
-                <div class="block mb-20">
-                    <h1 id="interactive-name" class="text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase select-none"></h1>
+                <div class="status-tag-anim px-6 py-2 mb-10 font-black uppercase text-xs select-none">Status-> Live ⚡</div>
+                <div class="block mb-20 select-none">
+                    <h1 id="interactive-name" class="text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase"></h1>
                     <div class="mono text-[10px] md:text-xs opacity-40 mt-4 uppercase tracking-[0.3em] font-black">aka squiddrill, sentinel</div>
                 </div>
-                <div class="neo-box p-10 md:p-16 max-w-4xl bg-white text-black relative">
+                <div class="neo-box p-10 md:p-16 max-w-4xl bg-white text-black relative hover:scale-[1.01] transition-transform duration-300">
                     <div class="flex gap-4 mb-8"><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div><div class="w-4 h-4 bg-black"></div></div>
                     <div id="quote-container" class="min-h-[140px]">
                         <p id="quote-text" class="text-3xl md:text-5xl font-black uppercase italic leading-none transition-all duration-500">"Imagination is more important than knowledge."</p>
@@ -249,19 +305,19 @@
             </section>
 
             <section class="reveal">
-                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Logic Stack 💻</h2><div class="h-2 flex-grow bg-white"></div></div>
+                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading select-none">Logic Stack 💻</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    <div class="neo-box p-10 border-cyan-400">
+                    <div class="neo-box p-10 border-cyan-400 interactive-btn hover:shadow-[20px_20px_0px_var(--cyan)]">
                         <span class="mono text-sm text-cyan-400 font-black mb-4 block">01</span>
                         <h3 class="text-4xl font-black uppercase mb-6">PYTHON</h3>
                         <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Solving complex puzzles and architectural brains through clean, logical automation."</p>
                     </div>
-                    <div class="neo-box p-10 border-pink-500">
+                    <div class="neo-box p-10 border-pink-500 interactive-btn hover:shadow-[20px_20px_0px_var(--pink)]">
                         <span class="mono text-sm text-pink-500 font-black mb-4 block">02</span>
                         <h3 class="text-4xl font-black uppercase mb-6">SQL</h3>
                         <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Architecting chaotic data streams into ordered, relational structures for efficiency."</p>
                     </div>
-                    <div class="neo-box p-10 border-lime">
+                    <div class="neo-box p-10 border-lime interactive-btn hover:shadow-[20px_20px_0px_var(--lime)]">
                         <span class="mono text-sm text-lime font-black mb-4 block">03</span>
                         <h3 class="text-4xl font-black uppercase mb-6">NETS</h3>
                         <p class="text-sm font-bold opacity-60 leading-relaxed italic">"Understanding global digital nodes to visualize and optimize the internet's skeleton."</p>
@@ -270,15 +326,15 @@
             </section>
 
             <section class="reveal">
-                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading">Comments 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
+                <div class="flex items-center gap-8"><h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter brutal-heading select-none">Comments 💬</h2><div class="h-2 flex-grow bg-white"></div></div>
                 <div class="neo-box p-6 md:p-10 relative">
                     <div id="comments-list" class="comments-scroll-area space-y-6 mb-10">
                         <p class="mono text-xs opacity-50 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Initializing Data...</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <input id="comment-name" type="text" placeholder="GUEST NAME[ OPTIONAL]" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime">
-                        <input id="comment-input" type="text" placeholder="MESSAGE (ENTER)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2">
-                        <button onclick="window.postComment()" class="bg-white text-black px-10 font-black uppercase hover:bg-lime transition-all border-4 border-black text-xl shadow-[8px_8px_0px_var(--lime)]">POST</button>
+                        <input id="comment-name" type="text" placeholder="GUEST NAME" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-lime transition-all focus:scale-105">
+                        <input id="comment-input" type="text" placeholder="MESSAGE (ENTER)" class="bg-transparent border-4 border-white p-5 mono text-white uppercase outline-none focus:border-cyan md:col-span-2 transition-all focus:scale-105">
+                        <button onclick="window.postComment()" onmousedown="createRipple(event)" class="interactive-btn bg-white text-black px-10 font-black uppercase hover:bg-lime border-4 border-black text-xl shadow-[8px_8px_0px_var(--lime)]">POST</button>
                     </div>
                 </div>
             </section>
@@ -286,12 +342,12 @@
             <footer class="reveal pt-32 border-t-8 border-white mt-40 pb-20">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                     <div class="space-y-10">
-                        <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight squiddrill-title">SQUIDDRILL</h4>
+                        <h4 class="text-5xl md:text-7xl font-black uppercase tracking-tight squiddrill-title select-none">SQUIDDRILL</h4>
                         <p class="text-sm font-bold opacity-60 leading-relaxed uppercase italic">A digital repository recording progress through logic, software architecture, and system design.</p>
                         <p class="text-[10px] mono font-bold opacity-40 uppercase tracking-[0.2em] leading-loose pt-4">© ALL RIGHTS RESERVED BHAVYA KAPATEL SECURE PROTOCOL 2026</p>
                     </div>
                     <div class="flex flex-col gap-8 md:items-end">
-                        <div class="neo-box footer-system-box p-10 font-black uppercase inline-block md:text-right min-w-[320px]">
+                        <div class="neo-box footer-system-box p-10 font-black uppercase inline-block md:text-right min-w-[320px] hover:scale-105 transition-transform">
                             <div class="mb-2">ACTIVE SINCE 2026</div><div class="mb-6">LOC: ANAND / GUJ / IN</div>
                             <span class="text-red-600 flex items-center md:justify-end"><span class="live-dot"></span>SYSTEM ONLINE</span>
                         </div>
@@ -313,30 +369,20 @@
         const appId = "web-page"; 
         let user = null;
 
-        window.closeInitialModal = () => {
-            const modal = document.getElementById('initial-modal');
-            modal.classList.add('closing');
-            setTimeout(() => { modal.style.display = 'none'; }, 600);
-        };
-
         const init = async () => {
             await signInAnonymously(auth);
             onAuthStateChanged(auth, async (u) => {
                 user = u; if (!user) return;
                 const statsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'counters');
                 
-                // --- SESSION TRACKING SYSTEM ---
-                const sessionKey = 'squiddrill_session_active';
-                const isNewSession = !sessionStorage.getItem(sessionKey);
-
-                if (isNewSession) {
+                // Track stats only on new session, but UI logic is handled above for speed
+                const sessionKey = 'squiddrill_session_counted';
+                if (!sessionStorage.getItem(sessionKey)) {
                     try {
                         const snap = await getDoc(statsDoc);
                         if (!snap.exists()) await setDoc(statsDoc, { total: 1 });
                         else await updateDoc(statsDoc, { total: increment(1) });
                         sessionStorage.setItem(sessionKey, 'true');
-                        // Show modal only on new session
-                        document.getElementById('initial-modal').style.display = 'flex';
                     } catch (e) {}
                 }
 
@@ -368,11 +414,41 @@
             });
         };
 
+        const FORBIDDEN_NAMES = ['squiddrill', 'sentinel', 'bhavya'];
+        const BAD_WORDS_STRING = "abuse,anal,anus,arse,ass,asshole,balls,bastard,bitch,biatch,bloody,blowjob,bollock,bollocks,boner,boob,boobs,bugger,bum,butt,buttplug,clitoris,cock,coon,crap,cunt,damn,dick,dildo,dyke,fag,faggot,feck,fellate,fellatio,felching,fuck,fucker,fucks,fudgepacker,genitals,goddamn,hell,homo,jerk,jizz,knob,knobend,labia,lmao,lmfao,muff,nigger,nigga,omg,penis,piss,poop,prick,pube,pussy,queer,scrotum,sex,shit,sh1t,slut,smegma,spunk,tit,tosser,turd,twat,vagina,wank,whore,wtf,xxx,porn,nude,naked,orgasm,masturbate,masturbation,rimjob,anal,oral,cum,ejaculate,ejaculation,erection,viagra,vibrator,fetish,bdsm,sadism,masochism,pedophile,pedophilia,rape,rapist,molest,molester,incest,bestiality,zoophilia,necrophilia,shithead,shitface,fuckface,fuckhead,assface,butthead,buttface,dumbass,jackass,smartass,hardon,horny,lust,slutty,whorehouse,brothel,prostitute,hooker,stripper,stripclub,pornstar,pornography,erotic,erotica,hentai,yaoi,yuri,ecchi,futanari,lolicon,shotacon,scat,urine,feces,excrement,vomit,puke,barf,snot,booger,fart,burp,belch,homo,lesbo,tranny,shemale,ladyboy,hermaphrodite,intersex,transsexual,transgender,bisexual,pansexual,asexual,polyamorous,polyamory,monogamous,monogamy,heterosexual,hetero,straight,gay,lesbian,autistic,downsyndrome,spastic,cripple,midget,dwarf,giant,albino,leper,aids,hiv,herpes,syphilis,gonorrhea,chlamydia,std,sti,abortion,fetus,embryo,suicide,kill,murder,death,die,dead,blood,gore,violence,violent,weapon,gun,knife,bomb,terrorist,terrorism,isis,alqaeda,taliban,nazi,hitler,kkk,racist,sexist,bigot,fascist,communist,socialist,capitalist,anarchist,satan,devil,lucifer,demon,hellfire,damnation,goddammit,jesus,christ,allah,buddha,krishna,vishnu,shiva,ganesha,hanuman,rama,sita,lakshmi,saraswati,durga,kali,mohammed,prophet,bible,quran,torah,veda,gita,church,mosque,temple,synagogue,religion,religious,atheist,atheism,agnostic,agnosticism,cult,sect,occult,witch,wizard,sorcerer,magic,spell,curse,voodoo,hoodoo,zombie,vampire,werewolf,ghost,spirit,soul,heaven,paradise,nirvana,moksha,reincarnation,karma,dharma,yoga,meditation,guru,swami,monk,nun,priest,bishop,pope,cardinal,rabbi,imam,mullah,sheikh,ayatollah,dalai,lama";
+        const BAD_WORDS = BAD_WORDS_STRING.split(',');
+
         window.postComment = async () => {
             const input = document.getElementById('comment-input');
             const nameInput = document.getElementById('comment-name');
-            const text = input?.value.trim(); const name = nameInput?.value.trim();
+            const text = input?.value.trim(); 
+            const name = nameInput?.value.trim();
+
             if (!text || !user) return;
+
+            // 1. Check Forbidden Usernames
+            if (name && FORBIDDEN_NAMES.includes(name.toLowerCase())) {
+                nameInput.classList.add('input-error');
+                setTimeout(() => nameInput.classList.remove('input-error'), 500);
+                return;
+            }
+
+            // 2. Check Profanity (Content & Name)
+            const textLower = text.toLowerCase();
+            const nameLower = (name || "").toLowerCase();
+            
+            const hasProfanity = BAD_WORDS.some(w => textLower.includes(w)) || BAD_WORDS.some(w => nameLower.includes(w));
+
+            if (hasProfanity) {
+                 input.classList.add('input-error');
+                 if(nameLower && BAD_WORDS.some(w => nameLower.includes(w))) nameInput.classList.add('input-error');
+                 setTimeout(() => {
+                     input.classList.remove('input-error');
+                     nameInput.classList.remove('input-error');
+                 }, 500);
+                 return;
+            }
+
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'comments'), {
                     uid: user.uid, name: name, text: text, timestamp: Date.now()
@@ -387,7 +463,68 @@
 
         window.addEventListener('load', init);
 
-        const quotes = [{ t: "Imagination is more important than knowledge.", a: "Albert Einstein" }, { t: "Logic will get you from A to B. Imagination will take you everywhere.", a: "Albert Einstein" }, { t: "The best way to predict the future is to invent it.", a: "Alan Kay" }, { t: "Stay hungry, stay foolish.", a: "Steve Jobs" }, { t: "Your time is limited, so don't waste it living someone else's life.", a: "Steve Jobs" }, { t: "Innovation distinguishes between a leader and a follower.", a: "Steve Jobs" }, { t: "Now I am become Death, the destroyer of worlds.", a: "J. Robert Oppenheimer" }, { t: "The only true wisdom is in knowing you know nothing.", a: "Socrates" }, { t: "It does not matter how slowly you go as long as you do not stop.", a: "Confucius" }, { t: "Everything you've ever wanted is on the other side of fear.", a: "George Addair" }, { t: "Success is not final, failure is not fatal: it is the courage to continue that counts.", a: "Winston Churchill" }, { t: "Hardships often prepare ordinary people for an extraordinary destiny.", a: "C.S. Lewis" }, { t: "Believe you can and you're halfway there.", a: "Theodore Roosevelt" }, { t: "The only way to do great work is to love what you do.", a: "Steve Jobs" }, { t: "If you can dream it, you can do it.", a: "Walt Disney" }, { t: "The mind is everything. What you think you become.", a: "Buddha" }, { t: "An unexamined life is not worth living.", a: "Socrates" }, { t: "What we think, we become.", a: "Buddha" }, { t: "The journey of a thousand miles begins with one step.", a: "Lao Tzu" }, { t: "In the middle of every difficulty lies opportunity.", a: "Albert Einstein" }, { t: "The only thing we have to fear is fear itself.", a: "Franklin D. Roosevelt" }, { t: "Do one thing every day that scares you.", a: "Eleanor Roosevelt" }, { t: "Character is destiny.", a: "Heraclitus" }, { t: "Knowledge is power.", a: "Francis Bacon" }, { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" }, { t: "I think, therefore I am.", a: "René Descartes" }, { t: "To be, or not to be, that is the question.", a: "William Shakespeare" }, { t: "Be yourself; everyone else is already taken.", a: "Oscar Wilde" }, { t: "No one can make you feel inferior without your consent.", a: "Eleanor Roosevelt" }, { t: "You must be the change you wish to see in the world.", a: "Mahatma Gandhi" }, { t: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt" }, { t: "Tell me and I forget. Teach me and I remember. Involve me and I learn.", a: "Benjamin Franklin" }, { t: "Well done is better than well said.", a: "Benjamin Franklin" }, { t: "It is during our darkest moments that we must focus to see the light.", a: "Aristotle" }, { t: "He who has a why to live can bear almost any how.", a: "Friedrich Nietzsche" }, { t: "That which does not kill us makes us stronger.", a: "Friedrich Nietzsche" }, { t: "Life is what happens when you're making other plans.", a: "John Lennon" }, { t: "The way to get started is to quit talking and begin doing.", a: "Walt Disney" }, { t: "Don't let yesterday take up too much of today.", a: "Will Rogers" }, { t: "You learn more from failure than from success.", a: "Unknown" }, { t: "If you are working on something that you care about, you don't have to be pushed.", a: "Steve Jobs" }, { t: "Whether you think you can or you think you can't, you're right.", a: "Henry Ford" }, { t: "Failure is simply the opportunity to begin again more intelligently.", a: "Henry Ford" }, { t: "The secret of getting ahead is getting started.", a: "Mark Twain" }, { t: "Keep your eyes on the stars, and your feet on the ground.", a: "Theodore Roosevelt" }, { t: "Only a life lived for others is a life worthwhile.", a: "Albert Einstein" }, { t: "Life is 10% what happens to us and 90% how we react to it.", a: "Charles R. Swindoll" }, { t: "Success is walking from failure to failure with no loss of enthusiasm.", a: "Winston Churchill" }, { t: "If you want to live a happy life, tie it to a goal.", a: "Albert Einstein" }, { t: "The best revenge is massive success.", a: "Frank Sinatra" }, { t: "A person who never made a mistake never tried anything new.", a: "Albert Einstein" }, { t: "Don't count the days, make the days count.", a: "Muhammad Ali" }, { t: "Your problem isn't the problem. Your reaction is the problem.", a: "Anonymous" }, { t: "Dream big and dare to fail.", a: "Norman Vaughan" }, { t: "Look at the stars and not at your feet.", a: "Stephen Hawking" }, { t: "Intelligence is the ability to adapt to change.", a: "Stephen Hawking" }, { t: "Talk is cheap. Show me the code.", a: "Linus Torvalds" }, { t: "Life is either a daring adventure or nothing at all.", a: "Helen Keller" }, { t: "The only limit to our realization of tomorrow will be our doubts of today.", a: "Franklin D. Roosevelt" }, { t: "Live as if you were to die tomorrow. Learn as if you were to live forever.", a: "Mahatma Gandhi" }];
+        const quotes = [
+            { t: "The unexamined life is not worth living.", a: "Socrates" },
+            { t: "I think, therefore I am.", a: "René Descartes" },
+            { t: "He who has a why to live can bear almost any how.", a: "Friedrich Nietzsche" },
+            { t: "To be is to be perceived.", a: "George Berkeley" },
+            { t: "Man is condemned to be free.", a: "Jean-Paul Sartre" },
+            { t: "The only true wisdom is in knowing you know nothing.", a: "Socrates" },
+            { t: "Life must be understood backward. But it must be lived forward.", a: "Søren Kierkegaard" },
+            { t: "I can control my passions and emotions if I can understand their nature.", a: "Spinoza" },
+            { t: "The journey of a thousand miles begins with one step.", a: "Lao Tzu" },
+            { t: "What doesn't kill us makes us stronger.", a: "Friedrich Nietzsche" },
+            { t: "Happiness depends upon ourselves.", a: "Aristotle" },
+            { t: "It does not matter how slowly you go as long as you do not stop.", a: "Confucius" },
+            { t: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", a: "Aristotle" },
+            { t: "Knowing yourself is the beginning of all wisdom.", a: "Aristotle" },
+            { t: "No man's knowledge here can go beyond his experience.", a: "John Locke" },
+            { t: "Freedom is the right to tell people what they do not want to hear.", a: "George Orwell" },
+            { t: "In the middle of every difficulty lies opportunity.", a: "Albert Einstein" },
+            { t: "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.", a: "Albert Camus" },
+            { t: "To love is to act.", a: "Victor Hugo" },
+            { t: "The mind is everything. What you think you become.", a: "Buddha" },
+            { t: "Imagination is more important than knowledge.", a: "Albert Einstein" },
+            { t: "We accept the love we think we deserve.", a: "Stephen Chbosky" },
+            { t: "Be the change that you wish to see in the world.", a: "Mahatma Gandhi" },
+            { t: "Hell is other people.", a: "Jean-Paul Sartre" },
+            { t: "The wound is the place where the Light enters you.", a: "Rumi" },
+            { t: "You have power over your mind - not outside events. Realize this, and you will find strength.", a: "Marcus Aurelius" },
+            { t: "If you gaze long enough into an abyss, the abyss will gaze back into you.", a: "Friedrich Nietzsche" },
+            { t: "Man is the measure of all things.", a: "Protagoras" },
+            { t: "Everything flows.", a: "Heraclitus" },
+            { t: "The brave man is he who overcomes not only his enemies but his pleasures.", a: "Democritus" },
+            { t: "There is nothing permanent except change.", a: "Heraclitus" },
+            { t: "We live in the best of all possible worlds.", a: "Gottfried Wilhelm Leibniz" },
+            { t: "Liberty consists in doing what one desires.", a: "John Stuart Mill" },
+            { t: "The greatest happiness of the greatest number is the foundation of morals and legislation.", a: "Jeremy Bentham" },
+            { t: "Entities should not be multiplied unnecessarily.", a: "William of Ockham" },
+            { t: "Even while they teach, men learn.", a: "Seneca" },
+            { t: "There is no easy walk to freedom anywhere.", a: "Nelson Mandela" },
+            { t: "Your time is limited, so don't waste it living someone else's life.", a: "Steve Jobs" },
+            { t: "Not all those who wander are lost.", a: "J.R.R. Tolkien" },
+            { t: "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.", a: "Albert Einstein" },
+            { t: "Be yourself; everyone else is already taken.", a: "Oscar Wilde" },
+            { t: "Live as if you were to die tomorrow. Learn as if you were to live forever.", a: "Mahatma Gandhi" },
+            { t: "Without music, life would be a mistake.", a: "Friedrich Nietzsche" },
+            { t: "It is better to be feared than loved, if you cannot be both.", a: "Niccolò Machiavelli" },
+            { t: "I become what I think about.", a: "Earl Nightingale" },
+            { t: "The present is theirs; the future, for which I really worked, is mine.", a: "Nikola Tesla" },
+            { t: "If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.", a: "Nikola Tesla" },
+            { t: "I don't care that they stole my idea . . I care that they don't have any of their own.", a: "Nikola Tesla" },
+            { t: "Look deep into nature, and then you will understand everything better.", a: "Albert Einstein" },
+            { t: "We cannot solve our problems with the same thinking we used when we created them.", a: "Albert Einstein" },
+            { t: "Life is like riding a bicycle. To keep your balance, you must keep moving.", a: "Albert Einstein" },
+            { t: "The definition of insanity is doing the same thing over and over and expecting different results.", a: "Albert Einstein" },
+            { t: "A person who never made a mistake never tried anything new.", a: "Albert Einstein" },
+            { t: "Logic will get you from A to B. Imagination will take you everywhere.", a: "Albert Einstein" },
+            { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" },
+            { t: "Learning never exhausts the mind.", a: "Leonardo da Vinci" },
+            { t: "Water is the driving force of all nature.", a: "Leonardo da Vinci" },
+            { t: "I awoke, only to find that the rest of the world was still asleep.", a: "Leonardo da Vinci" },
+            { t: "Knowing is not enough; we must apply. Being willing is not enough; we must do.", a: "Leonardo da Vinci" },
+            { t: "Time stays long enough for those who use it.", a: "Leonardo da Vinci" }
+        ];
         
         const nameEl = document.getElementById('interactive-name');
         const buildName = () => {
@@ -400,17 +537,51 @@
         };
         buildName();
 
+        // --- BILLION DOLLAR JS ---
+
+        // Cursor & Interaction Logic
         document.addEventListener('mousemove', e => {
             const cursor = document.getElementById('cursor'); if (!cursor) return;
-            cursor.style.left = (e.clientX - 12) + 'px'; cursor.style.top = (e.clientY - 12) + 'px';
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mousedown', () => { 
+            const c = document.getElementById('cursor'); 
+            if(c) { c.style.transform = "scale(0.5)"; c.style.borderColor = "var(--pink)"; } 
+        });
+        
+        document.addEventListener('mouseup', () => { 
+            const c = document.getElementById('cursor'); 
+            if(c) { c.style.transform = "scale(1)"; c.style.borderColor = "var(--lime)"; } 
         });
 
         document.addEventListener('mouseover', e => {
             const cursor = document.getElementById('cursor'); if (!cursor) return;
-            if (e.target.closest('a, button, .char, input')) cursor.style.transform = 'scale(2.5) rotate(45deg)';
-            else cursor.style.transform = 'scale(1)';
+            if (e.target.closest('a, button, input, .neo-box')) { 
+                cursor.style.transform = 'scale(1.5)';
+                cursor.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            } else { 
+                cursor.style.transform = 'scale(1)'; 
+                cursor.style.backgroundColor = 'transparent';
+            }
         });
 
+        window.createRipple = (event) => {
+            const button = event.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+            const rect = button.getBoundingClientRect();
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - rect.left - radius}px`;
+            circle.style.top = `${event.clientY - rect.top - radius}px`;
+            circle.classList.add("ripple");
+            const ripple = button.getElementsByClassName("ripple")[0];
+            if (ripple) { ripple.remove(); }
+            button.appendChild(circle);
+        };
+
+        // --- QUOTES & BUBBLES ---
         let quoteIdx = 0;
         setInterval(() => {
             const qText = document.getElementById('quote-text'); const qAuth = document.getElementById('quote-author');
